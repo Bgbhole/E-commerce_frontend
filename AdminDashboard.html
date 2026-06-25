@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="AdminDashboard.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          rel="stylesheet">
+
+</head>
+
+
+
+<body>
+
+    <!-- Edit User Modal -->
+
+<div id="editUserModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeUserModal()">&times;</span>
+
+        <h2>Edit User</h2>
+
+        <input type="hidden" id="editUserId">
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="editFirstName">
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="editLastName">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="editEmail">
+            </div>
+
+            <div class="form-group">
+                <label>Mobile</label>
+                <input type="text" id="editMobile">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Gender</label>
+
+                <select id="editGender">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" id="editDob">
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Address</label>
+
+            <textarea id="editAddress"></textarea>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" id="editCity">
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" id="editState">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Pincode</label>
+                <input type="text" id="editPincode">
+            </div>
+
+            <div class="form-group">
+                <label>Country</label>
+                <input type="text" id="editCountry">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Status</label>
+
+                <select id="editStatus">
+
+                    <option value="Active">Active</option>
+
+                    <option value="Blocked">Blocked</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="text" id="editPassword">
+            </div>
+
+        </div>
+
+        <button class="save-btn" onclick="updateUser()">
+            Save Changes
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Seller Edit Modal -->
+
+<div id="editSellerModal" class="modal">
+
+    <div class="seller-modal">
+
+        <span class="close" onclick="closeSellerModal()">&times;</span>
+
+        <h2>Edit Seller</h2>
+
+        <input type="hidden" id="sellerId">
+
+        <div class="tabs">
+
+            <button class="tab-btn active" onclick="openTab(event,'personal')">Personal</button>
+
+            <button class="tab-btn" onclick="openTab(event,'business')">Business</button>
+
+            <button class="tab-btn" onclick="openTab(event,'shop')">Shop</button>
+
+            <button class="tab-btn" onclick="openTab(event,'bank')">Bank</button>
+
+            <button class="tab-btn" onclick="openTab(event,'documents')">Documents</button>
+
+        </div>
+
+
+        <!-- PERSONAL -->
+
+        <div id="personal" class="tab-content active">
+
+            <div class="row">
+
+                <input type="text" id="sellerName" placeholder="Seller Name">
+
+                <input type="email" id="sellerEmail" placeholder="Email">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="sellerMobile" placeholder="Mobile">
+
+                <input type="text" id="sellerAlternateMobile" placeholder="Alternate Mobile">
+
+            </div>
+
+            <div class="row">
+
+                <input type="password" id="sellerPassword" placeholder="Password">
+
+                <select id="sellerStatus">
+
+                    <option>PENDING</option>
+                    <option>APPROVED</option>
+                    <option>REJECTED</option>
+                    <option>BLOCKED</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BUSINESS -->
+
+        <div id="business" class="tab-content">
+
+           
+
+            <div class="row">
+
+                <input type="text" id="gstNumber" placeholder="GST Number">
+
+                <input type="text" id="panNumber" placeholder="PAN Number">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="aadharNumber" placeholder="Aadhar Number">
+
+                <input type="text" id="businessLicense" placeholder="Business License">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SHOP -->
+
+        <div id="shop" class="tab-content">
+
+            <div class="row">
+
+                <input type="text" id="shopName" placeholder="Shop Name">
+
+                <input type="text" id="shopAddress" placeholder="Shop Address">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="city" placeholder="City">
+
+                <input type="text" id="state" placeholder="State">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="pincode" placeholder="Pincode">
+
+                <input type="text" id="category" placeholder="Category">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="productType" placeholder="Product Type">
+
+                <input type="text" id="pickupAddress" placeholder="Pickup Address">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BANK -->
+
+        <div id="bank" class="tab-content">
+
+            <div class="row">
+
+                <input type="text" id="accountHolderName" placeholder="Account Holder">
+
+                <input type="text" id="accountNumber" placeholder="Account Number">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="bankName" placeholder="Bank Name">
+
+                <input type="text" id="ifscCode" placeholder="IFSC Code">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="upiId" placeholder="UPI ID">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DOCUMENTS -->
+
+        <div id="documents" class="tab-content">
+
+            <div class="row">
+
+                <label>Shop Logo</label>
+
+<img id="shopLogoPreview"
+     width="150"
+     height="150"
+     style="border:1px solid #ccc;border-radius:8px;display:block;margin-bottom:10px;">
+
+
+
+                <label>Shop Front</label>
+
+<img id="shopFrontPreview"
+     width="250"
+     height="150"
+     style="border:1px solid #ccc;border-radius:8px;display:block;margin-bottom:10px;">
+
+
+<label>Shop Inside</label>
+
+<img id="shopInsidePreview"
+     width="250"
+     height="150"
+     style="border:1px solid #ccc;border-radius:8px;display:block;margin-bottom:10px;">
+
+                
+
+            </div>
+
+            <div class="row">
+
+              
+                <input type="text" id="nomineeName" placeholder="Nominee Name">
+
+            </div>
+
+            <div class="row">
+
+                <input type="text" id="nomineeMobile" placeholder="Nominee Mobile">
+
+            </div>
+
+        </div>
+
+
+
+        <div class="actions">
+
+            <button class="save-btn" onclick="updateSeller()">Save Changes</button>
+
+            
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="sidebar">
+
+    <h2>ShopKart Admin</h2>
+
+    <ul>
+
+        <li onclick="showPage('dashboard')">
+            <i class="fa fa-home"></i>
+            Dashboard
+        </li>
+
+        <li onclick="showPage('users')">
+            <i class="fa fa-users"></i>
+            Users
+        </li>
+
+        <li onclick="showPage('sellers')">
+            <i class="fa fa-store"></i>
+            Sellers
+        </li>
+
+        <li onclick="showPage('confirmation')">
+            <i class="fa fa-user-check"></i>
+            Seller Confirmation
+        </li>
+
+        <li onclick="showPage('products')">
+            <i class="fa fa-box"></i>
+            Products
+        </li>
+
+        <li onclick="showPage('orders')">
+            <i class="fa fa-cart-shopping"></i>
+            Orders
+        </li>
+
+        <li onclick="showPage('transactions')">
+            <i class="fa fa-credit-card"></i>
+            Transactions
+        </li>
+
+        <li onclick="showPage('complaints')">
+            <i class="fa fa-triangle-exclamation"></i>
+            Complaints
+        </li>
+
+        <li onclick="logout()">
+            <i class="fa fa-sign-out-alt"></i>
+            Logout
+        </li>
+
+    </ul>
+
+</div>
+
+
+<div class="main">
+
+    <div class="topbar">
+
+        <h1 id="pageTitle">
+            Dashboard
+        </h1>
+
+    </div>
+
+
+    <div id="content">
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>Total Users</h3>
+
+                <p id="usersCount">0</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Total Sellers</h3>
+
+                <p id="sellerCount">0</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Total Orders</h3>
+
+                <p id="orderCount">0</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Total Products</h3>
+
+                <p id="productCount">0</p>
+
+            </div>
+
+        </div>
+
+        <div id="tableArea">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="AdminDashboard.js"></script>
+
+</body>
+</html>

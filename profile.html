@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Account</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <div class="user-box">
+
+            <img id="profileImage"
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+
+            <div>
+                <p>Hello,</p>
+                <h3 id="username">Bhushan</h3>
+            </div>
+
+        </div>
+
+        <div class="section">
+            <h3> <a href="MyOrders.html">📦 MY ORDERS</a></h3>
+        </div>
+
+        <div class="section">
+
+            <h3>👤 ACCOUNT SETTINGS</h3>
+
+            <ul>
+               <ul>
+    <li>
+        <a href="Profile.html">Profile Information</a>
+    </li>
+
+    <li>
+        <a href="Address.html">Manage Addresses</a>
+    </li>
+
+    <li>
+        <a href="Pan.html">PAN Card Information</a>
+    </li>
+</ul>
+            </ul>
+
+        </div>
+
+        <div class="section">
+<h3>💳 PAYMENTS</h3>
+
+<ul>
+    <li>
+        <a href="GiftCard.html">
+            Gift Cards
+        </a>
+    </li>
+
+    <li>
+        <a href="SaveUpi.html">
+            Saved UPI
+        </a>
+    </li>
+
+    <li>
+        <a href="SaveCard.html">
+            Saved Cards
+        </a>
+    </li>
+</ul>
+
+        </div>
+
+        <div class="section">
+
+            <h3>❤️ MY STUFF</h3>
+
+            <ul>
+                <li><a href="Coupons.html">My Coupons</a></li>
+                <li><a href="Reviews.html">My Reviews & Ratings</a></li>
+                <li><a href="Notifications.html">All Notifications</a></li>
+                <li><a href="Wishlist.html">My Wishlist</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="content">
+
+    <div class="header">
+        <h2>Personal Information</h2>
+    </div>
+
+    <div class="row">
+
+        <input type="text"
+               id="firstName"
+               placeholder="First Name">
+
+        <input type="text"
+               id="lastName"
+               placeholder="Last Name">
+
+    </div>
+
+    <div class="gender">
+
+        <label>
+            <input type="radio" name="gender">
+            Male
+        </label>
+
+        <label>
+            <input type="radio" name="gender">
+            Female
+        </label>
+
+    </div>
+
+    <input type="email"
+           id="email"
+           placeholder="Email">
+
+    <input type="text"
+           id="mobile"
+           placeholder="Mobile Number">
+
+           <h3>Change Password</h3>
+
+<input type="password"
+       id="oldPassword"
+       placeholder="Old Password">
+
+<input type="password"
+       id="newPassword"
+       placeholder="New Password">
+
+<input type="password"
+       id="confirmPassword"
+       placeholder="Confirm Password">
+
+<button onclick="changePassword()">
+    Change Password
+</button>
+
+    <h3>Address</h3>
+
+    <textarea id="address"
+              placeholder="Enter Address"></textarea>
+
+
+    
+  <!-- OTP Section -->
+<div id="otpDiv" style="display:none; margin-top:20px;">
+
+    <h3>OTP Verification</h3>
+
+    <input type="text"
+           id="emailOtp"
+           placeholder="Enter OTP"
+           style="width:200px;">
+
+    <button type="button"
+            onclick="verifyEmailOtp()">
+        Verify OTP
+    </button>
+
+</div>
+
+
+    <div class="buttons">
+
+        <button class="edit-btn"
+                id="editBtn"
+                onclick="enableEdit()">
+            Edit Profile
+        </button>
+
+        <button class="update-btn"
+                id="updateBtn"
+                onclick="updateProfile()"
+                style="display:none;">
+            Update Profile
+        </button>
+
+        <button class="logout-btn"
+                onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+</div>
+
+<script src="profile.js"></script>
+
+</body>
+</html>

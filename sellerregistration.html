@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seller Registration</title>
+    <link rel="stylesheet" href="sellerregistration.css">
+</head>
+<body>
+
+<div class="container">
+
+<div class="form-box">
+
+<h1>Become a Seller</h1>
+
+<h3>Personal Information</h3>
+
+<input type="text" id="name" placeholder="Owner Name">
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="mobile" placeholder="Mobile Number">
+<input type="text" id="alternateMobile" placeholder="Alternate Mobile Number">
+<input type="password" id="password" placeholder="Password">
+
+<h3>Shop Information</h3>
+
+<input type="text" id="shopName" placeholder="Shop Name">
+
+<textarea id="shopAddress" placeholder="Shop Address"></textarea>
+
+<input type="text" id="city" placeholder="City">
+<input type="text" id="state" placeholder="State">
+<input type="text" id="pincode" placeholder="Pincode">
+
+<h3>Business Information</h3>
+
+<input type="text" id="businessName" placeholder="Business Name">
+
+<h4>Category</h4>
+
+<select id="category">
+    <option>Electronics</option>
+    <option>Fashion</option>
+    <option>Groceries</option>
+    <option>Furniture</option>
+    <option>Beauty</option>
+</select>
+
+<input type="text" id="productType" placeholder="Product Type">
+
+<h3>Documents</h3>
+
+<h4>Shop Logo</h4>
+<input type="file" id="shopLogo">
+
+<h4>Shop Front Photo</h4>
+<input type="file" id="shopFrontPhoto">
+
+<h4>Shop Inside Photo</h4>
+<input type="file" id="shopInsidePhoto">
+
+<h3>Tax Details</h3>
+
+<input type="text" id="gstNumber" placeholder="GST Number">
+<input type="text" id="panNumber" placeholder="PAN Number">
+<input type="text" id="aadharNumber" placeholder="Aadhar Number">
+<input type="text" id="businessLicense" placeholder="Business License Number">
+
+<h3>Bank Details</h3>
+
+<input type="text" id="accountHolderName"
+placeholder="Account Holder Name">
+
+<input type="text" id="bankName"
+placeholder="Bank Name">
+
+<input type="text" id="accountNumber"
+placeholder="Account Number">
+
+<input type="text" id="ifscCode"
+placeholder="IFSC Code">
+
+<input type="text" id="upiId"
+placeholder="UPI ID">
+
+<h3>Pickup Address</h3>
+
+<input type="text" id="pickupAddress"
+placeholder="Pickup Address">
+
+<h3>Nominee Details</h3>
+
+<input type="text" id="nomineeName"
+placeholder="Nominee Name">
+
+<input type="text" id="nomineeMobile"
+placeholder="Nominee Mobile">
+
+<label>
+<input type="checkbox" id="terms">
+    I Agree to Terms & Conditions
+</label>
+
+<br><br>
+
+<button onclick="registerSeller()">
+Register Seller
+</button>
+
+</div>
+
+</div>
+
+<script src="sellerregistration.js"></script>
+
+</body>
+</html>

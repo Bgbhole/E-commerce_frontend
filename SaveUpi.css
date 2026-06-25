@@ -1,0 +1,41 @@
+body{
+    background:#f1f3f6;
+    font-family:Arial;
+}
+
+.container{
+    width:60%;
+    margin:auto;
+    background:white;
+    padding:30px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+}
+
+button{
+    background:#2874f0;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+.card{
+    background:#fafafa;
+    margin-top:15px;
+    padding:20px;
+    border-left:5px solid #2874f0;
+}
+
+.edit-btn{
+    background:orange;
+}
+
+.delete-btn{
+    background:red;
+}

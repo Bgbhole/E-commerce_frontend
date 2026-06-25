@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Seller Profile</title>
+    <link rel="stylesheet" href="ShopProfile.css">
+</head>
+<body>
+
+<div class="container">
+
+<h2>Seller Profile</h2>
+
+<div class="details">
+
+    <div>
+        <label>Owner Name</label>
+        <input type="text" id="ownerName" disabled>
+    </div>
+
+    <div>
+        <label>Shop Name</label>
+        <input type="text" id="shopName1" disabled>
+    </div>
+
+    <div>
+        <label>Shop Address</label>
+        <input type="text" id="shopAddress" disabled>
+    </div>
+
+    <div>
+        <label>Email</label>
+        <input type="email" id="email" disabled>
+    </div>
+
+    <div>
+        <label>Mobile</label>
+        <input type="text" id="mobile" disabled>
+    </div>
+
+    <div>
+        <label>Alternate Mobile</label>
+        <input type="text" id="alternateMobile" disabled>
+    </div>
+
+    <div>
+        <label>Category</label>
+        <input type="text" id="category" disabled>
+    </div>
+
+    <div>
+        <label>Product Type</label>
+        <input type="text" id="productType" disabled>
+    </div>
+
+    <div>
+        <label>GST Number</label>
+        <input type="text" id="gst" disabled>
+    </div>
+
+    <div>
+        <label>PAN Number</label>
+        <input type="text" id="pan" disabled>
+    </div>
+
+    <div>
+        <label>Aadhaar Number</label>
+        <input type="text" id="aadhar" disabled>
+    </div>
+
+    <div>
+        <label>Business License</label>
+        <input type="text" id="license" disabled>
+    </div>
+
+    <div>
+        <label>Bank Name</label>
+        <input type="text" id="bankName" disabled>
+    </div>
+
+    <div>
+        <label>Account Holder</label>
+        <input type="text" id="accountHolder" disabled>
+    </div>
+
+    <div>
+        <label>Account Number</label>
+        <input type="text" id="accountNumber" disabled>
+    </div>
+
+    <div>
+        <label>IFSC Code</label>
+        <input type="text" id="ifsc" disabled>
+    </div>
+
+    <div>
+        <label>UPI ID</label>
+        <input type="text" id="upi" disabled>
+    </div>
+
+    <div>
+        <label>Pickup Address</label>
+        <input type="text" id="pickupAddress" disabled>
+    </div>
+
+    <div>
+        <label>City</label>
+        <input type="text" id="city" disabled>
+    </div>
+
+    <div>
+        <label>State</label>
+        <input type="text" id="state" disabled>
+    </div>
+
+    <div>
+        <label>Pincode</label>
+        <input type="text" id="pincode" disabled>
+    </div>
+
+    <div>
+        <label>Nominee Name</label>
+        <input type="text" id="nomineeName" disabled>
+    </div>
+
+    <div>
+        <label>Nominee Mobile</label>
+        <input type="text" id="nomineeMobile" disabled>
+    </div>
+
+</div>
+<div id="otpSection" style="display:none; margin-bottom:15px;">
+
+<input type="text"
+       id="otp"
+       placeholder="Enter OTP">
+
+<button id="verifyBtn"
+        onclick="verifyOTP()">
+    Verify OTP
+</button>
+
+</div>
+
+<div class="actions">
+
+<button id="editBtn"
+        onclick="sendOTP()">
+    Edit Profile
+</button>
+
+<button id="saveBtn"
+        onclick="saveProfile()"
+        style="display:none;">
+    Save Changes
+</button>
+
+</div>
+
+
+</div>
+
+<script src="ShopProfile.js"></script>
+
+</body>
+</html>

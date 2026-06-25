@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saved Cards</title>
+    <link rel="stylesheet" href="SaveCard.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>💳 Saved Cards</h2>
+
+    <input type="text"
+           id="cardName"
+           placeholder="Card Holder Name">
+
+    <input type="text"
+           id="cardNumber"
+           placeholder="Card Number">
+
+    <input type="text"
+           id="expiryDate"
+           placeholder="MM/YY">
+
+    <input type="password"
+           id="cvv"
+           placeholder="CVV">
+
+    <button onclick="addCard()">
+        Save Card
+    </button>
+
+    <div id="cardList"></div>
+
+</div>
+
+<script src="SaveCard.js"></script>
+
+</body>
+</html>

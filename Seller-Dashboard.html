@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seller Dashboard</title>
+    <link rel="stylesheet" href="Seller-Dashboard.css">
+</head>
+<body>
+
+<div class="sidebar">
+
+    <h2>Seller Panel</h2>
+
+    <ul>
+        <li onclick="window.location.href='AddProduct.html'">Add Product</li>
+<li onclick="window.location.href='ManageProducts.html'">
+    Manage Products
+</li>
+        <li onclick="window.location.href='StockDetails.html'">
+    Stock Details
+</li>
+
+<li onclick="window.location.href='Transactions.html'">
+    Transactions
+</li>
+
+<li onclick="window.location.href='PendingOrders.html'">
+    Pending Orders
+</li>
+
+<li onclick="window.location.href='ReturnItems.html'">
+    Return Items
+</li>
+
+<li onclick="window.location.href='Earnings.html'">
+    Earnings
+</li>
+
+<li onclick="window.location.href='ShopProfile.html'">
+    Shop Profile
+</li>
+
+<li onclick="window.location.href='ChangePasswordSeller.html'">
+    Change Password
+</li>
+
+<li onclick="logout()">
+    Logout
+</li>
+    </ul>
+
+</div>
+
+<div class="main">
+
+    <h1>Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Products</h3>
+            <h1 id="products">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Orders</h3>
+            <h1 id="orders">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Revenue</h3>
+            <h1 id="revenue">₹0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Profit</h3>
+            <h1 id="profit">₹0</h1>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="Seller-Dashboard.js"></script>
+
+</body>
+</html>

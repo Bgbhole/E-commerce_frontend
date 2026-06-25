@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <link rel="stylesheet" href="AddProduct.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>Add Product</h2>
+
+
+<div class="row">
+<input type="text" id="category" placeholder="Category">
+<input type="number" id="quantity" placeholder="Quantity">
+</div>
+
+<div class="row">
+    <input type="text" id="productName" placeholder="Product Name">
+    <input type="text" id="brand" placeholder="Brand">
+</div>
+
+<div class="row">
+    <input type="text" id="color" placeholder="Color">
+    <input type="text" id="weight" placeholder="Weight">
+</div>
+
+<div class="row">
+    <input type="text" id="warranty" placeholder="Warranty">
+    <input type="text" id="model" placeholder="Model Number">
+</div>
+
+<div class="row">
+    <input type="text" id="size" placeholder="Size">
+    <input type="text" id="material" placeholder="Material">
+</div>
+
+<textarea id="description"
+placeholder="About this item"></textarea>
+
+<div class="row">
+<input type="number" id="purchasePrice"
+placeholder="Purchase Price"
+oninput="calculateValues()">
+
+<input type="number" id="sellingPrice"
+placeholder="Selling Price"
+oninput="calculateValues()">
+</div>
+
+<div class="row">
+<input type="number" id="gst"
+placeholder="GST %"
+oninput="calculateValues()">
+
+<input type="file" id="image">
+</div>
+
+<div class="row">
+<input class="readonly"
+type="number"
+id="profit"
+placeholder="Profit"
+readonly>
+
+<input class="readonly"
+type="number"
+id="gstAmount"
+placeholder="GST Amount"
+readonly>
+</div>
+
+<div class="row">
+<input class="readonly"
+type="number"
+id="finalPrice"
+placeholder="Final Price"
+readonly>
+</div>
+
+<button onclick="addProduct()">
+Add Product
+</button>
+
+</div>
+
+<script src="AddProduct.js"></script>
+
+</body>
+</html>
+

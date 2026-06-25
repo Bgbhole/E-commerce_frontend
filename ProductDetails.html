@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+    <link rel="stylesheet" href="ProductDetails.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <img id="image">
+
+        <div class="buttons">
+            <button class="cart-btn"
+onclick="addToCart()">
+ADD TO CART
+</button>
+
+<button class="buy-btn"
+onclick="buyNow()">
+BUY NOW
+</button>
+        </div>
+
+    </div>
+
+    <div class="right">
+
+        <h1 id="name"></h1>
+
+        <div class="rating">
+            ★★★★☆ <span id="rating">4.3</span>
+        </div>
+
+        <div class="price-section">
+            <span id="price"></span>
+            <span class="mrp">₹9999</span>
+            <span class="discount">30% OFF</span>
+        </div>
+
+        <div class="offers">
+            <h3>Available Offers</h3>
+
+            <p>✔ Bank Offer 10% Instant Discount</p>
+            <p>✔ Free Delivery Available</p>
+            <p>✔ Cash On Delivery Available</p>
+
+        </div>
+
+        <h3>About this Item</h3>
+
+        <p id="description"></p>
+
+        <h3>Specifications</h3>
+
+        <table>
+
+            <tr>
+                <td>Brand</td>
+                <td id="brand"></td>
+            </tr>
+
+            <tr>
+                <td>Category</td>
+                <td id="category"></td>
+            </tr>
+
+            <tr>
+                <td>Color</td>
+                <td id="color"></td>
+            </tr>
+
+            <tr>
+                <td>Weight</td>
+                <td id="weight"></td>
+            </tr>
+
+            <tr>
+                <td>Material</td>
+                <td id="material"></td>
+            </tr>
+
+            <tr>
+                <td>Warranty</td>
+                <td id="warranty"></td>
+            </tr>
+
+            <tr>
+                <td>Stock</td>
+                <td id="stock"></td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="ProductDetails.js"></script>
+
+</body>
+</html>

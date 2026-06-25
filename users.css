@@ -1,0 +1,21 @@
+body{
+    background:#f1f3f6;
+    font-family:Arial;
+    padding:30px;
+}
+
+.user{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 0 5px lightgray;
+}
+
+button{
+    background:red;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    cursor:pointer;
+}

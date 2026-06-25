@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PAN Card Information</title>
+    <link rel="stylesheet" href="Pan.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>PAN Card Information</h2>
+
+    <div class="pan-box">
+
+        <label>PAN Holder Name</label>
+        <input type="text"
+               id="holderName"
+               placeholder="Enter PAN Holder Name">
+
+        <label>PAN Number</label>
+        <input type="text"
+               id="panNumber"
+               placeholder="Enter PAN Number">
+
+        <label>Upload PAN Card</label>
+
+        <div class="upload-box">
+            <input type="file"
+                   id="panImage"
+                   accept="image/*,.pdf">
+        </div>
+
+        <div class="buttons">
+
+            <button class="save-btn"
+                    onclick="savePan()">
+                Save PAN
+            </button>
+
+            <button class="reset-btn"
+                    onclick="resetPan()">
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="panDetails" class="pan-card">
+
+    </div>
+
+</div>
+
+<script src="Pan.js"></script>
+
+</body>
+</html>

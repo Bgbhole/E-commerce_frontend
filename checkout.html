@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
+        <!-- DELIVERY ADDRESS -->
+        <div class="section">
+
+            <h2>1. Delivery Address</h2>
+
+            <div id="deliveryAddressList">
+
+            </div>
+
+            <button class="add-btn"
+                    onclick="window.location.href='Address.html'">
+                + Add New Address
+            </button>
+
+        </div>
+
+
+        <!-- BILLING ADDRESS -->
+        <div class="section">
+
+            <h2>2. Billing Address</h2>
+
+            <label>
+                <input type="checkbox"
+                       id="sameAddress">
+                Same as Delivery Address
+            </label>
+
+            <div id="billingAddressList">
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTINUE -->
+        <button class="payment-btn"
+                onclick="goPayment()">
+            CONTINUE TO PAYMENT
+        </button>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+
+        <div class="price-box">
+
+            <h2>Price Details</h2>
+
+            <hr>
+
+            <p>
+                Total Items :
+                <span id="itemsCount">0</span>
+            </p>
+
+            <p>
+    Total Items :
+    <span id="itemsCount">0</span>
+</p>
+
+<p>
+    Product Price :
+    ₹<span id="productPrice">0</span>
+</p>
+
+<p>
+    Delivery Charges :
+    <span id="deliveryCharge">₹40</span>
+</p>
+
+<hr>
+
+<h3>
+    Total Amount :
+    ₹<span id="totalAmount">0</span>
+</h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="checkout.js"></script>
+
+</body>
+</html>

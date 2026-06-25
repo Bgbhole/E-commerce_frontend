@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment</title>
+    <link rel="stylesheet" href="Payments.css">
+</head>
+<body>
+
+<div class="payment-section">
+
+    <div class="payment-card">
+
+        <h3>🎁 Gift Cards</h3>
+
+        <div id="giftCardList"></div>
+
+    </div>
+
+
+    <div class="payment-card">
+
+        <h3>💳 UPI</h3>
+
+        <input type="text"
+               id="upiId"
+               placeholder="Enter UPI ID">
+
+        <button onclick="addUpi()">
+            Add UPI
+        </button>
+
+        <div id="upiList"></div>
+
+    </div>
+
+
+    <div class="payment-card">
+
+        <h3>💳 Credit / Debit Cards</h3>
+
+        <input type="text"
+               id="cardName"
+               placeholder="Card Holder Name">
+
+        <input type="text"
+               id="cardNumber"
+               placeholder="Card Number">
+
+              <input type="text"
+       id="expiryDate"
+       placeholder="MM/YY">
+
+<input type="password"
+       id="cvv"
+       placeholder="CVV">
+
+        <button onclick="addCard()">
+            Add Card
+        </button>
+
+        <div id="cardList"></div>
+
+    </div>
+
+</div>
+
+<div class="price-box">
+
+    <h2>
+        Total Amount ₹<span id="payAmount"></span>
+    </h2>
+
+    <button class="pay-btn"
+            onclick="payNow()">
+
+        PAY NOW
+
+    </button>
+
+</div>
+
+<script src="Payments.js"></script>
+
+</body>
+</html>
