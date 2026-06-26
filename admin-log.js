@@ -3,7 +3,7 @@ async function adminLogin() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
 
-    let response = await fetch("http://localhost:8080/api/admin/login", {
+    let response = await fetch(`${API_BASE_URL}/api/admin/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

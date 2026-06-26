@@ -20,12 +20,12 @@ function addCard() {
 
     };
 
-    let url = "http://localhost:8080/api/saveCard";
+    let url = `${API_BASE_URL}/api/saveCard`;
     let method = "POST";
 
     if (editCardId != null) {
 
-        url = `http://localhost:8080/api/updateCard/${editCardId}`;
+        url = `${API_BASE_URL}/api/updateCard/${editCardId}`;
         method = "PUT";
 
     }
@@ -69,7 +69,7 @@ function editCard(id, name, number, expiry, cvv) {
 
 function deleteCard(cardId) {
 
-    fetch(`http://localhost:8080/api/deleteCard/${cardId}`, {
+    fetch(`${API_BASE_URL}/api/deleteCard/${cardId}`, {
 
         method: "DELETE"
 
@@ -89,7 +89,7 @@ async function loadCards() {
     let user = JSON.parse(localStorage.getItem("currentUser"));
 
     let response =
-        await fetch(`http://localhost:8080/api/cards/${user.id}`);
+        await fetch(`${API_BASE_URL}/api/cards/${user.id}`);
 
     let cards = await response.json();
 

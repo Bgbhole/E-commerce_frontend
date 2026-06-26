@@ -56,7 +56,7 @@ document.getElementById("nomineeMobile").value,
     try {
 
         let response = await fetch(
-            "http://localhost:8080/api/sellers/register",
+           `${API_BASE_URL}/api/sellers/register`,
             {
                 method: "POST",
                 headers: {

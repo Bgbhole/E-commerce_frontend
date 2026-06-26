@@ -9,7 +9,7 @@ html += `
 
 <div class="card">
 
-<img src="http://localhost:8080/images/${product.image}" width="150">
+<img src="${API_BASE_URL}/images/${product.image}" width="150">
 
 <h3>${product.name}</h3>
 

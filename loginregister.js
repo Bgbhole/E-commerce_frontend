@@ -23,7 +23,7 @@ async function register(event) {
     };
 
     try {
-        let response = await fetch("http://localhost:8080/api/register", {
+        let response = await fetch(`${API_BASE_URL}/api/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -60,9 +60,9 @@ async function login() {
     let url = "";
 
     if (role === "customer") {
-        url = "http://localhost:8080/api/login";
+        url = `${API_BASE_URL}/api/login`;
     } else {
-        url = "http://localhost:8080/api/sellers/login";
+        url = `${API_BASE_URL}/api/sellers/login`;
     }
 
     try {

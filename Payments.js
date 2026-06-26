@@ -129,7 +129,7 @@ function addUpi() {
 
     };
 
-    fetch("http://localhost:8080/api/saveUpi", {
+    fetch(`${API_BASE_URL}/api/saveUpi`, {
 
         method: "POST",
 
@@ -159,7 +159,7 @@ async function loadUpis() {
         JSON.parse(localStorage.getItem("currentUser"));
 
     let response =
-        await fetch(`http://localhost:8080/api/upis/${user.id}`);
+        await fetch(`${API_BASE_URL}/api/upis/${user.id}`);
 
     let upis = await response.json();
 
@@ -233,7 +233,7 @@ function addCard() {
 
     };
 
-    fetch("http://localhost:8080/api/saveCard", {
+    fetch(`${API_BASE_URL}/api/saveCard`, {
 
         method: "POST",
 
@@ -261,7 +261,7 @@ async function loadCards() {
         JSON.parse(localStorage.getItem("currentUser"));
 
     let response =
-        await fetch(`http://localhost:8080/api/cards/${user.id}`);
+        await fetch(`${API_BASE_URL}/api/cards/${user.id}`);
 
     let cards = await response.json();
 

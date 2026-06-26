@@ -10,7 +10,7 @@ async function addProduct(){
 
     };
 
-    let response = await fetch("http://localhost:8080/api/products/add",{
+    let response = await fetch(`${API_BASE_URL}/api/products/add`,{
 
         method:"POST",
 

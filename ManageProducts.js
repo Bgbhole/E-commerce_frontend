@@ -16,7 +16,7 @@ async function loadProducts() {
     try {
 
         let response = await fetch(
-            "http://localhost:8080/api/products/seller/" + sellerId
+            `${API_BASE_URL}/api/products/seller/`+sellerId
         );
 
         let products = await response.json();
@@ -118,7 +118,7 @@ quantity: document.getElementById("qty"+id).value
 };
 
 await fetch(
-"http://localhost:8080/api/products/update/"+id,
+`${API_BASE_URL}/api/products/update/`+id,
 {
 method:"PUT",
 headers:{
@@ -134,7 +134,7 @@ loadProducts();
 async function deleteProduct(id){
 
 await fetch(
-"http://localhost:8080/api/products/delete/"+id,
+`${API_BASE_URL}/api/products/delete/`+id,
 {
 method:"DELETE"
 });

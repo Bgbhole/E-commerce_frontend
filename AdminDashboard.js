@@ -107,7 +107,7 @@
 
         try {
 
-            let response = await fetch("http://localhost:8080/api/users");
+            let response = await fetch(`${API_BASE_URL}/api/users`);
 
             if (!response.ok) {
                 throw new Error("Unable to fetch users");
@@ -182,7 +182,7 @@
 
         try {
 
-            let response = await fetch("http://localhost:8080/api/sellers");
+            let response = await fetch(`${API_BASE_URL}/api/sellers`);
 
             let sellers = await response.json();
 
@@ -307,7 +307,7 @@
             return;
         }
 
-        let response = await fetch(`http://localhost:8080/api/users/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
             method: "DELETE"
         });
 
@@ -331,7 +331,7 @@
         if(!confirm("Delete this seller?"))
             return;
 
-        let response = await fetch(`http://localhost:8080/api/sellers/${id}`,{
+        let response = await fetch(`${API_BASE_URL}/api/sellers/${id}`,{
 
             method:"DELETE"
 
@@ -355,7 +355,7 @@
 
     async function editUser(id) {
 
-        let response = await fetch(`http://localhost:8080/api/users/${id}`);
+        let response = await fetch(`${API_BASE_URL}/api/users/${id}`);
 
         let user = await response.json();
 
@@ -386,7 +386,7 @@
     async function editSeller(id){
 
         let response =
-        await fetch(`http://localhost:8080/api/sellers/${id}`);
+        await fetch(`${API_BASE_URL}/api/sellers/${id}`);
 
         let seller = await response.json();
 
@@ -496,7 +496,7 @@ document.getElementById("nomineeMobile").value = seller.nomineeMobile || "";
         };
 
         let response = await fetch(
-            `http://localhost:8080/api/sellers/update`,
+            `${API_BASE_URL}/api/sellers/update`,
             {
                 method: "PUT",
                 headers: {

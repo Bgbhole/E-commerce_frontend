@@ -3,7 +3,7 @@ let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
 async function loadProducts() {
 
-    let response = await fetch("http://localhost:8080/api/products/all");
+    let response = await fetch(`${API_BASE_URL}/api/products/all`);
 
     products = await response.json();
 
@@ -25,7 +25,7 @@ async function loadProducts() {
         </button>
 
         <img class="product-img"
-             src="http://localhost:8080/images/${product.image}"
+             src="${API_BASE_URL}/images/${product.image}"
              alt="${product.productName}">
 
         <h3>${product.productName}</h3>

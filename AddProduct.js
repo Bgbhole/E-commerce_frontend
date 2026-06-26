@@ -78,12 +78,13 @@ async function addProduct() {
     try {
 
         let response = await fetch(
-            "http://localhost:8080/api/products/AddProduct",
+    `${API_BASE_URL}/api/products/AddProduct`,
             {
                 method: "POST",
                 body: formData
             }
         );
+        
 
         if (!response.ok) {
 

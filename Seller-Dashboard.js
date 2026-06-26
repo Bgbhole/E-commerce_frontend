@@ -149,7 +149,7 @@ for (let pair of formData.entries()) {
 }
 
 let response = await fetch(
-    "http://localhost:8080/api/products/add",
+    `${API_BASE_URL}/api/products/add`,
     {
         method: "POST",
         body: formData
@@ -180,7 +180,7 @@ console.log(await response.text());
 
 async function showProducts() {
 
-    let response = await fetch("http://localhost:8080/api/products/all");
+    let response = await fetch(`${API_BASE_URL}/api/products/all`);
 
     let products = await response.json();
 

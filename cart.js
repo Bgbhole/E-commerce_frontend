@@ -20,7 +20,7 @@ function loadCart() {
 
         <div class="item">
 
-            <img src="http://localhost:8080/images/${p.image}">
+            <img src="${API_BASE_URL}/images/${p.image}">
 
             <div class="details">
 

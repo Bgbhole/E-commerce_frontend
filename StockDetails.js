@@ -6,7 +6,7 @@ window.onload = loadProducts;
 async function loadProducts(){
 
     let response =
-    await fetch(`http://localhost:8080/api/products/seller/${seller.sellerId}`);
+    await fetch(`${API_BASE_URL}/api/products/seller/${seller.sellerId}`);
 
     let products = await response.json();
 

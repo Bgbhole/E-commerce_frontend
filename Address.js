@@ -21,12 +21,12 @@ async function addAddress() {
 
     };
 
-    let url = `http://localhost:8080/api/address/add/${user.id}`;
+    let url = `${API_BASE_URL}/api/address/add/${user.id}`;
     let method = "POST";
 
     // Edit mode
     if (editId != null) {
-        url = "http://localhost:8080/api/address/update";
+        url = `${API_BASE_URL}/api/address/update`;
         method = "PUT";
     }
 
@@ -63,7 +63,7 @@ async function addAddress() {
 async function loadAddresses() {
 
     let response = await fetch(
-        `http://localhost:8080/api/address/${user.id}`
+        `${API_BASE_URL}/api/address/${user.id}`
     );
 
     let addresses = await response.json();
@@ -139,7 +139,7 @@ function editAddress(id, fullName, mobile, fullAddress, city, state, pincode) {
 async function deleteAddress(id) {
 
     let response = await fetch(
-        `http://localhost:8080/api/address/${id}`,
+        `${API_BASE_URL}/api/address/${id}`,
         {
             method: "DELETE"
         });

@@ -26,7 +26,7 @@ function filterOrders(status) {
 
                 <div class="image-box">
 
-                    <img src="${order.image || "http://localhost:8080/images/${product.image}"}"
+                    <img src="${order.image || "${API_BASE_URL}/images/${product.image}"}"
                          width="120">
 
                 </div>

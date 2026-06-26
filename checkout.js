@@ -9,7 +9,7 @@ window.onload=function(){
 
 async function loadAddresses() {
 
-    let response = await fetch(`http://localhost:8080/api/address/${user.id}`);
+    let response = await fetch(`${API_BASE_URL}/api/address/${user.id}`);
     let addresses = await response.json();
 
     let deliveryHTML = "";

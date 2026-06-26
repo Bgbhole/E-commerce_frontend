@@ -8,12 +8,12 @@ async function loadProduct() {
     try {
 
         let response =
-            await fetch(`http://localhost:8080/api/products/${id}`);
+            await fetch(`${API_BASE_URL}/api/products/${id}`);
 
         let product = await response.json();
 
         document.getElementById("image").src =
-            `http://localhost:8080/images/${product.image}`;
+            `${API_BASE_URL}/images/${product.image}`;
 
         document.getElementById("name").innerHTML =
             product.productName;
@@ -66,7 +66,7 @@ function addToCart(){
         return;
     }
 
-    fetch("http://localhost:8080/api/cart/add",{
+    fetch(`${API_BASE_URL}/api/cart/add`,{
 
         method:"POST",
 
@@ -116,7 +116,7 @@ async function buyNow() {
     try {
 
         let response = await fetch(
-            `http://localhost:8080/api/products/${id}`);
+            `${API_BASE_URL}/api/products/${id}`);
 
         let product = await response.json();
 
