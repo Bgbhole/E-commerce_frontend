@@ -1,4 +1,14 @@
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+const currentAdmin =
+JSON.parse(localStorage.getItem("currentAdmin"));
+
+if (!currentAdmin) {
+
+    window.location.href = "AdminLogin.html";
+
+}let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+
 
 displayOrders();
 

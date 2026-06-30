@@ -3,8 +3,7 @@ JSON.parse(localStorage.getItem("currentSeller"));
 
 async function sendOTP() {
 
-let response = await fetch(
-    `http://localhost:8080/api/sellers/send-edit-otp/${seller.sellerId}`,
+let response = await fetch(`${API_BASE_URL}/api/sellers/send-edit-otp/${seller.sellerId}`,
     {
         method: "POST"
     }
@@ -36,7 +35,7 @@ if (newPassword !== confirmPassword) {
 }
 
 let response = await fetch(
-    "http://localhost:8080/api/sellers/change-password",
+    `${API_BASE_URL}/api/sellers/change-password`,
     {
         method: "POST",
         headers: {

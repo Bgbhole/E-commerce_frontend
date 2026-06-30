@@ -1,47 +1,111 @@
-let wishlist =
-JSON.parse(localStorage.getItem("wishlist")) || [];
+let user = JSON.parse(localStorage.getItem("currentUser"));
 
-let html = "";
+if (!user) {
+    alert("Please login first");
+    window.location.href = "loginpage.html";
+}
 
-wishlist.forEach(product=>{
+window.onload = loadWishlist;
 
-html += `
 
-<div class="card">
+// =========================
+// Load Wishlist
+// =========================
+async function loadWishlist() {
 
-<img src="http://localhost:8080/images/${product.image}" width="150">
+    try {
 
-<h3>${product.name}</h3>
+        let response = await fetch(
+            `${API_BASE_URL}/api/wishlist/user/${user.id}`
+        );
 
-<h2>₹${product.price}</h2>
+        if (!response.ok) {
+            throw new Error("Unable to load wishlist");
+        }
 
-<button onclick="removeWishlist(${product.id})">
-Remove
-</button>
+        let wishlist = await response.json();
 
-<button onclick="addToCart(${product.id})">
-Add To Cart
-</button>
+        let html = "";
 
-</div>
+        wishlist.forEach(item => {
 
-`;
+            let product = item.product;
 
-});
+            html += `
 
-document.getElementById("wishlistProducts").innerHTML = html;
+            <div class="card">
 
-function removeWishlist(id){
+                <img src="${API_BASE_URL}/images/${product.image}" width="150">
 
-wishlist = wishlist.filter(
-p=>p.id != id
-);
+                <h3>${product.productName}</h3>
 
-localStorage.setItem(
-"wishlist",
-JSON.stringify(wishlist)
-);
+                <h2>₹${product.finalPrice}</h2>
 
-location.reload();
+                <button onclick="removeWishlist(${item.wishlistId})">
+                    Remove
+                </button>
+
+                <button onclick="addToCart(${product.productId})">
+                    Add To Cart
+                </button>
+
+            </div>
+
+            `;
+
+        });
+
+        document.getElementById("wishlistProducts").innerHTML = html;
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+// =========================
+// Remove Wishlist
+// =========================
+async function removeWishlist(wishlistId){
+
+    if(!confirm("Remove from Wishlist?")){
+        return;
+    }
+
+    try{
+
+        let response = await fetch(
+
+            `${API_BASE_URL}/api/wishlist/${wishlistId}`,
+
+            {
+                method:"DELETE"
+            }
+
+        );
+
+        if(response.ok){
+
+            alert("Removed Successfully");
+
+            loadWishlist();
+
+        }
+        else{
+
+            alert("Unable to remove");
+
+        }
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
 
 }

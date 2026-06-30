@@ -5,142 +5,247 @@ if (!seller) {
     window.location.href = "loginpage.html";
 }
 
-console.log(seller);
-
 let sellerId = seller.sellerId;
 
-loadProducts();
+window.onload = function () {
+    loadProducts();
+};
+
+// ================= CALCULATE VALUES =================
+
+function calculateValues(id) {
+
+    let purchasePrice =
+        parseFloat(document.getElementById("purchase" + id).value) || 0;
+
+    let sellingPrice =
+        parseFloat(document.getElementById("price" + id).value) || 0;
+
+    let gst =
+        parseFloat(document.getElementById("gst" + id).value) || 0;
+
+    let profit = sellingPrice - purchasePrice;
+
+    let gstAmount = (sellingPrice * gst) / 100;
+
+    let finalPrice = sellingPrice + gstAmount;
+
+    document.getElementById("profit" + id).value =
+        profit.toFixed(2);
+
+    document.getElementById("gstAmount" + id).value =
+        gstAmount.toFixed(2);
+
+    document.getElementById("finalPrice" + id).value =
+        finalPrice.toFixed(2);
+}
+
+// ================= LOAD PRODUCTS =================
 
 async function loadProducts() {
 
     try {
 
         let response = await fetch(
-            "http://localhost:8080/api/products/seller/" + sellerId
+            `${API_BASE_URL}/api/products/seller/${sellerId}`
         );
 
         let products = await response.json();
 
-        console.log(products);
-
-        let data = "";
+        let html = "";
 
         products.forEach(product => {
 
-         data += `
+            html += `
+
 <div class="card">
 
-    <h2>${product.productName}</h2>
+<h2>${product.productName}</h2>
 
-    <label>Product Name</label>
-    <input type="text"
-    id="name${product.productId}"
-    value="${product.productName}">
+<label>Product Name</label>
+<input type="text"
+id="name${product.productId}"
+value="${product.productName}">
 
-    <label>Brand</label>
-    <input type="text"
-    id="brand${product.productId}"
-    value="${product.brand}">
+<label>Brand</label>
+<input type="text"
+id="brand${product.productId}"
+value="${product.brand}">
 
-    <label>Category</label>
-    <input type="text"
-    id="category${product.productId}"
-    value="${product.category}">
+<label>Category</label>
+<input type="text"
+id="category${product.productId}"
+value="${product.category}">
 
-    <label>Description</label>
-    <textarea id="desc${product.productId}">
-${product.description}
-    </textarea>
+<label>Description</label>
+<textarea
+id="desc${product.productId}">${product.description}</textarea>
 
-    <label>Purchase Price</label>
-    <input type="number"
-    id="purchase${product.productId}"
-    value="${product.purchasePrice}">
+<label>Purchase Price</label>
+<input type="number"
+id="purchase${product.productId}"
+value="${product.purchasePrice}"
+oninput="calculateValues(${product.productId})">
 
-    <label>Selling Price</label>
-    <input type="number"
-    id="price${product.productId}"
-    value="${product.sellingPrice}">
+<label>Selling Price</label>
+<input type="number"
+id="price${product.productId}"
+value="${product.sellingPrice}"
+oninput="calculateValues(${product.productId})">
 
-    <label>GST %</label>
-    <input type="number"
-    id="gst${product.productId}"
-    value="${product.gstPercentage}">
+<label>GST %</label>
+<input type="number"
+id="gst${product.productId}"
+value="${product.gstPercentage}"
+oninput="calculateValues(${product.productId})">
 
-    <label>Quantity</label>
-    <input type="number"
-    id="qty${product.productId}"
-    value="${product.quantity}">
+<label>Profit</label>
+<input type="number"
+id="profit${product.productId}"
+value="${product.profit}"
+readonly>
 
-    <button class="update"
-    onclick="updateProduct(${product.productId})">
-    Update
-    </button>
+<label>GST Amount</label>
+<input type="number"
+id="gstAmount${product.productId}"
+value="${product.gstAmount}"
+readonly>
 
-    <button class="delete"
-    onclick="deleteProduct(${product.productId})">
-    Delete
-    </button>
+<label>Final Price</label>
+<input type="number"
+id="finalPrice${product.productId}"
+value="${product.finalPrice}"
+readonly>
+
+<label>Quantity</label>
+<input type="number"
+id="qty${product.productId}"
+value="${product.quantity}">
+
+<button class="update"
+onclick="updateProduct(${product.productId})">
+Update
+</button>
+
+<button class="delete"
+onclick="deleteProduct(${product.productId})">
+Delete
+</button>
 
 </div>
+
 `;
+
         });
 
-        document.getElementById("productContainer").innerHTML = data;
+        document.getElementById("productContainer").innerHTML = html;
 
-    } catch (err) {
+    } catch (error) {
 
-        console.log(err);
+        console.log(error);
+        alert("Unable to load products.");
 
     }
 
 }
-async function updateProduct(id){
+// ================= UPDATE PRODUCT =================
 
-let product = {
+async function updateProduct(id) {
 
-productName: document.getElementById("name"+id).value,
+    // Recalculate values before saving
+    calculateValues(id);
 
-brand: document.getElementById("brand"+id).value,
+    let product = {
 
-category: document.getElementById("category"+id).value,
+        productName: document.getElementById("name" + id).value,
 
-description: document.getElementById("desc"+id).value,
+        brand: document.getElementById("brand" + id).value,
 
-purchasePrice: document.getElementById("purchase"+id).value,
+        category: document.getElementById("category" + id).value,
 
-sellingPrice: document.getElementById("price"+id).value,
+        description: document.getElementById("desc" + id).value,
 
-gstPercentage: document.getElementById("gst"+id).value,
+        purchasePrice: parseFloat(document.getElementById("purchase" + id).value),
 
-quantity: document.getElementById("qty"+id).value
+        sellingPrice: parseFloat(document.getElementById("price" + id).value),
 
-};
+        gstPercentage: parseFloat(document.getElementById("gst" + id).value),
 
-await fetch(
-"http://localhost:8080/api/products/update/"+id,
-{
-method:"PUT",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(product)
-});
+        profit: parseFloat(document.getElementById("profit" + id).value),
 
-alert("Updated Successfully");
+        gstAmount: parseFloat(document.getElementById("gstAmount" + id).value),
 
-loadProducts();
+        finalPrice: parseFloat(document.getElementById("finalPrice" + id).value),
+
+        quantity: parseInt(document.getElementById("qty" + id).value)
+
+    };
+
+    try {
+
+        let response = await fetch(
+            `${API_BASE_URL}/api/products/update/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(product)
+            }
+        );
+
+        if (!response.ok) {
+            alert("Update Failed");
+            return;
+        }
+
+        alert("Product Updated Successfully");
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.log(error);
+        alert("Server Error");
+
+    }
+
 }
-async function deleteProduct(id){
 
-await fetch(
-"http://localhost:8080/api/products/delete/"+id,
-{
-method:"DELETE"
-});
+// ================= DELETE PRODUCT =================
 
-alert("Deleted Successfully");
+async function deleteProduct(id) {
 
-loadProducts();
+    let confirmDelete =
+        confirm("Are you sure you want to delete this product?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        let response = await fetch(
+            `${API_BASE_URL}/api/products/delete/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        if (!response.ok) {
+            alert("Delete Failed");
+            return;
+        }
+
+        alert("Product Deleted Successfully");
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.log(error);
+        alert("Server Error");
+
+    }
 
 }

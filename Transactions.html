@@ -1,32 +1,125 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>Transactions</title>
+
     <link rel="stylesheet" href="Transactions.css">
+
 </head>
+
 <body>
 
-<h1>Transactions</h1>
+<div class="container">
 
-<table>
+    <h1>Transactions</h1>
 
-    <thead>
+    <!-- Summary Cards -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Total Transactions</h3>
+
+            <h2 id="totalTransactions">0</h2>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Total Revenue</h3>
+
+            <h2 id="totalRevenue">₹0</h2>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Successful Payments</h3>
+
+            <h2 id="successfulPayments">0</h2>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Pending Payments</h3>
+
+            <h2 id="pendingPayments">0</h2>
+
+        </div>
+        
+        <div class="card">
+
+    <h3>Cancelled Payments</h3>
+
+    <h2 id="cancelledPayments">0</h2>
+
+</div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="search-box">
+
+        <input
+                type="text"
+                id="search"
+                placeholder="Search Customer or Product"
+                onkeyup="searchTransaction()">
+
+    </div>
+
+    <!-- Table -->
+
+    <table>
+
+        <thead>
+
         <tr>
+
+            <th>Txn ID</th>
+
             <th>Order ID</th>
-            <th>Date</th>
+
+            <th>Customer</th>
+
+            <th>Image</th>
+
+            <th>Product</th>
+
+            <th>Qty</th>
+
+            <th>Price</th>
+
+            <th>Total</th>
+
             <th>Payment Method</th>
-            <th>Amount</th>
-            <th>Status</th>
+
+<th>Payment Status</th>
+
+<th>Order Status</th>
+
+<th>Date</th>
+
         </tr>
-    </thead>
 
-    <tbody id="tbody">
+        </thead>
 
-    </tbody>
+        <tbody id="tbody">
 
-</table>
+        </tbody>
 
+    </table>
+
+</div>
+
+<script src="api-config.js"></script>
 <script src="Transactions.js"></script>
 
 </body>
+
 </html>

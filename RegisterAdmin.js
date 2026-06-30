@@ -31,7 +31,7 @@ if(admin.password !== confirmPassword){
 }
 
 let response = await fetch(
-    "http://localhost:8080/api/admin/register",
+    `${API_BASE_URL}/api/admin/register`,
     {
         method:"POST",
         headers:{

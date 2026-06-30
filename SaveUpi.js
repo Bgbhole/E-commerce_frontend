@@ -26,7 +26,7 @@ function addUpi() {
 
     };
 
-    fetch("http://localhost:8080/api/saveUpi", {
+    fetch(`${API_BASE_URL}/api/saveUpi`, {
 
         method: "POST",
 
@@ -56,7 +56,7 @@ async function loadUpis() {
     let user = JSON.parse(localStorage.getItem("currentUser"));
 
     let response =
-        await fetch(`http://localhost:8080/api/upis/${user.id}`);
+        await fetch(`${API_BASE_URL}/api/upis/${user.id}`);
 
     let upis = await response.json();
 

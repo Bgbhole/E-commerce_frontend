@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>My Cart</title>
+
     <link rel="stylesheet" href="cart.css">
+
 </head>
+
 <body>
 
-<h1>🛒 My Cart</h1>
+    <h1>🛒 My Cart</h1>
 
-<div class="container">
+    <div class="container">
 
-    <!-- Cart Items -->
-    <div class="cart-items" id="cartItems">
+        <div class="cart-items" id="cartItems">
+
+        </div>
+
+        <div class="price-box">
+
+            <h2>Price Details</h2>
+
+            <hr>
+
+            <p>
+                Total Items :
+                <span id="itemsCount">0</span>
+            </p>
+
+            <p>
+                Total Quantity :
+                <span id="totalQuantity">0</span>
+            </p>
+
+            <hr>
+
+            <h2>
+                Total Amount :
+                ₹<span id="total">0</span>
+            </h2>
+
+            <button onclick="goCheckout()">
+                Proceed To Checkout
+            </button>
+
+        </div>
 
     </div>
 
-    <!-- Price Details -->
-    <div class="price-box">
+    <script src="api-config.js"></script>
 
-        <h2>Price Details</h2>
-        <hr>
-
-        <p>Total Items :
-            <span id="itemsCount">0</span>
-        </p>
-
-        <h3>Total Amount :
-            ₹<span id="total">0</span>
-        </h3>
-
-        <button onclick="goCheckout()">
-            Proceed To Checkout
-        </button>
-
-    </div>
-
-</div>
-
-<script src="cart.js"></script>
+    <script src="cart.js"></script>
 
 </body>
+
 </html>

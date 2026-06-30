@@ -1,29 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Stock Details</title>
+
     <link rel="stylesheet" href="StockDetails.css">
+
 </head>
+
 <body>
 
-<h1>Stock Details</h1>
+<div class="container">
 
-<table>
+    <h1>Stock Management</h1>
 
-    <thead>
+    <div class="cards">
+
+        <div class="card blue">
+            <h3>Total Products</h3>
+            <h2 id="totalProducts">0</h2>
+        </div>
+
+        <div class="card green">
+            <h3>In Stock</h3>
+            <h2 id="inStock">0</h2>
+        </div>
+
+        <div class="card orange">
+            <h3>Low Stock</h3>
+            <h2 id="lowStock">0</h2>
+        </div>
+
+        <div class="card red">
+            <h3>Out Of Stock</h3>
+            <h2 id="outStock">0</h2>
+        </div>
+
+    </div>
+
+    <div class="toolbar">
+
+        <input
+                type="text"
+                id="search"
+                placeholder="Search Product..."
+                onkeyup="searchProducts()">
+
+        <select
+                id="categoryFilter"
+                onchange="filterProducts()">
+
+            <option value="">All Categories</option>
+
+            <option>Mobile</option>
+
+            <option>Electronics</option>
+
+            <option>Fashion</option>
+
+            <option>Furniture</option>
+
+            <option>Books</option>
+
+            <option>Beauty</option>
+
+            <option>Sports</option>
+
+            <option>Grocery</option>
+
+        </select>
+
+    </div>
+
+    <table>
+
+        <thead>
+
         <tr>
-            <th>Product Name</th>
+
+            <th>Image</th>
+
+            <th>Product</th>
+
+            <th>Brand</th>
+
             <th>Category</th>
-            <th>Price</th>
-            <th>Quantity</th>
+
+            <th>Purchase</th>
+
+            <th>Selling</th>
+
+            <th>Profit</th>
+
+            <th>Stock</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+
         </tr>
-    </thead>
 
-    <tbody id="tbody">
+        </thead>
 
-    </tbody>
+        <tbody id="tbody">
 
-</table>
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="api-config.js"></script>
 
 <script src="StockDetails.js"></script>
 

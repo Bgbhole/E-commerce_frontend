@@ -1,77 +1,70 @@
-window.onload = function () {
+window.onload = async function () {
 
-    let user =
-        JSON.parse(localStorage.getItem("currentUser"));
+    try {
 
-    let cart =
-        JSON.parse(localStorage.getItem("cart")) || [];
+        const user = JSON.parse(localStorage.getItem("currentUser"));
 
-    let orders =
-        JSON.parse(localStorage.getItem("orders")) || [];
+        if (!user) {
+            alert("Please login first.");
+            window.location.href = "Login.html";
+            return;
+        }
 
-    let products =
-        JSON.parse(localStorage.getItem("products")) || [];
+        const deliveryAddressId = localStorage.getItem("deliveryAddressId");
+        const billingAddressId = localStorage.getItem("billingAddressId");
 
-    cart.forEach(item => {
+        if (!deliveryAddressId || !billingAddressId) {
+            alert("Please select delivery and billing address.");
+            window.location.href = "Checkout.html";
+            return;
+        }
 
-        // Create Order
-        let order = {
+        const request = {
 
             userId: user.id,
-
-            sellerId: item.sellerId,
-
-            productId: item.productId,
-
-            orderId: "ORD" + Date.now() + Math.floor(Math.random()*1000),
-
-            name: item.productName,
-
-            image: item.imageUrl,
-
-            price: item.finalPrice,
-
-            quantity: item.quantity || 1,
-
-            paymentStatus: "SUCCESS",
-
-            orderStatus: "PENDING",
-
-            orderDate: new Date().toLocaleString()
+            deliveryAddressId: Number(deliveryAddressId),
+            billingAddressId: Number(billingAddressId),
+            paymentMethod: "ONLINE"
 
         };
 
-        orders.push(order);
+        const response = await fetch(`${API_BASE_URL}/api/orders/place`, {
 
+            method: "POST",
 
-        // Reduce Stock
-        let product = products.find(
-            p => p.productId == item.productId
-        );
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        if(product){
+            body: JSON.stringify(request)
 
-            product.quantity =
-                product.quantity - item.quantity;
+        });
 
-            if(product.quantity < 0){
-
-                product.quantity = 0;
-
-            }
-
+        if (!response.ok) {
+            throw new Error("Unable to place order.");
         }
 
-    });
+        const order = await response.json();
 
-    localStorage.setItem(
-        "orders",
-        JSON.stringify(orders));
+        console.log("Order Created :", order);
 
-    localStorage.setItem(
-        "products",
-        JSON.stringify(products));
+        // Clear cart after successful order creation
+        localStorage.removeItem("cart");
 
-    localStorage.removeItem("cart");
+        // Remove selected addresses
+        localStorage.removeItem("deliveryAddressId");
+        localStorage.removeItem("billingAddressId");
+        localStorage.removeItem("orderAmount");
 
-}
+        // Save latest order if required
+        localStorage.setItem("latestOrder", JSON.stringify(order));
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Order placement failed.");
+
+    }
+
+};

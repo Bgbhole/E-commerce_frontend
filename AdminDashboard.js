@@ -1,4 +1,15 @@
-    window.onload = function () {
+   
+   const admin = JSON.parse(localStorage.getItem("currentAdmin"));
+
+if (!admin) {
+
+    alert("Please login as Admin.");
+
+    window.location.href = "AdminLogin.html";
+
+}
+   
+   window.onload = function () {
         loadDashboard();
     };
 
@@ -22,10 +33,9 @@
                 "<h2>Seller Confirmation</h2>";
                 break;
 
-            case "products":
-                document.getElementById("tableArea").innerHTML =
-                "<h2>Products</h2>";
-                break;
+           case "products":
+    loadPendingProducts();
+    break;
 
             case "orders":
                 document.getElementById("tableArea").innerHTML =
@@ -80,20 +90,93 @@
 
     }
 
+async function loadDashboard() {
 
-    function loadDashboard(){
+    document.getElementById("pageTitle").innerHTML = "Dashboard";
 
-        document.getElementById("pageTitle").innerHTML="Dashboard";
+    try {
 
-        document.getElementById("usersCount").innerHTML="0";
-        document.getElementById("sellerCount").innerHTML="0";
-        document.getElementById("orderCount").innerHTML="0";
-        document.getElementById("productCount").innerHTML="0";
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/dashboard`
+        );
 
-        document.getElementById("tableArea").innerHTML=
-        "<h2>Welcome Admin</h2>";
+        if (!response.ok) {
+            throw new Error("Unable to load dashboard");
+        }
+
+        const dashboard = await response.json();
+
+        // Dashboard Cards
+        document.getElementById("usersCount").innerHTML =
+            dashboard.totalUsers;
+
+        document.getElementById("sellerCount").innerHTML =
+            dashboard.totalSellers;
+
+        document.getElementById("orderCount").innerHTML =
+            dashboard.totalOrders;
+
+        document.getElementById("productCount").innerHTML =
+            dashboard.totalProducts;
+
+        // Welcome Table
+        document.getElementById("tableArea").innerHTML = `
+
+            <h2>Welcome Administrator</h2>
+
+            <br>
+
+            <table>
+
+                <tr>
+                    <th>Statistic</th>
+                    <th>Count</th>
+                </tr>
+
+                <tr>
+                    <td>Total Users</td>
+                    <td>${dashboard.totalUsers}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Sellers</td>
+                    <td>${dashboard.totalSellers}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Products</td>
+                    <td>${dashboard.totalProducts}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Orders</td>
+                    <td>${dashboard.totalOrders}</td>
+                </tr>
+
+                <tr>
+                    <td>Pending Sellers</td>
+                    <td>${dashboard.pendingSellers}</td>
+                </tr>
+
+                <tr>
+                    <td>Pending Products</td>
+                    <td>${dashboard.pendingProducts}</td>
+                </tr>
+
+            </table>
+
+        `;
 
     }
+    catch (error) {
+
+        console.log(error);
+
+        alert("Unable to load dashboard.");
+
+    }
+
+}
 
     function logout(){
 
@@ -107,7 +190,7 @@
 
         try {
 
-            let response = await fetch("http://localhost:8080/api/users");
+            let response = await fetch(`${API_BASE_URL}/api/users`);
 
             if (!response.ok) {
                 throw new Error("Unable to fetch users");
@@ -182,7 +265,7 @@
 
         try {
 
-            let response = await fetch("http://localhost:8080/api/sellers");
+            let response = await fetch(`${API_BASE_URL}/api/sellers`);
 
             let sellers = await response.json();
 
@@ -307,7 +390,7 @@
             return;
         }
 
-        let response = await fetch(`http://localhost:8080/api/users/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
             method: "DELETE"
         });
 
@@ -331,7 +414,7 @@
         if(!confirm("Delete this seller?"))
             return;
 
-        let response = await fetch(`http://localhost:8080/api/sellers/${id}`,{
+        let response = await fetch(`${API_BASE_URL}/api/sellers/${id}`,{
 
             method:"DELETE"
 
@@ -355,7 +438,7 @@
 
     async function editUser(id) {
 
-        let response = await fetch(`http://localhost:8080/api/users/${id}`);
+        let response = await fetch(`${API_BASE_URL}/api/users/${id}`);
 
         let user = await response.json();
 
@@ -386,7 +469,7 @@
     async function editSeller(id){
 
         let response =
-        await fetch(`http://localhost:8080/api/sellers/${id}`);
+        await fetch(`${API_BASE_URL}/api/sellers/${id}`);
 
         let seller = await response.json();
 
@@ -496,7 +579,7 @@ document.getElementById("nomineeMobile").value = seller.nomineeMobile || "";
         };
 
         let response = await fetch(
-            `http://localhost:8080/api/sellers/update`,
+            `${API_BASE_URL}/api/sellers/update`,
             {
                 method: "PUT",
                 headers: {
@@ -521,3 +604,396 @@ document.getElementById("nomineeMobile").value = seller.nomineeMobile || "";
         }
 
     }
+
+
+    async function loadPendingSellers() {
+
+    document.getElementById("pageTitle").innerHTML =
+        "Seller Confirmation";
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/pending-sellers`
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load sellers");
+
+        }
+
+        const sellers = await response.json();
+
+        let html = `
+
+        <table>
+
+            <tr>
+
+                <th>Seller ID</th>
+
+                <th>Owner</th>
+
+                <th>Email</th>
+
+                <th>Mobile</th>
+
+                <th>Shop Name</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        `;
+
+        sellers.forEach(seller => {
+
+            html += `
+
+            <tr>
+
+                <td>${seller.sellerId}</td>
+
+                <td>${seller.name}</td>
+
+                <td>${seller.email}</td>
+
+                <td>${seller.mobile}</td>
+
+                <td>${seller.shopName}</td>
+
+                <td>${seller.status}</td>
+
+                <td>
+
+                    <button class="approve-btn"
+                        onclick="approveSeller(${seller.sellerId})">
+
+                        Approve
+
+                    </button>
+
+                    <button class="reject-btn"
+                        onclick="rejectSeller(${seller.sellerId})">
+
+                        Reject
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        html += "</table>";
+
+        document.getElementById("tableArea").innerHTML = html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+
+async function approveSeller(id){
+
+    if(!confirm("Approve this seller?")){
+        return;
+    }
+
+    try{
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/admin/approve-seller/${id}`,
+
+            {
+
+                method:"PUT"
+
+            }
+
+        );
+
+        if(!response.ok){
+
+            throw new Error("Unable to approve seller");
+
+        }
+
+        alert("Seller Approved Successfully");
+
+        loadPendingSellers();
+
+        loadDashboard();
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+async function rejectSeller(id){
+
+    if(!confirm("Reject this seller?")){
+        return;
+    }
+
+    try{
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/admin/reject-seller/${id}`,
+
+            {
+
+                method:"PUT"
+
+            }
+
+        );
+
+        if(!response.ok){
+
+            throw new Error("Unable to reject seller");
+
+        }
+
+        alert("Seller Rejected Successfully");
+
+        loadPendingSellers();
+
+        loadDashboard();
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+
+async function loadPendingProducts() {
+
+    document.getElementById("pageTitle").innerHTML =
+        "Product Approval";
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/pending-products`
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to load products");
+        }
+
+        const products = await response.json();
+
+        let html = `
+
+        <table>
+
+            <tr>
+
+                <th>Image</th>
+
+                <th>Product</th>
+
+                <th>Brand</th>
+
+                <th>Category</th>
+
+                <th>Seller</th>
+
+                <th>Price</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        `;
+
+        products.forEach(product => {
+
+            html += `
+
+            <tr>
+
+                <td>
+
+                    <img src="${API_BASE_URL}/images/${product.image}"
+                         width="70">
+
+                </td>
+
+                <td>${product.productName}</td>
+
+                <td>${product.brand}</td>
+
+                <td>${product.category}</td>
+
+                <td>${product.seller.shopName}</td>
+
+                <td>₹${product.finalPrice}</td>
+
+                <td>${product.status}</td>
+
+                <td>
+
+                    <button class="approve-btn"
+                        onclick="approveProduct(${product.productId})">
+
+                        Approve
+
+                    </button>
+
+                    <button class="reject-btn"
+                        onclick="rejectProduct(${product.productId})">
+
+                        Reject
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        html += "</table>";
+
+        document.getElementById("tableArea").innerHTML = html;
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+async function approveProduct(productId) {
+
+    if (!confirm("Approve this product?")) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/admin/approve-product/${productId}`,
+
+            {
+
+                method: "PUT"
+
+            }
+
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to approve product");
+        }
+
+        alert("Product Approved Successfully");
+
+        loadPendingProducts();
+
+        loadDashboard();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+async function rejectProduct(productId) {
+
+    if (!confirm("Reject this product?")) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/admin/reject-product/${productId}`,
+
+            {
+
+                method: "PUT"
+
+            }
+
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to reject product");
+        }
+
+        alert("Product Rejected Successfully");
+
+        loadPendingProducts();
+
+        loadDashboard();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem("currentAdmin");
+
+    window.location.href = "admin-log.html";
+
+}

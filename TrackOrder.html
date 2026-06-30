@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Track Order</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="TrackOrder.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="page-header">
+
+        <h1>Track Your Order</h1>
+
+        <p>Stay updated with your order journey.</p>
+
+    </div>
+
+
+    <!-- Order Card -->
+
+    <div class="order-card">
+
+        <div class="order-top">
+
+            <div>
+
+                <h3 id="orderNo">
+                    Order #
+                </h3>
+
+                <span id="orderDate">
+                    --
+                </span>
+
+            </div>
+
+            <div class="delivery-date">
+
+                <span>
+                    Estimated Delivery
+                </span>
+
+                <h3 id="estimatedDate">
+                    --
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <!-- Product -->
+
+        <div class="product-section">
+
+            <img id="productImage"
+                 src=""
+                 alt="Product">
+
+            <div class="product-info">
+
+                <h2 id="productName">
+                    Product Name
+                </h2>
+
+                <p id="productDescription">
+                    Product Description
+                </p>
+
+                <div class="price-row">
+
+                    <h3 id="productPrice">
+                        ₹0
+                    </h3>
+
+                    <span>
+                        Qty :
+                        <span id="productQty">1</span>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Timeline -->
+
+    <div class="tracking-card">
+
+        <h2>Order Status</h2>
+
+        <div class="timeline">
+
+            <div class="timeline-item"
+                 data-status="confirmed">
+
+                <div class="icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div class="content">
+
+                    <h4>Order Confirmed</h4>
+
+                    <span>Order Confirmed</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item"
+                 data-status="packed">
+
+                <div class="icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+
+                <div class="content">
+
+                    <h4>Packed</h4>
+
+                    <span>Seller Packed Your Product</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item"
+                 data-status="shipped">
+
+                <div class="icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+
+                <div class="content">
+
+                    <h4>Shipped</h4>
+
+                    <span>Package Shipped</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item"
+                 data-status="hub">
+
+                <div class="icon">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+
+                <div class="content">
+
+                    <h4>Reached Delivery Hub</h4>
+
+                    <span>Nearest Delivery Hub</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item"
+                 data-status="out_for_delivery">
+
+                <div class="icon">
+                    <i class="fa-solid fa-truck"></i>
+                </div>
+
+                <div class="content">
+
+                    <h4>Out For Delivery</h4>
+
+                    <span>Delivery Partner Assigned</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline-item"
+                 data-status="delivered">
+
+                <div class="icon">
+                    <i class="fa-solid fa-house-circle-check"></i>
+                </div>
+
+                <div class="content">
+
+                    <h4>Delivered</h4>
+
+                    <span>Order Delivered Successfully</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Delivery Address -->
+
+    <div class="info-grid">
+
+        <div class="info-card">
+
+            <h3>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                Delivery Address
+
+            </h3>
+
+            <p>
+
+                <strong id="deliveryName">
+                    --
+                </strong>
+
+            </p>
+
+            <p id="deliveryAddress">
+                --
+            </p>
+
+            <p id="deliveryCity">
+                --
+            </p>
+
+            <p id="deliveryMobile">
+                --
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Buttons -->
+
+    <div class="action-buttons">
+
+        <button class="primary-btn">
+
+            <i class="fa-solid fa-phone"></i>
+
+            Contact Seller
+
+        </button>
+
+       <button class="secondary-btn"
+
+onclick="downloadInvoice()">
+
+<i class="fa-solid fa-file-arrow-down"></i>
+
+Download Invoice
+
+</button>
+
+    </div>
+
+</div>
+
+<script src="api-config.js"></script>
+<script src="TrackOrder.js"></script>
+
+</body>
+
+</html>

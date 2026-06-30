@@ -1,66 +1,222 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.addEventListener("DOMContentLoaded", loadCart);
 
-loadCart();
+const user = JSON.parse(localStorage.getItem("currentUser"));
 
-function loadCart() {
+async function loadCart() {
 
-    let box = document.getElementById("cartItems");
+    if (!user) {
 
-    let total = 0;
+        alert("Please Login");
 
-    box.innerHTML = "";
+        window.location.href = "Login.html";
 
-    cart.forEach((p, index) => {
+        return;
 
-        if (p == null) return;
+    }
 
-        total += p.finalPrice;
+    try {
 
-        box.innerHTML += `
+        const response = await fetch(
+            `${API_BASE_URL}/api/cart/user/${user.id}`
+        );
 
-        <div class="item">
+        if (!response.ok) {
 
-            <img src="http://localhost:8080/images/${p.image}">
+            throw new Error("Unable to load cart");
 
-            <div class="details">
+        }
 
-                <h2>${p.productName}</h2>
+        const cart = await response.json();
 
-                <p>${p.description || ""}</p>
+        const box = document.getElementById("cartItems");
 
-                <h3 class="price">
-                    ₹${p.finalPrice}
-                </h3>
+        box.innerHTML = "";
 
-                <button class="remove-btn"
-                        onclick="removeItem(${index})">
-                    Remove
-                </button>
+        let total = 0;
+
+        let totalItems = cart.length;
+
+        let totalQuantity = 0;
+
+        if (cart.length === 0) {
+
+            box.innerHTML = `
+                <h2 style="text-align:center;margin-top:50px;">
+                    Your Cart is Empty
+                </h2>
+            `;
+
+            document.getElementById("itemsCount").innerHTML = 0;
+
+            document.getElementById("totalQuantity").innerHTML = 0;
+
+            document.getElementById("total").innerHTML = 0;
+
+            return;
+
+        }
+
+        cart.forEach(item => {
+
+            const itemTotal = item.product.finalPrice * item.quantity;
+
+            total += itemTotal;
+
+            totalQuantity += item.quantity;
+
+            box.innerHTML += `
+
+            <div class="item">
+
+                <img src="${API_BASE_URL}/images/${item.product.image}" width="150">
+
+                <div class="details">
+
+                    <h2>${item.product.productName}</h2>
+
+                    <p>${item.product.description || ""}</p>
+
+                    <h3>₹${item.product.finalPrice}</h3>
+
+                    <div class="quantity-box">
+
+                        <button onclick="decreaseQuantity(${item.cartId}, ${item.quantity})">-</button>
+
+                        <span>${item.quantity}</span>
+
+                        <button onclick="increaseQuantity(${item.cartId}, ${item.quantity})">+</button>
+
+                    </div>
+
+                    <h3>Total : ₹${itemTotal}</h3>
+
+                    <button class="remove-btn"
+                        onclick="removeItem(${item.cartId})">
+
+                        Remove
+
+                    </button>
+
+                </div>
 
             </div>
 
-        </div>
+            `;
 
-        `;
-    });
+        });
 
-    document.getElementById("total").innerHTML = total;
+        document.getElementById("itemsCount").innerHTML = totalItems;
+
+        document.getElementById("totalQuantity").innerHTML = totalQuantity;
+
+        document.getElementById("total").innerHTML = total;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
 }
 
-function removeItem(index) {
+async function increaseQuantity(cartId, quantity) {
 
-    cart.splice(index, 1);
+    await updateQuantity(cartId, quantity + 1);
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+}
 
-    loadCart();
+async function decreaseQuantity(cartId, quantity) {
+
+    if (quantity <= 1) return;
+
+    await updateQuantity(cartId, quantity - 1);
+
+}
+
+async function updateQuantity(cartId, quantity) {
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/cart/quantity/${cartId}?quantity=${quantity}`,
+
+            {
+
+                method: "PUT"
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Unable to update quantity");
+
+        }
+
+        loadCart();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+async function removeItem(cartId) {
+
+    if (!confirm("Remove this item from cart?")) {
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/cart/${cartId}`,
+
+            {
+
+                method: "DELETE"
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Unable to remove item");
+
+        }
+
+        loadCart();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
 }
 
 function goCheckout() {
 
-    window.location.href = "checkout.html";
+    window.location.href = "Checkout.html";
 
 }

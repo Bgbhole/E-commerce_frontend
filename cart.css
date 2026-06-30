@@ -75,3 +75,28 @@ h1{
     margin-top:20px;
     cursor:pointer;
 }
+
+
+
+.quantity-box{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:15px 0;
+}
+
+.quantity-box button{
+    width:35px;
+    height:35px;
+    border:none;
+    background:#2874f0;
+    color:white;
+    font-size:20px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.quantity-box span{
+    font-size:20px;
+    font-weight:bold;
+}

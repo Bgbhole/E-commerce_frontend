@@ -41,7 +41,7 @@ async function sendEmailOtp() {
 
     try {
 
-        let response = await fetch("http://localhost:8080/api/users/send-otp", {
+        let response = await fetch(`${API_BASE_URL}/api/users/send-otp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -72,7 +72,7 @@ async function verifyEmailOtp() {
 
     try {
 
-        let response = await fetch("http://localhost:8080/api/users/verify-otp", {
+        let response = await fetch(`${API_BASE_URL}/api/users/verify-otp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -151,7 +151,7 @@ async function updateProfile() {
 
     try {
 
-        let response = await fetch("http://localhost:8080/api/users/update", {
+        let response = await fetch(`${API_BASE_URL}/api/users/update`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -221,7 +221,7 @@ function changePassword(){
 
 };
 
-fetch("http://localhost:8080/api/users/change-password", {
+fetch(`${API_BASE_URL}/api/users/change-password`, {
 
     method: "PUT",
 
@@ -243,7 +243,7 @@ fetch("http://localhost:8080/api/users/change-password", {
         return;
     }
 
-    fetch("http://localhost:8080/api/users/change-password",{
+    fetch(`${API_BASE_URL}/api/users/change-password`,{
 
         method:"PUT",
 

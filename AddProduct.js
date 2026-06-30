@@ -1,25 +1,3 @@
-function calculateValues() {
-
-    let purchasePrice =
-        parseFloat(document.getElementById("purchasePrice").value) || 0;
-
-    let sellingPrice =
-        parseFloat(document.getElementById("sellingPrice").value) || 0;
-
-    let gst =
-        parseFloat(document.getElementById("gst").value) || 0;
-
-    let profit = sellingPrice - purchasePrice;
-    document.getElementById("profit").value = profit.toFixed(2);
-
-    let gstAmount = (sellingPrice * gst) / 100;
-    document.getElementById("gstAmount").value = gstAmount.toFixed(2);
-
-    let finalPrice = sellingPrice + gstAmount;
-    document.getElementById("finalPrice").value = finalPrice.toFixed(2);
-}
-
-
 async function addProduct() {
 
     let formData = new FormData();
@@ -48,7 +26,6 @@ async function addProduct() {
     formData.append("quantity",
         document.getElementById("quantity").value);
 
-    // send calculated values
     formData.append("profit",
         document.getElementById("profit").value);
 
@@ -58,15 +35,31 @@ async function addProduct() {
     formData.append("finalPrice",
         document.getElementById("finalPrice").value);
 
+    formData.append("color",
+        document.getElementById("color").value);
+
+    formData.append("weight",
+        document.getElementById("weight").value);
+
+    formData.append("warranty",
+        document.getElementById("warranty").value);
+
+    formData.append("model",
+        document.getElementById("model").value);
+
+    formData.append("size",
+        document.getElementById("size").value);
+
+    formData.append("material",
+        document.getElementById("material").value);
 
     let imageFile = document.getElementById("image").files[0];
 
-    if (imageFile != null) {
+    if (imageFile) {
         formData.append("image", imageFile);
     }
 
-    const seller =
-        JSON.parse(localStorage.getItem("currentSeller"));
+    const seller = JSON.parse(localStorage.getItem("currentSeller"));
 
     if (!seller) {
         alert("Seller not logged in");
@@ -75,10 +68,19 @@ async function addProduct() {
 
     formData.append("sellerId", seller.sellerId);
 
+    // ===== DEBUG =====
+    console.log("===== FormData =====");
+
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + " : " + pair[1]);
+    }
+
+    console.log("====================");
+
     try {
 
         let response = await fetch(
-            "http://localhost:8080/api/products/AddProduct",
+            `${API_BASE_URL}/api/products/AddProduct`,
             {
                 method: "POST",
                 body: formData
@@ -91,19 +93,42 @@ async function addProduct() {
             console.log(error);
             alert("Failed to save product");
             return;
-
         }
 
         let data = await response.json();
 
-        console.log(data);
+        console.log("Saved Product:", data);
 
         alert("Product added successfully");
 
     } catch (error) {
 
         console.error(error);
-        alert("Server error");
+        alert("Server Error");
 
     }
+}
+
+function calculateValues() {
+
+    let purchasePrice =
+        parseFloat(document.getElementById("purchasePrice").value) || 0;
+
+    let sellingPrice =
+        parseFloat(document.getElementById("sellingPrice").value) || 0;
+
+    let gst =
+        parseFloat(document.getElementById("gst").value) || 0;
+
+    let profit = sellingPrice - purchasePrice;
+
+    let gstAmount = (sellingPrice * gst) / 100;
+
+    let finalPrice = sellingPrice + gstAmount;
+
+    document.getElementById("profit").value = profit.toFixed(2);
+
+    document.getElementById("gstAmount").value = gstAmount.toFixed(2);
+
+    document.getElementById("finalPrice").value = finalPrice.toFixed(2);
 }

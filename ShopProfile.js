@@ -12,7 +12,7 @@ async function loadProfile() {
 try {
 
     let response = await fetch(
-        `http://localhost:8080/api/sellers/${seller.sellerId}`
+        `${API_BASE_URL}/api/sellers/${seller.sellerId}`
     );
 
     if (!response.ok) {
@@ -196,7 +196,7 @@ try {
     };
 
     let response = await fetch(
-        "http://localhost:8080/api/sellers/update",
+        `${API_BASE_URL}/api/sellers/update`,
         {
             method: "PUT",
             headers: {
@@ -240,7 +240,7 @@ async function sendOTP() {
 try {
 
     let response = await fetch(
-        `http://localhost:8080/api/sellers/send-edit-otp/${seller.sellerId}`,
+        `${API_BASE_URL}/api/sellers/send-edit-otp/${seller.sellerId}`,
         {
             method: "POST"
         }
@@ -277,7 +277,7 @@ if(!otp){
 }
 
 let response = await fetch(
-    "http://localhost:8080/api/sellers/verify-edit-otp",
+    `${API_BASE_URL}/api/sellers/verify-edit-otp`,
     {
         method: "POST",
         headers: {
@@ -317,7 +317,7 @@ async function verifyOTP() {
         document.getElementById("otp").value;
 
     let response = await fetch(
-        "http://localhost:8080/api/sellers/verify-edit-otp",
+        `${API_BASE_URL}/api/sellers/verify-edit-otp`,
         {
             method: "POST",
             headers: {

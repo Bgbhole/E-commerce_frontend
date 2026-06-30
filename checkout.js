@@ -1,132 +1,180 @@
 let user = JSON.parse(localStorage.getItem("currentUser"));
 
-window.onload=function(){
+window.onload = function () {
 
     loadAddresses();
     loadPrice();
 
-}
+};
+
+// =====================
+// Load Addresses
+// =====================
 
 async function loadAddresses() {
 
-    let response = await fetch(`http://localhost:8080/api/address/${user.id}`);
-    let addresses = await response.json();
+    try {
 
-    let deliveryHTML = "";
-    let billingHTML = "";
+        let response = await fetch(`${API_BASE_URL}/api/address/${user.id}`);
 
-    let savedDelivery = localStorage.getItem("deliveryAddressId");
-    let savedBilling = localStorage.getItem("billingAddressId");
+        let addresses = await response.json();
 
-    addresses.forEach((address, index) => {
+        let deliveryHTML = "";
+        let billingHTML = "";
 
-        // Select previously selected address or first address by default
-        let deliveryChecked =
-            (savedDelivery && savedDelivery == address.addressId) ||
-            (!savedDelivery && index == 0);
+        let savedDelivery = localStorage.getItem("deliveryAddressId");
+        let savedBilling = localStorage.getItem("billingAddressId");
 
-        let billingChecked =
-            (savedBilling && savedBilling == address.addressId) ||
-            (!savedBilling && index == 0);
+        addresses.forEach((address, index) => {
 
-        deliveryHTML += `
-        <div class="address-card">
-            <input type="radio"
-                   name="delivery"
-                   value="${address.addressId}"
-                   ${deliveryChecked ? "checked" : ""}>
+            let deliveryChecked =
+                (savedDelivery && savedDelivery == address.addressId) ||
+                (!savedDelivery && index === 0);
 
-            <h4>${address.fullName}</h4>
-            <p>${address.fullAddress}</p>
-            <p>${address.city}, ${address.state} - ${address.pincode}</p>
-            <p>Mobile : ${address.mobile}</p>
-        </div>
-        `;
+            let billingChecked =
+                (savedBilling && savedBilling == address.addressId) ||
+                (!savedBilling && index === 0);
 
-        billingHTML += `
-        <div class="address-card">
-            <input type="radio"
-                   name="billing"
-                   value="${address.addressId}"
-                   ${billingChecked ? "checked" : ""}>
+            deliveryHTML += `
+                <div class="address-card">
 
-            <h4>${address.fullName}</h4>
-            <p>${address.fullAddress}</p>
-            <p>${address.city}, ${address.state} - ${address.pincode}</p>
-            <p>Mobile : ${address.mobile}</p>
-        </div>
-        `;
-    });
+                    <input type="radio"
+                           name="delivery"
+                           value="${address.addressId}"
+                           ${deliveryChecked ? "checked" : ""}>
 
-    document.getElementById("deliveryAddressList").innerHTML = deliveryHTML;
-    document.getElementById("billingAddressList").innerHTML = billingHTML;
-}
+                    <h4>${address.fullName}</h4>
 
+                    <p>${address.fullAddress}</p>
 
+                    <p>${address.city}, ${address.state} - ${address.pincode}</p>
 
-function loadPrice() {
+                    <p>Mobile : ${address.mobile}</p>
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                </div>
+            `;
 
-    let productPrice = 0;
+            billingHTML += `
+                <div class="address-card">
 
-    cart.forEach(item => {
+                    <input type="radio"
+                           name="billing"
+                           value="${address.addressId}"
+                           ${billingChecked ? "checked" : ""}>
 
-        if (item != null) {
+                    <h4>${address.fullName}</h4>
 
-            productPrice += Number(item.finalPrice || 0);
+                    <p>${address.fullAddress}</p>
 
-        }
+                    <p>${address.city}, ${address.state} - ${address.pincode}</p>
 
-    });
+                    <p>Mobile : ${address.mobile}</p>
 
-    let deliveryCharge = 0;
+                </div>
+            `;
 
-    // Free delivery for orders above ₹250
-    if (productPrice <= 250) {
+        });
 
-        deliveryCharge = 40;
+        document.getElementById("deliveryAddressList").innerHTML = deliveryHTML;
+        document.getElementById("billingAddressList").innerHTML = billingHTML;
+
+    } catch (error) {
+
+        console.error(error);
 
     }
 
-    let totalAmount = productPrice + deliveryCharge;
+}
 
-    document.getElementById("itemsCount").innerHTML = cart.length;
+// =====================
+// Load Cart Price
+// =====================
 
-    document.getElementById("productPrice").innerHTML =
-        productPrice.toFixed(2);
+async function loadPrice() {
 
-    document.getElementById("deliveryCharge").innerHTML =
-        deliveryCharge == 0 ? "FREE" : "₹" + deliveryCharge;
+    try {
 
-    document.getElementById("totalAmount").innerHTML =
-        totalAmount.toFixed(2);
+        const response = await fetch(
+            `${API_BASE_URL}/api/cart/user/${user.id}`
+        );
 
-    // Save for payment page
-    localStorage.setItem("orderAmount", totalAmount);
+        if (!response.ok) {
+            throw new Error("Unable to load cart.");
+        }
+
+        const cart = await response.json();
+
+        let productPrice = 0;
+        let totalItems = 0;
+
+        cart.forEach(item => {
+
+            productPrice += item.product.finalPrice * item.quantity;
+            totalItems += item.quantity;
+
+        });
+
+        let deliveryCharge = productPrice > 250 ? 0 : 40;
+
+        let totalAmount = productPrice + deliveryCharge;
+
+        document.getElementById("itemsCount").innerHTML = totalItems;
+
+        document.getElementById("productPrice").innerHTML =
+            productPrice.toFixed(2);
+
+        document.getElementById("deliveryCharge").innerHTML =
+            deliveryCharge === 0 ? "FREE" : "₹" + deliveryCharge;
+
+        document.getElementById("totalAmount").innerHTML =
+            totalAmount.toFixed(2);
+
+        localStorage.setItem("orderAmount", totalAmount);
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
 
 }
-    
+
+// =====================
+// Proceed to Payment
+// =====================
+
 function goPayment() {
 
     let delivery = document.querySelector(
-        'input[name="delivery"]:checked');
+        'input[name="delivery"]:checked'
+    );
 
     let billing = document.querySelector(
-        'input[name="billing"]:checked');
+        'input[name="billing"]:checked'
+    );
 
     if (!delivery) {
+
         alert("Please select delivery address");
+
         return;
+
     }
 
     if (!billing) {
+
         alert("Please select billing address");
+
         return;
+
     }
 
     localStorage.setItem("deliveryAddressId", delivery.value);
+
     localStorage.setItem("billingAddressId", billing.value);
 
     window.location.href = "Payments.html";
+
 }

@@ -4,103 +4,151 @@ window.onload = function () {
 
 };
 
-function filterOrders(status) {
+async function filterOrders(status) {
 
-    let user =
-        JSON.parse(localStorage.getItem("currentUser"));
+    const user = JSON.parse(localStorage.getItem("currentUser"));
 
-    let orders =
-        JSON.parse(localStorage.getItem("orders")) || [];
+    if (!user) {
 
-    let html = "";
+        alert("Please Login");
 
-    orders.forEach(order => {
+        window.location.href = "Login.html";
 
-        // Only show logged-in user's orders
-        if (order.userId == user.id &&
-            (status == "ALL" || order.paymentStatus == status)) {
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/orders/user/${user.id}`
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Unable to fetch orders");
+
+        }
+
+        const orders = await response.json();
+
+        let html = "";
+
+        orders.forEach(order => {
+
+            if (status !== "ALL" && order.status !== status) {
+                return;
+            }
+
+            let productsHtml = "";
+
+            order.orderItems.forEach(item => {
+
+                productsHtml += `
+
+                <div class="ordered-product">
+
+                    <img src="${API_BASE_URL}/images/${item.product.image}"
+                         width="100">
+
+                    <div>
+
+                        <h3>${item.product.productName}</h3>
+
+                        <p><b>Brand :</b> ${item.product.brand}</p>
+
+                        <p><b>Quantity :</b> ${item.quantity}</p>
+
+                        <p><b>Price :</b> ₹${item.price}</p>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                `;
+
+            });
 
             html += `
 
             <div class="order-card">
 
-                <div class="image-box">
-
-                    <img src="${order.image || "http://localhost:8080/images/${product.image}"}"
-                         width="120">
-
-                </div>
-
                 <div class="details">
 
-                    <h2>${order.name}</h2>
+                    <h2>Order #${order.orderId}</h2>
 
-                    <p>₹${order.price}</p>
+                    <p>
+                        <b>Order Date :</b>
 
-                    <p>Quantity : ${order.quantity}</p>
-
-                    <p>Order ID : ${order.orderId}</p>
-
-                    <p>Date : ${order.orderDate}</p>
-
-                    <p class="${order.paymentStatus.toLowerCase()}">
-
-                        Payment : ${order.paymentStatus}
-
+                        ${new Date(order.orderDate).toLocaleString()}
                     </p>
 
                     <p>
+                        <b>Payment :</b>
 
-                        Status : ${order.orderStatus}
+                        ${order.paymentStatus}
+                    </p>
 
+                    <p>
+                        <b>Order Status :</b>
+
+                        ${order.status}
+                    </p>
+
+                    <p>
+                        <b>Total Amount :</b>
+
+                        ₹${order.totalAmount}
+                    </p>
+
+                    <p>
+                        <b>Tracking No :</b>
+
+                        ${order.trackingNumber}
                     </p>
 
                 </div>
 
+                ${productsHtml}
+
                 <div class="actions">
 
-                    ${
-                        order.paymentStatus == "SUCCESS"
+                    <button class="track"
+                        onclick="window.location.href='TrackOrder.html?orderId=${order.orderId}'">
 
-                        ?
+                        Track Order
 
-                        `
-                        <button class="track">
-                            Track Order
-                        </button>
+                    </button>
 
-                        <button class="invoice">
-                            Download Invoice
-                        </button>
+                    <button class="invoice"
+                        onclick="window.location.href='Invoice.html?orderId=${order.orderId}'">
 
-                        <button class="review">
-                            Rate & Review
-                        </button>
-                        `
+                        Download Invoice
 
-                        :
+                    </button>
 
-                        order.paymentStatus == "PENDING"
+                    ${order.status != "CANCELLED"
+                      && order.status != "DELIVERED"
 
-                        ?
+                    ?
 
-                        `
-                        <button class="track">
-                            Track Order
-                        </button>
+                    `
 
-                        <button class="cancel">
-                            Cancel Order
-                        </button>
-                        `
+                    <button class="cancel"
+                        onclick="cancelOrder(${order.orderId})">
 
-                        :
+                        Cancel Order
 
-                        `
-                        <button class="retry">
-                            Retry Payment
-                        </button>
-                        `
+                    </button>
+
+                    `
+
+                    :
+
+                    ""
+
                     }
 
                 </div>
@@ -109,37 +157,93 @@ function filterOrders(status) {
 
             `;
 
+        });
+
+        if (html === "") {
+
+            html = `
+
+            <h2 style="text-align:center;margin-top:50px;">
+
+                No Orders Found
+
+            </h2>
+
+            `;
+
         }
 
-    });
+        document.getElementById("orderList").innerHTML = html;
 
-    document.getElementById("orderList").innerHTML = html;
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
 
 }
 
+async function cancelOrder(orderId) {
+
+    if (!confirm("Cancel this order?")) {
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/orders/cancel/${orderId}`,
+
+            {
+
+                method: "PUT"
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Unable to cancel order");
+
+        }
+
+        alert("Order Cancelled Successfully");
+
+        filterOrders("ALL");
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
 
 document.getElementById("searchBox")
 .addEventListener("keyup", function () {
 
     let value = this.value.toLowerCase();
 
-    let cards = document.querySelectorAll(".order-card");
+    document.querySelectorAll(".order-card")
+        .forEach(card => {
 
-    cards.forEach(card => {
+            card.style.display =
+                card.innerText.toLowerCase().includes(value)
+                ? "block"
+                : "none";
 
-        let text = card.innerText.toLowerCase();
-
-        if (text.includes(value)) {
-
-            card.style.display = "flex";
-
-        }
-        else {
-
-            card.style.display = "none";
-
-        }
-
-    });
+        });
 
 });

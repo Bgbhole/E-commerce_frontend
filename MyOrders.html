@@ -1,90 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>My Orders</title>
     <link rel="stylesheet" href="MyOrders.css">
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <div class="header">
+        <div class="header">
 
-        <h1>My Orders</h1>
+            <h1>My Orders</h1>
 
-        <input type="text"
-               placeholder="Search your orders"
-               id="searchBox">
-
-    </div>
-
-    <div class="filters">
-
-        <button onclick="filterOrders('ALL')">
-            All
-        </button>
-
-        <button onclick="filterOrders('SUCCESS')">
-            Successful
-        </button>
-
-        <button onclick="filterOrders('PENDING')">
-            Pending
-        </button>
-
-        <button onclick="filterOrders('FAILED')">
-            Failed
-        </button>
-
-    </div>
-
-    <div id="orderList">
-
-        <div class="order-card">
-
-            <div class="image-box">
-                <img src="images/iphone.jpg">
-            </div>
-
-            <div class="details">
-
-                <h2>Apple iPhone 16 Pro</h2>
-
-                <p>Color : Black Titanium</p>
-
-                <p>₹1,19,999</p>
-
-                <p>Order ID : 12547896</p>
-
-                <p class="success">
-                    ● Delivered Successfully
-                </p>
-
-            </div>
-
-            <div class="actions">
-
-                <button class="track">
-                    Track Order
-                </button>
-
-                <button class="invoice">
-                    Download Invoice
-                </button>
-
-                <button class="review">
-                    Rate & Review
-                </button>
-
-            </div>
+            <input type="text"
+                   id="searchBox"
+                   placeholder="Search your orders">
 
         </div>
 
-    </div>
+        <div class="filters">
+<div class="filters">
+
+    <button onclick="filterOrders('ALL')">All</button>
+
+    <button onclick="filterOrders('ORDER_CONFIRMED')">
+        Confirmed
+    </button>
+
+    <button onclick="filterOrders('PACKED')">
+        Packed
+    </button>
+
+    <button onclick="filterOrders('SHIPPED')">
+        Shipped
+    </button>
+
+    <button onclick="filterOrders('OUT_FOR_DELIVERY')">
+        Out For Delivery
+    </button>
+
+    <button onclick="filterOrders('DELIVERED')">
+        Delivered
+    </button>
+
+    <button onclick="filterOrders('CANCELLED')">
+        Cancelled
+    </button>
 
 </div>
 
-<script src="MyOrders.js"></script>
+        </div>
+
+        <!-- Orders will be loaded dynamically here -->
+        <div id="orderList"></div>
+
+    </div>
+
+    <script src="api-config.js"></script>
+    <script src="MyOrders.js"></script>
 
 </body>
+
 </html>

@@ -1,35 +1,94 @@
-let seller =
-JSON.parse(localStorage.getItem("currentUser"));
+let seller = JSON.parse(localStorage.getItem("currentUser"));
 
-window.onload = loadEarnings;
+window.onload = function () {
+    loadEarnings();
+};
 
-async function loadEarnings(){
+async function loadEarnings() {
 
-    let response =
-    await fetch(`http://localhost:8080/api/orders/seller/${seller.sellerId}`);
+    try {
 
-    let orders = await response.json();
+        console.log("Current User:", seller);
 
-    let total = 0;
-
-    orders.forEach(order=>{
-
-        if(order.status=="DELIVERED"){
-            total += order.totalAmount;
+        if (!seller) {
+            alert("Please login first.");
+            return;
         }
 
-    });
+        // Support both sellerId and id
+        let sellerId = seller.sellerId || seller.id;
 
-    document.getElementById("today").innerHTML =
-        "₹" + total;
+        if (!sellerId) {
+            alert("Seller ID not found.");
+            console.log("Seller Object:", seller);
+            return;
+        }
 
-    document.getElementById("monthly").innerHTML =
-        "₹" + total;
+        let response = await fetch(`${API_BASE_URL}/api/orders/seller/${sellerId}`);
 
-    document.getElementById("total").innerHTML =
-        "₹" + total;
+        if (!response.ok) {
+            throw new Error("Failed to load orders");
+        }
 
-    document.getElementById("profit").innerHTML =
-        "₹" + (total * 0.20);
+        let orders = await response.json();
 
+        console.log("Orders:", orders);
+
+        if (!Array.isArray(orders)) {
+            console.error("Expected an array but received:", orders);
+            return;
+        }
+
+        let today = 0;
+        let monthly = 0;
+        let total = 0;
+        let profit = 0;
+
+        let now = new Date();
+
+        orders.forEach(order => {
+
+            if (order.status !== "DELIVERED") {
+                return;
+            }
+
+            let amount = Number(order.totalAmount || 0);
+
+            total += amount;
+
+            let orderDate = new Date(order.orderDate);
+
+            // Today's earnings
+            if (
+                orderDate.getDate() === now.getDate() &&
+                orderDate.getMonth() === now.getMonth() &&
+                orderDate.getFullYear() === now.getFullYear()
+            ) {
+                today += amount;
+            }
+
+            // Monthly earnings
+            if (
+                orderDate.getMonth() === now.getMonth() &&
+                orderDate.getFullYear() === now.getFullYear()
+            ) {
+                monthly += amount;
+            }
+
+            // Profit (20%)
+            profit += amount * 0.20;
+
+        });
+
+        document.getElementById("today").innerHTML = "₹" + today.toFixed(2);
+        document.getElementById("monthly").innerHTML = "₹" + monthly.toFixed(2);
+        document.getElementById("total").innerHTML = "₹" + total.toFixed(2);
+        document.getElementById("profit").innerHTML = "₹" + profit.toFixed(2);
+
+    } catch (error) {
+
+        console.error("Error:", error);
+        alert("Unable to load earnings.");
+
+    }
 }

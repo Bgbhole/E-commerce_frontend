@@ -1,32 +1,55 @@
 async function adminLogin() {
 
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
 
-    let response = await fetch("http://localhost:8080/api/admin/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password
-        })
-    });
+    if (email === "" || password === "") {
 
-    if (response.ok) {
+        alert("Please enter Email and Password");
 
-        let admin = await response.json();
+        return;
+    }
 
-        localStorage.setItem("currentAdmin", JSON.stringify(admin));
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/login`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Invalid Email or Password");
+
+        }
+
+        const admin = await response.json();
+
+        localStorage.setItem(
+            "currentAdmin",
+            JSON.stringify(admin)
+        );
 
         alert("Login Successful");
 
         window.location.href = "AdminDashboard.html";
 
-    } else {
+    }
+    catch (error) {
 
-        alert("Invalid Email or Password");
+        console.log(error);
+
+        alert(error.message);
 
     }
+
 }

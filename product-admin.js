@@ -1,3 +1,13 @@
+
+const currentAdmin =
+JSON.parse(localStorage.getItem("currentAdmin"));
+
+if (!currentAdmin) {
+
+    window.location.href = "AdminLogin.html";
+
+}
+
 let products = JSON.parse(localStorage.getItem("products")) || [];
 
 let editIndex = -1;

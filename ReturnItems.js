@@ -3,7 +3,7 @@ window.onload = loadReturns;
 async function loadReturns(){
 
     let response =
-    await fetch("http://localhost:8080/api/returns");
+    await fetch(`${API_BASE_URL}/api/returns`);
 
     let returns = await response.json();
 
