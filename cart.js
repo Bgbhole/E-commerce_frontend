@@ -217,6 +217,6 @@ async function removeItem(cartId) {
 
 function goCheckout() {
 
-    window.location.href = "Checkout.html";
+    window.location.href = "checkout.html";
 
 }
