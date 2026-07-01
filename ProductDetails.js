@@ -13,7 +13,7 @@ async function loadProduct() {
         let product = await response.json();
 
         document.getElementById("image").src =
-            `${API_BASE_URL}/images/${product.image}`;
+            `${API_BASE_URL}/uploads/${product.image}`;
 
         document.getElementById("name").innerHTML =
             product.productName;

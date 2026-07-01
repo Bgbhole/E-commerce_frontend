@@ -68,7 +68,7 @@ document.getElementById("nomineeMobile").value,
         if (response.ok) {
 
             alert("Seller Registration Successful");
-            window.location.href = "SellerLogin.html";
+            window.location.href = "loginpage.html";
 
         } else {
 

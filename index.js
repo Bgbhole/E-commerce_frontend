@@ -1,3 +1,7 @@
+let bannerProducts = [];
+
+let bannerIndex = 0;
+
 let products = [];
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
@@ -14,7 +18,7 @@ window.onload = async function () {
 
     await loadCartCount();
 
-}
+};
 
 // =====================
 // Load Products
@@ -25,6 +29,9 @@ async function loadProducts() {
 
         const response = await fetch(`${API_BASE_URL}/api/products/all`);
         products = await response.json();
+        bannerProducts = products;
+
+startBanner();
 
         const box = document.getElementById("products");
         box.innerHTML = "";
@@ -42,7 +49,7 @@ async function loadProducts() {
 
                <img class="product-img"
      src="${API_BASE_URL}/uploads/${product.image}"
-     alt="${product.productName}"
+     alt="${product.productName}">
 
 
                 <h3>${product.productName}</h3>
@@ -258,19 +265,19 @@ async function loadCartCount() {
 // =====================
 function openProfile() {
 
-    window.location.href = "Profile.html";
+    window.location.href = "profile.html";
 
 }
 
 function openWishlist() {
 
-    window.location.href = "Wishlist.html";
+    window.location.href = "wishlist.html";
 
 }
 
 function openCart() {
 
-    window.location.href = "Cart.html";
+    window.location.href = "cart.html";
 
 }
 
@@ -312,5 +319,69 @@ function logout() {
     alert("Logged Out Successfully");
 
     window.location.href = "index.html";
+
+}
+
+
+
+// =====================
+// Banner Slider
+// =====================
+
+function startBanner() {
+
+    if (bannerProducts.length === 0) {
+
+        return;
+
+    }
+
+    changeBanner();
+
+    setInterval(changeBanner, 3000);
+
+}
+
+function changeBanner() {
+
+    let product = bannerProducts[bannerIndex];
+
+    document.getElementById("banner").src =
+        `${API_BASE_URL}/uploads/${product.image}`;
+
+    document.getElementById("bannerName").innerHTML =
+        product.productName;
+
+    document.getElementById("bannerPrice").innerHTML =
+        "₹" + product.finalPrice;
+
+    let discount = 0;
+
+    if (product.sellingPrice > 0) {
+
+        discount = Math.round(
+            ((product.sellingPrice - product.finalPrice)
+                / product.sellingPrice) * 100
+        );
+
+    }
+
+    document.getElementById("bannerDiscount").innerHTML =
+        discount + "% OFF";
+
+    document.getElementById("bannerBtn").onclick = function () {
+
+        window.location.href =
+            "ProductDetails.html?id=" + product.productId;
+
+    };
+
+    bannerIndex++;
+
+    if (bannerIndex >= bannerProducts.length) {
+
+        bannerIndex = 0;
+
+    }
 
 }
