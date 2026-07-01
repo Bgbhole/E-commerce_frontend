@@ -3,7 +3,7 @@ let bannerProducts = [];
 let bannerIndex = 0;
 
 let products = [];
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
 
 // =====================
 // Page Load
@@ -14,7 +14,7 @@ window.onload = async function () {
 
     await loadProducts();
 
-    updateWishCount();
+  await loadWishlistCount();
 
     await loadCartCount();
 
@@ -125,9 +125,11 @@ async function addToWishlist(productId) {
 
         if(response.ok){
 
-            alert("Added to Wishlist");
+    alert("Added to Wishlist");
 
-        }
+    await loadWishlistCount();
+
+}
         else{
 
             let msg = await response.text();
@@ -147,10 +149,42 @@ async function addToWishlist(productId) {
 
 }
 
-function updateWishCount() {
+async function loadWishlistCount() {
 
-    document.getElementById("wishCount").innerHTML =
-        wishlist.length;
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+
+        document.getElementById("wishCount").innerHTML = 0;
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/wishlist/user/${user.id}`
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load wishlist");
+
+        }
+
+        const wishlist = await response.json();
+
+        document.getElementById("wishCount").innerHTML =
+            wishlist.length;
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("wishCount").innerHTML = 0;
+
+    }
 
 }
 
