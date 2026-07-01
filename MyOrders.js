@@ -12,7 +12,7 @@ async function filterOrders(status) {
 
         alert("Please Login");
 
-        window.location.href = "Login.html";
+        window.location.href = "loginpage.html";
 
         return;
 
@@ -44,18 +44,25 @@ async function filterOrders(status) {
 
             order.orderItems.forEach(item => {
 
+                let image = item.image
+                    ? `${API_BASE_URL}/uploads/${item.image}`
+                    : "images/no-image.png";
+
+                let productName = item.productName || "Product Not Available";
+
+                let brand = item.brand || "-";
+
                 productsHtml += `
 
                 <div class="ordered-product">
 
-                    <img src="${API_BASE_URL}/images/${item.product.image}"
-                         width="100">
+                    <img src="${image}" width="100">
 
                     <div>
 
-                        <h3>${item.product.productName}</h3>
+                        <h3>${productName}</h3>
 
-                        <p><b>Brand :</b> ${item.product.brand}</p>
+                        <p><b>Brand :</b> ${brand}</p>
 
                         <p><b>Quantity :</b> ${item.quantity}</p>
 
@@ -80,33 +87,43 @@ async function filterOrders(status) {
                     <h2>Order #${order.orderId}</h2>
 
                     <p>
+
                         <b>Order Date :</b>
 
                         ${new Date(order.orderDate).toLocaleString()}
+
                     </p>
 
                     <p>
+
                         <b>Payment :</b>
 
                         ${order.paymentStatus}
+
                     </p>
 
                     <p>
+
                         <b>Order Status :</b>
 
                         ${order.status}
+
                     </p>
 
                     <p>
+
                         <b>Total Amount :</b>
 
                         ₹${order.totalAmount}
+
                     </p>
 
                     <p>
+
                         <b>Tracking No :</b>
 
                         ${order.trackingNumber}
+
                     </p>
 
                 </div>
@@ -129,8 +146,8 @@ async function filterOrders(status) {
 
                     </button>
 
-                    ${order.status != "CANCELLED"
-                      && order.status != "DELIVERED"
+                    ${order.status !== "CANCELLED" &&
+                      order.status !== "DELIVERED"
 
                     ?
 
