@@ -5,7 +5,7 @@ if (!admin) {
 
     alert("Please login as Admin.");
 
-    window.location.href = "AdminLogin.html";
+    window.location.href = "admin-log.html";
 
 }
    
