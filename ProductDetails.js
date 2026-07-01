@@ -111,7 +111,7 @@ async function buyNow() {
 
         alert("Please Login First");
 
-        window.location.href = "loginpage.html";
+        window.location.href = "checkout.html";
 
         return;
     }
