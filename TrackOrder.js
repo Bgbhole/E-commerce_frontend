@@ -58,17 +58,24 @@ document.getElementById("deliveryMobile").innerHTML =
 
 order.orderItems.forEach(item => {
 
+    const image = item.image
+        ? `${API_BASE_URL}/uploads/${item.image}`
+        : "images/no-image.png";
+
     productsHTML += `
 
     <div class="product-section">
 
-        <img src="${API_BASE_URL}/images/${item.product.image}">
+        <img src="${image}" alt="Product">
 
         <div class="product-info">
 
-            <h2>${item.product.productName}</h2>
+            <h2>${item.productName || "Product"}</h2>
 
-            <p>${item.product.description}</p>
+            <p>
+                Brand : ${item.brand || "-"} <br>
+                Category : ${item.category || "-"}
+            </p>
 
             <div class="price-row">
 
@@ -87,12 +94,7 @@ order.orderItems.forEach(item => {
     `;
 
 });
-
-document.querySelector(".order-card")
-.insertAdjacentHTML(
-    "beforeend",
-    productsHTML
-);       
+document.getElementById("productsContainer").innerHTML = productsHTML;     
 
        let estimated =
 new Date(order.orderDate);
