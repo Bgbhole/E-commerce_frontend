@@ -204,61 +204,73 @@ function logout() {
 
 }
 
-function changePassword(){
+async function changePassword() {
 
-    let user =
-        JSON.parse(localStorage.getItem("currentUser"));
+    const user = JSON.parse(localStorage.getItem("currentUser"));
 
-   let data = {
+    const newPassword =
+        document.getElementById("newPassword").value;
 
-    userId: user.id,
-
-    oldPassword:
-        document.getElementById("oldPassword").value,
-
-    newPassword:
-        document.getElementById("newPassword").value
-
-};
-
-fetch(`${API_BASE_URL}/api/users/change-password`, {
-
-    method: "PUT",
-
-    headers: {
-        "Content-Type": "application/json"
-    },
-
-    body: JSON.stringify(data)
-
-});
-
-    let confirmPassword=
+    const confirmPassword =
         document.getElementById("confirmPassword").value;
 
-    if(data.newPassword!=confirmPassword){
+    if (newPassword === "") {
+
+        alert("Please enter new password");
+
+        return;
+
+    }
+
+    if (newPassword !== confirmPassword) {
 
         alert("Passwords do not match");
 
         return;
+
     }
 
-    fetch(`${API_BASE_URL}/api/users/change-password`,{
+    const data = {
 
-        method:"PUT",
+        userId: user.id,
+        newPassword: newPassword
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+    };
 
-        body:JSON.stringify(data)
+    try {
 
-    })
-    .then(response=>response.text())
-    .then(message=>{
+        const response = await fetch(
+            `${API_BASE_URL}/api/users/change-password`,
+            {
+
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+
+            }
+        );
+
+        const message = await response.text();
 
         alert(message);
 
-    });
+        if (response.ok) {
+
+            document.getElementById("newPassword").value = "";
+            document.getElementById("confirmPassword").value = "";
+
+        }
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert("Server Error");
+
+    }
 
 }

@@ -141,6 +141,7 @@ async function loadPrice() {
 
 }
 
+
 // =====================
 // Proceed to Payment
 // =====================

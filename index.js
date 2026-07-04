@@ -12,13 +12,22 @@ window.onload = async function () {
 
     updateNavbar();
 
+    // Hide Admin after customer login
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+        document.getElementById("adminLink").style.display = "none";
+    }
+
     await loadProducts();
 
-  await loadWishlistCount();
+    await loadWishlistCount();
 
     await loadCartCount();
 
 };
+
+
 
 // =====================
 // Load Products
@@ -323,6 +332,7 @@ function updateNavbar() {
     const loginBtn = document.getElementById("loginBtn");
     const profileBtn = document.getElementById("profileBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const adminLink = document.getElementById("adminLink");
 
     if (user) {
 
@@ -330,29 +340,23 @@ function updateNavbar() {
         profileBtn.style.display = "inline";
         logoutBtn.style.display = "inline";
 
+        // Hide Admin after login
+        if(adminLink){
+            adminLink.style.display = "none";
+        }
+
     } else {
 
         loginBtn.style.display = "inline";
         profileBtn.style.display = "none";
         logoutBtn.style.display = "none";
 
+        // Show Admin before login
+        if(adminLink){
+            adminLink.style.display = "inline";
+        }
+
     }
-
-}
-
-function goLogin() {
-
-    window.location.href = "loginpage.html";
-
-}
-
-function logout() {
-
-    localStorage.removeItem("currentUser");
-
-    alert("Logged Out Successfully");
-
-    window.location.href = "index.html";
 
 }
 

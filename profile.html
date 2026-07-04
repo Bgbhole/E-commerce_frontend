@@ -5,7 +5,17 @@
     <link rel="stylesheet" href="profile.css">
 </head>
 <body>
+<div class="top-bar">
 
+    <button class="nav-btn" onclick="window.location.href='index.html'">
+        🏠 Home
+    </button>
+
+    <button class="nav-btn" onclick="history.back()">
+        ← Back
+    </button>
+
+</div>
 <div class="container">
 
     <!-- Sidebar -->
@@ -134,9 +144,6 @@
 
            <h3>Change Password</h3>
 
-<input type="password"
-       id="oldPassword"
-       placeholder="Old Password">
 
 <input type="password"
        id="newPassword"

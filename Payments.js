@@ -335,32 +335,85 @@ function deleteCard(index) {
 }
 
 
-function payNow() {
+async function payNow() {
 
-    let selected =
-        document.querySelector('input[name="paymentMethod"]:checked');
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    const deliveryAddressId = localStorage.getItem("deliveryAddressId");
+    const billingAddressId = localStorage.getItem("billingAddressId");
+
+    const selected = document.querySelector(
+        'input[name="paymentMethod"]:checked'
+    );
 
     if (!selected) {
-
         alert("Please select payment method");
+        return;
+    }
+
+    const paymentMethod = selected.value;
+
+    const body = {
+        userId: user.id,
+        deliveryAddressId: Number(deliveryAddressId),
+        billingAddressId: Number(billingAddressId),
+        paymentMethod: paymentMethod
+    };
+
+    // CARD
+    if (paymentMethod.startsWith("card")) {
+
+        localStorage.setItem("orderRequest", JSON.stringify(body));
+
+        window.location.href = "OtpPage.html";
 
         return;
     }
 
-    localStorage.setItem(
-        "selectedPaymentMethod",
-        selected.value);
+    // UPI
+    if (paymentMethod.startsWith("upi")) {
 
-    if(selected.value.startsWith("card")){
+        localStorage.setItem("orderRequest", JSON.stringify(body));
 
-        window.location.href="OtpPage.html";
+        window.location.href = "PaymentSuccessful.html";
+
+        return;
+    }
+
+    // COD
+    if (paymentMethod === "COD") {
+
+    const response = await fetch(`${API_BASE_URL}/api/orders/place`, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(body)
+
+    });
+
+    if (!response.ok) {
+
+        alert("Unable to place order");
+        return;
 
     }
-    else{
 
-        window.location.href="PaymentSuccess.html";
+    const order = await response.json();
 
-    }
+    alert("Order Placed Successfully");
+
+    localStorage.removeItem("deliveryAddressId");
+    localStorage.removeItem("billingAddressId");
+    localStorage.removeItem("orderRequest");
+
+    window.location.href = "MyOrders.html";
+}
 
 }
+
+
 
