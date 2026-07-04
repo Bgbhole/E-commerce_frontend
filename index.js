@@ -398,8 +398,8 @@ function changeBanner() {
     if (product.sellingPrice > 0) {
 
         discount = Math.round(
-            ((product.sellingPrice - product.finalPrice)
-                / product.sellingPrice) * 100
+            ((product.sellingPrice - product.finalPrice) /
+             product.sellingPrice) * 100
         );
 
     }
@@ -417,9 +417,17 @@ function changeBanner() {
     bannerIndex++;
 
     if (bannerIndex >= bannerProducts.length) {
-
         bannerIndex = 0;
-
     }
+}
 
+// OUTSIDE changeBanner()
+function logout() {
+
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("deliveryAddressId");
+    localStorage.removeItem("billingAddressId");
+    localStorage.removeItem("orderRequest");
+
+    window.location.href = "loginpage.html";
 }
