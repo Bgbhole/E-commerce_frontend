@@ -215,21 +215,53 @@ function addCard() {
 
     let user = JSON.parse(localStorage.getItem("currentUser"));
 
+    let cardName = document.getElementById("cardName").value.trim();
+    let cardNumber = document.getElementById("cardNumber").value.trim();
+    let expiryDate = document.getElementById("expiryDate").value.trim();
+    let cvv = document.getElementById("cvv").value.trim();
+
+    if (cardName === "") {
+        alert("Please enter Card Holder Name");
+        return;
+    }
+
+    if (cardNumber === "") {
+        alert("Please enter Card Number");
+        return;
+    }
+
+    if (!/^\d{16}$/.test(cardNumber.replace(/\s/g, ""))) {
+        alert("Card Number must be 16 digits");
+        return;
+    }
+
+    if (expiryDate === "") {
+        alert("Please enter Expiry Date");
+        return;
+    }
+
+    if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+        alert("Expiry Date should be in MM/YY format");
+        return;
+    }
+
+    if (cvv === "") {
+        alert("Please enter CVV");
+        return;
+    }
+
+    if (!/^\d{3}$/.test(cvv)) {
+        alert("CVV must be 3 digits");
+        return;
+    }
+
     let card = {
 
         customerId: user.id,
-
-        cardHolderName:
-            document.getElementById("cardName").value,
-
-        cardNumber:
-            document.getElementById("cardNumber").value,
-
-        expiryDate:
-            document.getElementById("expiryDate").value,
-
-        cvv:
-            document.getElementById("cvv").value
+        cardHolderName: cardName,
+        cardNumber: cardNumber,
+        expiryDate: expiryDate,
+        cvv: cvv
 
     };
 
@@ -248,6 +280,11 @@ function addCard() {
     .then(data => {
 
         alert("Card Saved Successfully");
+
+        document.getElementById("cardName").value = "";
+        document.getElementById("cardNumber").value = "";
+        document.getElementById("expiryDate").value = "";
+        document.getElementById("cvv").value = "";
 
         loadCards();
 
@@ -361,14 +398,21 @@ async function payNow() {
     };
 
     // CARD
-    if (paymentMethod.startsWith("card")) {
+   if (paymentMethod.startsWith("card")) {
 
-        localStorage.setItem("orderRequest", JSON.stringify(body));
+    const selectedCard = document.querySelector('input[name="paymentMethod"]:checked');
 
-        window.location.href = "OtpPage.html";
-
+    if (!selectedCard) {
+        alert("Please select a saved card");
         return;
     }
+
+    localStorage.setItem("orderRequest", JSON.stringify(body));
+
+    window.location.href = "OtpPage.html";
+
+    return;
+}
 
     // UPI
     if (paymentMethod.startsWith("upi")) {
@@ -410,7 +454,7 @@ async function payNow() {
     localStorage.removeItem("billingAddressId");
     localStorage.removeItem("orderRequest");
 
-    window.location.href = "MyOrders.html";
+   window.location.replace("MyOrders.html"); 
 }
 
 }

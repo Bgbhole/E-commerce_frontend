@@ -9,6 +9,7 @@ async function verifyOtp() {
         return;
 
     }
+    
 
     const order = JSON.parse(localStorage.getItem("orderRequest"));
 
@@ -37,15 +38,15 @@ async function verifyOtp() {
 
         if (!response.ok) {
 
-            const error = await response.text();
+    const error = await response.text();
 
-            console.log(error);
+    console.log("Backend Error:", error);
 
-            alert("Order could not be placed");
+    alert(error);
 
-            return;
+    return;
 
-        }
+}
 
         localStorage.removeItem("orderRequest");
 

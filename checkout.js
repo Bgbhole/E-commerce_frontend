@@ -92,6 +92,42 @@ async function loadAddresses() {
 
 async function loadPrice() {
 
+    // ==========================
+    // BUY NOW
+    // ==========================
+
+    let buyNowProduct = JSON.parse(localStorage.getItem("buyNowProduct"));
+
+    if (buyNowProduct) {
+
+        let totalItems = 1;
+
+        let productPrice = buyNowProduct.finalPrice;
+
+        let deliveryCharge = productPrice > 250 ? 0 : 40;
+
+        let totalAmount = productPrice + deliveryCharge;
+
+        document.getElementById("itemsCount").innerHTML = totalItems;
+
+        document.getElementById("productPrice").innerHTML =
+            productPrice.toFixed(2);
+
+        document.getElementById("deliveryCharge").innerHTML =
+            deliveryCharge === 0 ? "FREE" : "₹" + deliveryCharge;
+
+        document.getElementById("totalAmount").innerHTML =
+            totalAmount.toFixed(2);
+
+        localStorage.setItem("orderAmount", totalAmount);
+
+        return;
+    }
+
+    // ==========================
+    // CART
+    // ==========================
+
     try {
 
         const response = await fetch(
@@ -99,17 +135,21 @@ async function loadPrice() {
         );
 
         if (!response.ok) {
+
             throw new Error("Unable to load cart.");
+
         }
 
         const cart = await response.json();
 
         let productPrice = 0;
+
         let totalItems = 0;
 
         cart.forEach(item => {
 
             productPrice += item.product.finalPrice * item.quantity;
+
             totalItems += item.quantity;
 
         });
@@ -131,7 +171,9 @@ async function loadPrice() {
 
         localStorage.setItem("orderAmount", totalAmount);
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
 

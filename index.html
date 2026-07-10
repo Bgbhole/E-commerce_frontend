@@ -1,156 +1,692 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ShopKart</title>
+    <title>Login</title>
     <link rel="stylesheet" href="index.css">
+
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
+
 <body>
 
-<!-- Navbar -->
-<div class="navbar">
+<!-- ===================== NAVBAR ===================== -->
 
-    <div class="logo">ShopKart</div>
+<header class="navbar">
 
-    <input type="text" id="search" placeholder="Search products">
+    <div class="logo">
 
-   <div class="menu">
+        <a href="index.html">
 
-    <a href="#"
-       id="loginBtn"
-       onclick="goLogin()">
-       Login
-    </a>
+            <h2>ShopKart</h2>
 
-    <a href="#"
-       id="profileBtn"
-       onclick="openProfile()"
-       style="display:none;">
-       Profile
-    </a>
+            <span>Explore <b>Plus</b></span>
 
-    <a href="#"
-       onclick="openWishlist()">
-        ❤️ Wishlist (<span id="wishCount">0</span>)
-    </a>
+        </a>
 
-    <a href="#"
-       onclick="openCart()">
-        🛒 Cart (<span id="count">0</span>)
-    </a>
+    </div>
 
-    <a href="#"
-       id="logoutBtn"
-       onclick="logout()"
-       style="display:none;">
-       Logout
-    </a>
+   <div class="search-box">
 
-    <!-- Admin Login -->
-   <a href="admin-log.html" id="adminLink">🧑 Admin</a>
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Search for Products, Brands and More..."
+        autocomplete="off">
+
+    <div id="searchSuggestions" class="search-suggestions">
+
+    </div>
 
 </div>
 
+    <div class="nav-menu">
 
+        <a href="index.html">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </a>
+
+        <div class="dropdown">
+
+        
+
+            <div class="dropdown-content">
+
+                <a href="#" onclick="showCategory('Mobile')">
+
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+
+                    Mobiles
+
+                </a>
+
+                <a href="#" onclick="showCategory('Electronics')">
+
+                    <i class="fa-solid fa-laptop"></i>
+
+                    Electronics
+
+                </a>
+
+                <a href="#" onclick="showCategory('Fashion')">
+
+                    <i class="fa-solid fa-shirt"></i>
+
+                    Fashion
+
+                </a>
+
+                <a href="#" onclick="showCategory('Furniture')">
+
+                    <i class="fa-solid fa-couch"></i>
+
+                    Furniture
+
+                </a>
+
+                <a href="#" onclick="showCategory('Home')">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    Home
+
+                </a>
+
+                <a href="#" onclick="showAll()">
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                    All Products
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="Myorders.html">
+
+            <i class="fa-solid fa-box"></i>
+
+            Orders
+
+        </a>
+
+        <a href="#" onclick="openWishlist()">
+
+           <i class="fa-regular fa-heart"></i>
+
+            Wishlist
+
+            <span id="wishCount">0</span>
+
+        </a>
+
+        <a href="#" onclick="openCart()">
+
+            <i class="fa-solid fa-cart-shopping"></i>
+
+            Cart
+
+            <span id="count">0</span>
+
+        </a>
+
+        <a href="admin-log.html" id="adminLink" class="nav-link">
+    <i class="fa-solid fa-user-shield"></i>
+    Admin
+</a>
+
+        <button id="loginBtn" onclick="goLogin()">
+
+            Login
+
+        </button>
+
+        <button
+            id="profileBtn"
+            onclick="openProfile()"
+            style="display:none;">
+
+            Profile
+
+        </button>
+
+        <button
+            id="logoutBtn"
+            onclick="logout()"
+            style="display:none;">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</header>
+
+<!-- ===================== CATEGORY ===================== -->
+
+<section class="categories">
+
+    <div class="category-card" onclick="showCategory('Mobile')">
+
+        <i class="fa-solid fa-mobile-screen-button"></i>
+
+        <p>Mobiles</p>
+
+    </div>
+
+    <div class="category-card" onclick="showCategory('Electronics')">
+
+        <i class="fa-solid fa-laptop"></i>
+
+        <p>Electronics</p>
+
+    </div>
+
+    <div class="category-card" onclick="showCategory('Fashion')">
+
+        <i class="fa-solid fa-shirt"></i>
+
+        <p>Fashion</p>
+
+    </div>
+
+    <div class="category-card" onclick="showCategory('Furniture')">
+
+        <i class="fa-solid fa-couch"></i>
+
+        <p>Furniture</p>
+
+    </div>
+
+    <div class="category-card" onclick="showCategory('Books')">
+    <i class="fa-solid fa-book"></i>
+    <p>Books</p>
 </div>
 
-<!-- Categories -->
-<div class="category">
-
-    <button onclick="showCategory('Mobiles')">📱 Mobiles</button>
-
-    <button onclick="showCategory('Electronics')">💻 Electronics</button>
-
-    <button onclick="showCategory('Fashion')">👕 Fashion</button>
-
-    <button onclick="showAll()">🛍️ All Products</button>
-
+<div class="category-card" onclick="showCategory('Beauty')">
+    <i class="fa-solid fa-spa"></i>
+    <p>Beauty</p>
 </div>
 
-<!-- Banner -->
-<div class="slider">
+<div class="category-card" onclick="showCategory('Sports')">
+    <i class="fa-solid fa-football"></i>
+    <p>Sports</p>
+</div>
 
-    <div class="banner-content">
+<div class="category-card" onclick="showCategory('Grocery')">
+    <i class="fa-solid fa-basket-shopping"></i>
+    <p>Grocery</p>
+</div>
 
-        <div class="banner-text">
+<div class="category-card" onclick="showCategory('Toys')">
+    <i class="fa-solid fa-puzzle-piece"></i>
+    <p>Toys</p>
+</div>
 
-            <h1 id="bannerName"></h1>
+    <div class="category-card" onclick="showAll()">
 
-            <h2 id="bannerPrice"></h2>
+        <i class="fa-solid fa-layer-group"></i>
 
-            <p id="bannerDiscount"></p>
+        <p>All Products</p>
+
+    </div>
+
+</section>
+
+<!-- ===================== HERO STARTS HERE ===================== -->
+ <!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-text">
+
+            <span class="sale-tag">
+                BIG FESTIVAL SALE
+            </span>
+
+            <h1 id="bannerName">
+                Loading Product...
+            </h1>
+
+            <h2 id="bannerPrice">
+                ₹0
+            </h2>
+
+            <p id="bannerDiscount">
+                Up To 70% OFF
+            </p>
 
             <button id="bannerBtn">
+
                 Shop Now
+
             </button>
 
         </div>
 
-        <div class="banner-image">
+        <div class="hero-image">
 
-            <img id="banner">
+            <img
+                id="banner"
+                src=""
+                alt="Banner">
 
         </div>
 
     </div>
 
-</div>
+</section>
 
-<!-- Deals -->
-<div class="section-title">
-    <h2>🔥 Deals Of The Day</h2>
-</div>
+<!-- ================= FLASH SALE ================= -->
 
-<div class="products" id="products">
+<section class="section">
 
-</div>
+    <div class="title">
 
-<!-- Trending -->
-<div class="section-title">
-    <h2>⭐ Trending Products</h2>
-</div>
+        <h2>
 
-<div class="products" id="trendingProducts">
+            <i class="fa-solid fa-bolt"></i>
 
-</div>
+            Flash Sale
 
-<!-- Recommended -->
-<div class="section-title">
-    <h2>👍 Recommended For You</h2>
-</div>
+        </h2>
 
-<div class="products" id="recommendedProducts">
+        <div class="timer">
 
-</div>
+            Ends In :
 
-<!-- Footer -->
-<div class="footer">
+            <span id="hours">02</span> :
 
-    <div>
-        <h3>About</h3>
-        <p>Contact Us</p>
-        <p>About Us</p>
-        <p>Careers</p>
+            <span id="minutes">59</span> :
+
+            <span id="seconds">59</span>
+
+        </div>
+
     </div>
 
-    <div>
-        <h3>Help</h3>
-        <p>Payments</p>
-        <p>Shipping</p>
-        <p>Cancellation</p>
-        <p>FAQ</p>
+    <div
+        class="products"
+        id="flashProducts">
+
     </div>
 
-    <div>
-        <h3>Policy</h3>
-        <p>Terms Of Use</p>
-        <p>Privacy Policy</p>
-        <p>Return Policy</p>
+</section>
+
+<!-- ================= DEALS ================= -->
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+
+            <i class="fa-solid fa-fire"></i>
+
+            Deals Of The Day
+
+        </h2>
+
+        <a href="#">
+
+            View All
+
+        </a>
+
     </div>
 
-</div>
+    <div
+        class="products"
+        id="products">
+
+    </div>
+
+</section>
+
+<!-- ================= TRENDING ================= -->
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            Trending Products
+
+        </h2>
+
+    </div>
+
+    <div
+        class="products"
+        id="trendingProducts">
+
+    </div>
+
+</section>
+
+<!-- ================= BEST SELLERS ================= -->
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+
+            <i class="fa-solid fa-crown"></i>
+
+            Best Sellers
+
+        </h2>
+
+    </div>
+
+    <div
+        class="products"
+        id="bestSellerProducts">
+
+    </div>
+
+</section>
+
+<!-- ================= RECOMMENDED ================= -->
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+
+            <i class="fa-solid fa-thumbs-up"></i>
+
+            Recommended For You
+
+        </h2>
+
+    </div>
+
+    <div
+        class="products"
+        id="recommendedProducts">
+
+    </div>
+
+</section>
+<!-- ================= POPULAR BRANDS ================= -->
+
+<section class="brands-section">
+
+    <div class="title">
+
+        <h2>
+
+            <i class="fa-solid fa-award"></i>
+
+            Popular Brands
+
+        </h2>
+
+    </div>
+
+    <div class="brands">
+
+        <div class="brand-card">
+            <i class="fa-brands fa-apple"></i>
+            <p>Apple</p>
+        </div>
+
+        <div class="brand-card">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <p>Samsung</p>
+        </div>
+
+        <div class="brand-card">
+            <i class="fa-solid fa-laptop"></i>
+            <p>HP</p>
+        </div>
+
+        <div class="brand-card">
+            <i class="fa-solid fa-headphones"></i>
+            <p>Sony</p>
+        </div>
+
+        <div class="brand-card">
+            <i class="fa-solid fa-shirt"></i>
+            <p>Nike</p>
+        </div>
+
+        <div class="brand-card">
+            <i class="fa-solid fa-shoe-prints"></i>
+            <p>Adidas</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= WHY SHOP WITH US ================= -->
+
+<section class="features">
+
+    <div class="feature">
+
+        <i class="fa-solid fa-truck-fast"></i>
+
+        <h3>Free Delivery</h3>
+
+        <p>Fast delivery across India.</p>
+
+    </div>
+
+    <div class="feature">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+        <h3>Secure Payments</h3>
+
+        <p>100% secure payment gateway.</p>
+
+    </div>
+
+    <div class="feature">
+
+        <i class="fa-solid fa-rotate-left"></i>
+
+        <h3>Easy Returns</h3>
+
+        <p>7 Days easy return policy.</p>
+
+    </div>
+
+    <div class="feature">
+
+        <i class="fa-solid fa-headset"></i>
+
+        <h3>24×7 Support</h3>
+
+        <p>We're always here to help.</p>
+
+    </div>
+
+</section>
+
+<!-- ================= CUSTOMER REVIEWS ================= -->
+
+<section class="section">
+
+    <div class="title">
+
+        <h2>
+
+            <i class="fa-solid fa-star"></i>
+
+            Customer Reviews
+
+        </h2>
+
+    </div>
+
+    <div class="reviews">
+
+        <div class="review-card">
+
+            ⭐⭐⭐⭐⭐
+
+            <p>
+
+                Excellent shopping experience.
+
+            </p>
+
+            <h4>- Rahul</h4>
+
+        </div>
+
+        <div class="review-card">
+
+            ⭐⭐⭐⭐⭐
+
+            <p>
+
+                Product quality is amazing.
+
+            </p>
+
+            <h4>- Sneha</h4>
+
+        </div>
+
+        <div class="review-card">
+
+            ⭐⭐⭐⭐⭐
+
+            <p>
+
+                Fast delivery and easy returns.
+
+            </p>
+
+            <h4>- Amit</h4>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= NEWSLETTER ================= -->
+
+<section class="newsletter">
+
+    <h2>
+
+        Stay Updated
+
+    </h2>
+
+    <p>
+
+        Subscribe to receive our latest offers.
+
+    </p>
+
+    <div class="newsletter-box">
+
+        <input
+            type="email"
+            placeholder="Enter your Email">
+
+        <button>
+
+            Subscribe
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-top">
+
+        <div>
+
+            <h3>ABOUT</h3>
+
+            <a href="#">About Us</a>
+
+            <a href="#">Careers</a>
+
+            <a href="#">Corporate Information</a>
+
+        </div>
+
+        <div>
+
+            <h3>HELP</h3>
+
+            <a href="#">Payments</a>
+
+            <a href="#">Shipping</a>
+
+            <a href="#">Returns</a>
+
+            <a href="#">FAQ</a>
+
+        </div>
+
+        <div>
+
+            <h3>POLICY</h3>
+
+            <a href="#">Privacy Policy</a>
+
+            <a href="#">Terms & Conditions</a>
+
+            <a href="#">Security</a>
+
+        </div>
+
+        <div>
+
+            <h3>CONTACT</h3>
+
+            <p>Email : support@shopkart.com</p>
+
+            <p>Phone : +91 9876543210</p>
+
+            <p>India</p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 ShopKart | All Rights Reserved
+
+    </div>
+
+</footer>
 
 <script src="api-config.js"></script>
+
 <script src="index.js"></script>
 
 </body>
+
 </html>

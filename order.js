@@ -2,13 +2,24 @@ let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 displayOrders();
 
-function displayOrders(){
+
+// Prevent going back to Payment/Checkout
+history.pushState(null, null, location.href);
+
+window.addEventListener("popstate", function () {
+
+    window.location.replace("index.html");
+
+});
+
+
+function displayOrders() {
 
     let box = document.getElementById("orders");
 
     box.innerHTML = "";
 
-    orders.forEach((item,index)=>{
+    orders.forEach((item, index) => {
 
         box.innerHTML += `
         <div class="order">
@@ -35,13 +46,15 @@ function displayOrders(){
 
         </div>
         `;
+
     });
+
 }
 
 
-function cancelOrder(index){
+function cancelOrder(index) {
 
-    orders.splice(index,1);
+    orders.splice(index, 1);
 
     localStorage.setItem(
         "orders",
@@ -51,4 +64,5 @@ function cancelOrder(index){
     displayOrders();
 
     alert("Order Cancelled");
+
 }

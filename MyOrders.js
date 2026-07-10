@@ -1,3 +1,12 @@
+// Remove previous history entry
+history.pushState(null, null, location.href);
+
+window.addEventListener("popstate", function () {
+
+    window.location.replace("index.html");
+
+});
+
 window.onload = function () {
 
     filterOrders("ALL");

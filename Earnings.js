@@ -1,4 +1,4 @@
-let seller = JSON.parse(localStorage.getItem("currentUser"));
+let seller = JSON.parse(localStorage.getItem("currentSeller"));
 
 window.onload = function () {
     loadEarnings();
@@ -9,6 +9,7 @@ async function loadEarnings() {
     try {
 
         console.log("Current User:", seller);
+        
 
         if (!seller) {
             alert("Please login first.");
@@ -18,11 +19,11 @@ async function loadEarnings() {
         // Support both sellerId and id
         let sellerId = seller.sellerId || seller.id;
 
-        if (!sellerId) {
-            alert("Seller ID not found.");
-            console.log("Seller Object:", seller);
-            return;
-        }
+        if (!seller) {
+    alert("Please login as seller.");
+    window.location.href = "loginpage.html";
+    return;
+}
 
         let response = await fetch(`${API_BASE_URL}/api/orders/seller/${sellerId}`);
 

@@ -7,43 +7,25 @@ async function loadProduct() {
 
     try {
 
-        let response =
-            await fetch(`${API_BASE_URL}/api/products/${id}`);
+        let response = await fetch(`${API_BASE_URL}/api/products/${id}`);
 
         let product = await response.json();
 
+        console.log(product);
+        console.log(product.image);
+        console.log(`${API_BASE_URL}/uploads/${product.image}`);
+
+        // Show image
         document.getElementById("image").src =
             `${API_BASE_URL}/uploads/${product.image}`;
 
-        document.getElementById("name").innerHTML =
-            product.productName;
+        // Show product info
+        document.getElementById("name").innerHTML = product.productName;
+        document.getElementById("price").innerHTML = "₹" + product.finalPrice;
+        document.getElementById("description").innerHTML = product.description;
 
-        document.getElementById("price").innerHTML =
-            "₹" + product.finalPrice;
-
-        document.getElementById("description").innerHTML =
-            product.description;
-
-        document.getElementById("brand").innerHTML =
-            product.brand;
-
-        document.getElementById("category").innerHTML =
-            product.category;
-
-        document.getElementById("color").innerHTML =
-            product.color || "Not Available";
-
-        document.getElementById("weight").innerHTML =
-            product.weight || "Not Available";
-
-        document.getElementById("material").innerHTML =
-            product.material || "Not Available";
-
-        document.getElementById("warranty").innerHTML =
-            product.warranty || "Not Available";
-
-        document.getElementById("stock").innerHTML =
-            product.quantity;
+        // Show specifications
+        loadSpecifications(product);
 
     } catch (error) {
 
@@ -142,4 +124,60 @@ async function buyNow() {
 
 }
 
+function loadSpecifications(product) {
+
+    let html = "";
+
+    switch (product.category) {
+
+        case "Mobile":
+
+            html = `
+            <tr><td>Brand</td><td>${product.brand || "-"}</td></tr>
+            <tr><td>Category</td><td>${product.category}</td></tr>
+            <tr><td>Model</td><td>${product.model || "-"}</td></tr>
+            <tr><td>Color</td><td>${product.color || "-"}</td></tr>
+            <tr><td>RAM</td><td>${product.ram || "-"}</td></tr>
+            <tr><td>Storage</td><td>${product.storage || "-"}</td></tr>
+            <tr><td>Processor</td><td>${product.processor || "-"}</td></tr>
+            <tr><td>Battery</td><td>${product.battery || "-"}</td></tr>
+            <tr><td>Camera</td><td>${product.camera || "-"}</td></tr>
+            <tr><td>Display</td><td>${product.display || "-"}</td></tr>
+            <tr><td>Operating System</td><td>${product.operatingSystem || "-"}</td></tr>
+            <tr><td>Network</td><td>${product.network || "-"}</td></tr>
+            <tr><td>Warranty</td><td>${product.warranty || "-"}</td></tr>
+            <tr><td>Weight</td><td>${product.weight || "-"}</td></tr>
+            `;
+        break;
+
+        case "Furniture":
+
+            html = `
+            <tr><td>Brand</td><td>${product.brand || "-"}</td></tr>
+            <tr><td>Category</td><td>${product.category}</td></tr>
+            <tr><td>Material</td><td>${product.material || "-"}</td></tr>
+            <tr><td>Dimensions</td><td>${product.dimensions || "-"}</td></tr>
+            <tr><td>Color</td><td>${product.color || "-"}</td></tr>
+            <tr><td>Weight</td><td>${product.weight || "-"}</td></tr>
+            <tr><td>Finish</td><td>${product.finish || "-"}</td></tr>
+            <tr><td>Assembly</td><td>${product.assembly || "-"}</td></tr>
+            <tr><td>Room Type</td><td>${product.roomType || "-"}</td></tr>
+            <tr><td>Warranty</td><td>${product.warranty || "-"}</td></tr>
+            `;
+        break;
+
+        // Add Electronics, Fashion, Books,
+        // Grocery, Beauty, Sports,
+        // Toys, Home & Kitchen here...
+
+        default:
+
+            html = `
+            <tr><td>Brand</td><td>${product.brand || "-"}</td></tr>
+            <tr><td>Category</td><td>${product.category || "-"}</td></tr>
+            `;
+    }
+
+    document.getElementById("specificationTable").innerHTML = html;
+}
 

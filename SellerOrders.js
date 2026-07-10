@@ -1,46 +1,64 @@
-let seller = JSON.parse(localStorage.getItem(""));
+let seller = JSON.parse(localStorage.getItem("currentSeller"));
+
+if (!seller) {
+    alert("Please login as seller");
+    window.location.href = "loginpage.html";
+}
 
 window.onload = loadOrders;
 
 async function loadOrders() {
 
-    let response = await fetch(
-        `${API_BASE_URL}/api/orders/seller/${seller.sellerId}`
-    );
+    try {
 
-    let orders = await response.json();
+        let response = await fetch(
+            `${API_BASE_URL}/api/orders/seller/${seller.sellerId}`
+        );
 
-    let html = "";
+        if (!response.ok) {
+            throw new Error("Unable to load orders");
+        }
 
-    orders.forEach(order => {
+        let orders = await response.json();
 
-        html += `
-        <tr>
+        let html = "";
 
-            <td>${order.orderId}</td>
+        orders.forEach(order => {
 
-            <td>${order.user.firstName}</td>
+            html += `
+            <tr>
 
-            <td>₹${order.totalAmount}</td>
+                <td>${order.orderId}</td>
 
-            <td>${order.paymentStatus}</td>
+                <td>${order.user.firstName}</td>
 
-            <td>${order.status}</td>
+                <td>₹${order.totalAmount}</td>
 
-            <td>
-                <button onclick="changeStatus(${order.orderId})">
-                    Update
-                </button>
-            </td>
+                <td>${order.paymentStatus}</td>
 
-        </tr>
-        `;
-    });
+                <td>${order.status}</td>
 
-    document.getElementById("tbody").innerHTML = html;
+                <td>
+                    <button onclick="changeStatus(${order.orderId})">
+                        Update
+                    </button>
+                </td>
+
+            </tr>
+            `;
+        });
+
+        document.getElementById("tbody").innerHTML = html;
+
+    } catch (error) {
+
+        console.log(error);
+        alert("Unable to load seller orders");
+
+    }
 }
 
-function changeStatus(orderId){
+function changeStatus(orderId) {
 
     alert("Next step: Update status API");
 
