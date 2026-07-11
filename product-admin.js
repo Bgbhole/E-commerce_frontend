@@ -55,33 +55,33 @@ function addProduct(){
     displayProducts();
 }
 
-function displayProducts(){
+function displayProducts() {
 
-    let box=document.getElementById("products");
+    let box = document.getElementById("products");
 
-    box.innerHTML="";
+    box.innerHTML = "";
 
-    products.forEach((product,index)=>{
+    products.forEach((product, index) => {
 
-        box.innerHTML+=`
+        box.innerHTML += `
         <div class="card">
 
-        <img src="${product.image}">
+            <img src="${API_BASE_URL}/api/products/image/${product.productId}">
 
-        <h2>${product.name}</h2>
+            <h2>${product.productName}</h2>
 
-        <h3>₹${product.price}</h3>
+            <h3>₹${product.finalPrice}</h3>
 
-        <p>${product.category}</p>
+            <p>${product.category}</p>
 
-        <button onclick="editProduct(${index})">
-        Edit
-        </button>
+            <button onclick="editProduct(${index})">
+                Edit
+            </button>
 
-        <button class="delete"
-        onclick="deleteProduct(${index})">
-        Delete
-        </button>
+            <button class="delete"
+                onclick="deleteProduct(${index})">
+                Delete
+            </button>
 
         </div>
         `;

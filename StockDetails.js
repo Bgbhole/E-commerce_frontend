@@ -86,7 +86,7 @@ function displayProducts(products) {
 
 <img
 class="product-img"
-src="${API_BASE_URL}/uploads/${product.image}"
+src="${API_BASE_URL}/api/products/image/${product.productId}"
 onerror="this.src='images/no-image.png'">
 
 </td>

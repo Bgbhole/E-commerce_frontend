@@ -121,7 +121,7 @@ data-product-id="${product.productId}">
 
         class="product-img"
 
-        src="${API_BASE_URL}/uploads/${product.image}"
+        src="${API_BASE_URL}/api/products/image/${product.productId}"
 
         alt="${product.productName}">
 
@@ -208,7 +208,7 @@ function changeBanner() {
     let product = bannerProducts[bannerIndex];
 
     document.getElementById("banner").src =
-        `${API_BASE_URL}/uploads/${product.image}`;
+    `${API_BASE_URL}/api/products/image/${product.productId}`;
 
     document.getElementById("bannerName").innerHTML =
         product.productName;
@@ -220,18 +220,10 @@ function changeBanner() {
 
     if (product.sellingPrice > 0) {
 
-        discount = Math.round(
-<<<<<<< HEAD
-
-            ((product.sellingPrice - product.finalPrice)
-
-            / product.sellingPrice) * 100
-
-=======
-            ((product.sellingPrice - product.finalPrice) /
-             product.sellingPrice) * 100
->>>>>>> 5dd09013d37d2eb7ac940149388dd2794377b6e1
-        );
+       discount = Math.round(
+    ((product.sellingPrice - product.finalPrice) /
+     product.sellingPrice) * 100
+);
 
     }
 
@@ -297,21 +289,25 @@ function searchProducts(){
 
 function showCategory(category) {
 
-    alert("Selected : " + category);
+    const filtered = products.filter(product =>
 
-    console.log("Selected Category:", category);
+        (product.category || "")
+            .trim()
+            .toLowerCase() ===
+        category.trim().toLowerCase()
 
-    console.log(products);
+    );
 
-    const filtered = products.filter(product => {
-        console.log(product.category);
-
-        return product.category === category;
-    });
-
-    alert("Found : " + filtered.length + " products");
+    console.log("Category:", category);
+    console.log(filtered);
 
     displayProducts(filtered);
+
+}
+
+function showAll() {
+
+    displayProducts(products);
 
 }
 
@@ -449,7 +445,7 @@ ${discount}% OFF
 
 class="product-img"
 
-src="${API_BASE_URL}/uploads/${product.image}"
+src="${API_BASE_URL}/api/products/image/${product.productId}"
 
 alt="${product.productName}">
 
@@ -877,53 +873,10 @@ function updateNavbar() {
 
     }
 }
-// ================= LOGOUT =================
-
-function logout() {
-
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("currentSeller");
-    localStorage.removeItem("deliveryAddressId");
-    localStorage.removeItem("billingAddressId");
-    localStorage.removeItem("orderRequest");
-
-    window.location.href = "loginpage.html";
-
-}
-
-// ================= SEARCH ENTER =================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    const search = document.getElementById("search");
-
-    if (search) {
-
-        search.addEventListener("keypress", function (e) {
-
-            if (e.key === "Enter") {
-
-                searchProducts();
-
-            }
-
-        });
-
-    }
-
-});
 
 // ================= PRODUCT IMAGE ERROR =================
 
-document.addEventListener("error", function (e) {
 
-    if (e.target.tagName === "IMG") {
-
-        e.target.src = "images/no-image.png";
-
-    }
-
-}, true);
 
 // ================= SMOOTH SCROLL =================
 
@@ -1034,7 +987,7 @@ function showSuggestions(){
         suggestions.innerHTML += `
 <div class="search-item" onclick="openSuggestion(${product.productId})">
 
-<img src="${API_BASE_URL}/uploads/${product.image}">
+<img src="${API_BASE_URL}/api/products/image/${product.productId}">
 
 <div class="search-info">
 <h4>${product.productName}</h4>

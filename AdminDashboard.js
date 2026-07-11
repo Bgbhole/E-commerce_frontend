@@ -895,7 +895,7 @@ async function loadPendingProducts() {
 
                 <td>
 
-                    <img src="${API_BASE_URL}/images/${product.image}"
+                    <img src="${API_BASE_URL}/api/products/image/${product.productId}"
                          width="70">
 
                 </td>

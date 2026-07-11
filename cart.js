@@ -68,7 +68,7 @@ async function loadCart() {
 
             <div class="item">
 
-                <img src="${API_BASE_URL}/uploads/${item.product.image}" width="150">
+                <img src="${API_BASE_URL}/api/products/image/${item.product.productId}" width="150">
 
                 <div class="details">
 

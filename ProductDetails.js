@@ -13,11 +13,11 @@ async function loadProduct() {
 
         console.log(product);
         console.log(product.image);
-        console.log(`${API_BASE_URL}/uploads/${product.image}`);
+        console.log(`${API_BASE_URL}/api/products/image/${product.productId}`);
 
         // Show image
-        document.getElementById("image").src =
-            `${API_BASE_URL}/uploads/${product.image}`;
+        document.getElementById("productImage").src =
+`${API_BASE_URL}/api/products/image/${product.productId}`;
 
         // Show product info
         document.getElementById("name").innerHTML = product.productName;

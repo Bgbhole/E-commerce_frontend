@@ -35,7 +35,7 @@ async function loadWishlist() {
 
             <div class="card">
 
-                <img src="${API_BASE_URL}/uploads/${product.image}" width="150">
+                <img src="${API_BASE_URL}/api/products/image/${item.product.productId}" width="150">
 
                 <h3>${product.productName}</h3>
 

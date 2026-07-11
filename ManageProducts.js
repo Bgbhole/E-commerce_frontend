@@ -216,34 +216,28 @@ async function updateProduct(id) {
 
 async function deleteProduct(id) {
 
-    let confirmDelete =
-        confirm("Are you sure you want to delete this product?");
-
-    if (!confirmDelete) {
+    if (!confirm("Are you sure you want to delete this product?")) {
         return;
     }
 
     try {
 
-        let response = await fetch(
+        const response = await fetch(
             `${API_BASE_URL}/api/products/delete/${id}`,
             {
                 method: "DELETE"
             }
         );
 
-        if (!response.ok) {
-            alert("Delete Failed");
-            return;
-        }
+        const message = await response.text();
 
-        alert("Product Deleted Successfully");
+        alert(message);
 
         loadProducts();
 
     } catch (error) {
 
-        console.log(error);
+        console.error(error);
         alert("Server Error");
 
     }
