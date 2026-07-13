@@ -151,7 +151,7 @@ async function updateProfile() {
 
     try {
 
-        let response = await fetch(`${API_BASE_URL}/api/users/update`, {
+        let response = await fetch(`${API_BASE_URL}/api/users/update/${user.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -214,44 +214,26 @@ async function changePassword() {
     const confirmPassword =
         document.getElementById("confirmPassword").value;
 
-    if (newPassword === "") {
-
+    if (!newPassword) {
         alert("Please enter new password");
-
         return;
-
     }
 
     if (newPassword !== confirmPassword) {
-
         alert("Passwords do not match");
-
         return;
-
     }
-
-    const data = {
-
-        userId: user.id,
-        newPassword: newPassword
-
-    };
 
     try {
 
         const response = await fetch(
-            `${API_BASE_URL}/api/users/change-password`,
+
+            `${API_BASE_URL}/api/users/change-password?userId=${user.id}&newPassword=${encodeURIComponent(newPassword)}`,
+
             {
-
-                method: "PUT",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(data)
-
+                method: "POST"
             }
+
         );
 
         const message = await response.text();
@@ -267,10 +249,8 @@ async function changePassword() {
 
     } catch (error) {
 
-        console.log(error);
-
+        console.error(error);
         alert("Server Error");
 
     }
-
 }

@@ -580,17 +580,17 @@ const inside = seller.shopInsidePhoto || "";
 
 document.getElementById("shopLogoPreview").src =
     logo
-        ? `${API_BASE_URL}/uploads/${logo}`
+        ? `${API_BASE_URL}/api/sellers/logo/${seller.sellerId}`
         : "";
 
 document.getElementById("shopFrontPreview").src =
     front
-        ? `${API_BASE_URL}/uploads/${front}`
+        ? `${API_BASE_URL}/api/sellers/front/${seller.sellerId}`
         : "";
 
 document.getElementById("shopInsidePreview").src =
     inside
-        ? `${API_BASE_URL}/uploads/${inside}`
+        ? `${API_BASE_URL}/api/sellers/inside/${seller.sellerId}`
         : "";
         // Show Modal
 
@@ -1435,7 +1435,11 @@ async function loadPendingProducts() {
     const rows = products
       .map(
         (product) =>
-          `<tr><td><img src="${API_BASE_URL}/uploads/${encodeURIComponent(product.image || "")}" alt="" width="52" height="52" style="object-fit:cover;border-radius:10px"></td><td><span class="cell-title">${safe(product.productName)}</span><span class="cell-subtitle">${safe(product.brand)}</span></td><td>${safe(product.category)}</td><td>${safe(product.seller?.shopName)}</td><td>?${safe(product.finalPrice || product.price || 0)}</td><td>${statusBadge(product.status)}</td><td><div class="action-group"><button class="approve-btn" onclick="approveProduct(${product.productId})">Approve</button><button class="reject-btn" onclick="rejectProduct(${product.productId})">Reject</button></div></td></tr>`,
+          `<tr><td><img
+src="${API_BASE_URL}/api/products/image/${product.productId}"
+width="52"
+height="52"
+style="object-fit:cover;border-radius:10px"></td><td><span class="cell-title">${safe(product.productName)}</span><span class="cell-subtitle">${safe(product.brand)}</span></td><td>${safe(product.category)}</td><td>${safe(product.seller?.shopName)}</td><td>?${safe(product.finalPrice || product.price || 0)}</td><td>${statusBadge(product.status)}</td><td><div class="action-group"><button class="approve-btn" onclick="approveProduct(${product.productId})">Approve</button><button class="reject-btn" onclick="rejectProduct(${product.productId})">Reject</button></div></td></tr>`,
       )
       .join("");
     document.getElementById("tableArea").innerHTML =

@@ -417,6 +417,26 @@ function createProductCard(product) {
 
     }
 
+    let stockButton = "";
+
+if (product.quantity > 0) {
+
+    stockButton = `
+        <button onclick="viewProduct(${product.productId})">
+            View Details
+        </button>
+    `;
+
+} else {
+
+    stockButton = `
+        <button class="out-stock-btn" disabled>
+            OUT OF STOCK
+        </button>
+    `;
+
+}
+
     return `
 
 <div class="product">

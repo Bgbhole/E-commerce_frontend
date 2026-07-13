@@ -53,9 +53,9 @@ async function filterOrders(status) {
 
             order.orderItems.forEach(item => {
 
-                let image = item.image
-                    ? `${API_BASE_URL}/uploads/${item.image}`
-                    : "images/no-image.png";
+                let image = item.product
+    ? `${API_BASE_URL}/api/products/image/${item.product.productId}`
+    : "images/no-image.png";
 
                 let productName = item.productName || "Product Not Available";
 

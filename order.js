@@ -24,7 +24,7 @@ function displayOrders() {
         box.innerHTML += `
         <div class="order">
 
-            <img src="${item.image}">
+            <img src="${API_BASE_URL}/api/products/image/${item.product.productId}">
 
             <div class="details">
 

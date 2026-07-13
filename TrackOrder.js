@@ -58,9 +58,9 @@ document.getElementById("deliveryMobile").innerHTML =
 
 order.orderItems.forEach(item => {
 
-    const image = item.image
-        ? `${API_BASE_URL}/uploads/${item.image}`
-        : "images/no-image.png";
+   const image = item.product
+    ? `${API_BASE_URL}/api/products/image/${item.product.productId}`
+    : "images/no-image.png";
 
     productsHTML += `
 
@@ -79,7 +79,7 @@ order.orderItems.forEach(item => {
 
             <div class="price-row">
 
-                <h3>₹${item.price}</h3>
+              <h3>₹${item.price * item.quantity}</h3>
 
                 <span>Qty : ${item.quantity}</span>
 

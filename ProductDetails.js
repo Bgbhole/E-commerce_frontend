@@ -12,7 +12,7 @@ async function loadProduct() {
         let product = await response.json();
 
         console.log(product);
-        console.log(product.image);
+        console.log(product.productId);
         console.log(`${API_BASE_URL}/api/products/image/${product.productId}`);
 
         // Show image
@@ -61,7 +61,7 @@ function addToCart(){
 
         body:JSON.stringify({
 
-            customerId:customer.customerId,
+            customerId:user.id,
 
             productId:id,
 

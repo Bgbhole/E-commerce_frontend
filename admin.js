@@ -2,11 +2,11 @@ if(localStorage.getItem("admin")!=="true"){
     window.location="admin-login.html";
 }
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+let products = JSON.parse(GET /api/products/all) || [];
 
-let users = JSON.parse(localStorage.getItem("users")) || [];
+let users = JSON.parse(GET /api/users) || [];
 
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let orders = JSON.parse(GET /api/orders) || [];
 
 document.getElementById("totalProducts").innerHTML = products.length;
 
