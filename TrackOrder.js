@@ -58,9 +58,8 @@ document.getElementById("deliveryMobile").innerHTML =
 
 order.orderItems.forEach(item => {
 
-   const image = item.product
-    ? `${API_BASE_URL}/api/products/image/${item.product.productId}`
-    : "images/no-image.png";
+   const image =
+`${API_BASE_URL}/api/orders/item-image/${item.orderItemId}`;
 
     productsHTML += `
 

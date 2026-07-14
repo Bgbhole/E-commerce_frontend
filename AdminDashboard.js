@@ -854,7 +854,7 @@ async function loadPendingProducts() {
   document.getElementById("pageTitle").innerHTML = "Product Approval";
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/pending-products`);
+    const response = await fetch(`${API_BASE_URL}/api/products/pending-products`)
 
     if (!response.ok) {
       throw new Error("Unable to load products");
@@ -1429,7 +1429,7 @@ async function loadPendingSellers() {
 async function loadPendingProducts() {
   setLoading("Loading product submissions?");
   try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/pending-products`);
+    const response = await fetch(`${API_BASE_URL}/api/products/pending-products`)
     if (!response.ok) throw new Error("Unable to load product submissions.");
     const products = await response.json();
     const rows = products
