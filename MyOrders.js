@@ -53,8 +53,8 @@ async function filterOrders(status) {
 
             order.orderItems.forEach(item => {
 
-               let image =
-`${API_BASE_URL}/api/orders/item-image/${item.orderItemId}`;
+              let image =
+`${API_BASE_URL}/api/products/image/${item.product.productId}`;
 
                 let productName = item.productName || "Product Not Available";
 
@@ -86,102 +86,86 @@ async function filterOrders(status) {
 
             });
 
-            html += `
+           html += `
 
-            <div class="order-card">
+<div class="order-card">
 
-                <div class="details">
+    <div class="order-left">
 
-                    <h2>Order #${order.orderId}</h2>
+        ${productsHtml}
 
-                    <p>
+    </div>
 
-                        <b>Order Date :</b>
+    <div class="order-center">
 
-                        ${new Date(order.orderDate).toLocaleString()}
+        <h3>Order #${order.orderId}</h3>
 
-                    </p>
+        <p>
+            <b>Order Date:</b>
+            ${new Date(order.orderDate).toLocaleString()}
+        </p>
 
-                    <p>
+        <p>
+            <b>Payment:</b>
+            ${order.paymentStatus}
+        </p>
 
-                        <b>Payment :</b>
+        <p>
+            <b>Total Amount:</b>
+            ₹${order.totalAmount}
+        </p>
 
-                        ${order.paymentStatus}
+        <p>
+            <b>Tracking No:</b>
+            ${order.trackingNumber}
+        </p>
 
-                    </p>
+    </div>
 
-                    <p>
+    <div class="order-right">
 
-                        <b>Order Status :</b>
+        <span class="status ${order.status}">
+            ${order.status.replaceAll("_"," ")}
+        </span>
 
-                        ${order.status}
+        <button class="track"
+        onclick="window.location.href='TrackOrder.html?orderId=${order.orderId}'">
+            🚚 Track Order
+        </button>
 
-                    </p>
+        <button class="invoice"
+        onclick="window.location.href='Invoice.html?orderId=${order.orderId}'">
+            📄 Invoice
+        </button>
 
-                    <p>
+        ${
+            order.status!="DELIVERED" &&
+            order.status!="CANCELLED"
 
-                        <b>Total Amount :</b>
+            ?
 
-                        ₹${order.totalAmount}
+            `
 
-                    </p>
+            <button class="cancel"
+            onclick="cancelOrder(${order.orderId})">
 
-                    <p>
+                ❌ Cancel Order
 
-                        <b>Tracking No :</b>
+            </button>
 
-                        ${order.trackingNumber}
+            `
 
-                    </p>
+            :
 
-                </div>
+            ""
 
-                ${productsHtml}
+        }
 
-                <div class="actions">
+    </div>
 
-                    <button class="track"
-                        onclick="window.location.href='TrackOrder.html?orderId=${order.orderId}'">
+</div>
 
-                        Track Order
-
-                    </button>
-
-                    <button class="invoice"
-                        onclick="window.location.href='Invoice.html?orderId=${order.orderId}'">
-
-                        Download Invoice
-
-                    </button>
-
-                    ${order.status !== "CANCELLED" &&
-                      order.status !== "DELIVERED"
-
-                    ?
-
-                    `
-
-                    <button class="cancel"
-                        onclick="cancelOrder(${order.orderId})">
-
-                        Cancel Order
-
-                    </button>
-
-                    `
-
-                    :
-
-                    ""
-
-                    }
-
-                </div>
-
-            </div>
-
-            `;
-
+`;
         });
 
         if (html === "") {

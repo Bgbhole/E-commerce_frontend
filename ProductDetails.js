@@ -8,38 +8,141 @@ async function loadProduct() {
     try {
 
         let response = await fetch(`${API_BASE_URL}/api/products/${id}`);
-
         let product = await response.json();
 
-        console.log(product);
-        console.log(product.productId);
-        console.log(`${API_BASE_URL}/api/products/image/${product.productId}`);
+        images = [
+            `${API_BASE_URL}/api/products/image/${product.productId}`,
+            `${API_BASE_URL}/api/products/image2/${product.productId}`,
+            `${API_BASE_URL}/api/products/image3/${product.productId}`,
+            `${API_BASE_URL}/api/products/image4/${product.productId}`
+        ];
 
-        // Show image
-        document.getElementById("productImage").src =
-`${API_BASE_URL}/api/products/image/${product.productId}`;
+        current = 0;
 
-        // Show product info
+        document.getElementById("productImage").src = images[current];
+
+        // Product Info
         document.getElementById("name").innerHTML = product.productName;
         document.getElementById("price").innerHTML = "₹" + product.finalPrice;
         document.getElementById("description").innerHTML = product.description;
 
-        // Show specifications
         loadSpecifications(product);
 
     } catch (error) {
-
         console.log(error);
-
     }
-
 }
 
 loadProduct();
+loadRelatedProducts();
 
+loadReviews();
+
+const user = JSON.parse(localStorage.getItem("currentUser"));
+
+if (!user) {
+    document.getElementById("reviewForm").innerHTML = `
+        <h3>Write a Review</h3>
+        <p>Please <a href="loginpage.html">login</a> to write a review.</p>
+    `;
+}
+
+document.getElementById("nextBtn").onclick = function () {
+
+    current++;
+
+    if (current >= images.length) {
+        current = 0;
+    }
+
+    document.getElementById("productImage").src = images[current];
+};
+
+
+
+document.getElementById("prevBtn").onclick = function () {
+
+    current--;
+
+    if (current < 0) {
+        current = images.length - 1;
+    }
+
+    document.getElementById("productImage").src = images[current];
+};
+
+
+async function loadReviews() {
+
+    const response = await fetch(
+        `${API_BASE_URL}/api/reviews/product/${id}`
+    );
+
+    const reviews = await response.json();
+    reviews.sort(
+(a,b)=>
+new Date(b.reviewDate)-new Date(a.reviewDate)
+);
+
+    let html = "";
+
+    let total = 0;
+
+    reviews.forEach(r => {
+
+        total += r.rating;
+
+        html += `
+            <div class="review-card">
+
+              <div class="review-header">
+
+    <span class="green-rating">
+      ${"★".repeat(r.rating)}
+${"☆".repeat(5-r.rating)}
+    </span>
+
+    <strong>${r.user.firstName} ${r.user.lastName}</strong>
+
+</div>
+
+<p>${r.review}</p>
+
+<small>
+${new Date(r.reviewDate).toLocaleDateString()}
+</small>
+
+            </div>
+        `;
+    });
+
+    let average = 0;
+
+if (reviews.length > 0) {
+    average = (total / reviews.length).toFixed(1);
+}
+
+const rounded = Math.round(average);
+
+const stars = "★".repeat(rounded) + "☆".repeat(5 - rounded);
+
+document.getElementById("reviewList").innerHTML = html;
+
+document.getElementById("averageRating").innerHTML = `
+<div class="rating-summary">
+    <span class="green-rating">${average} ★</span>
+    <span>${reviews.length} Ratings & Reviews</span>
+</div>
+`;
+
+document.getElementById("productRating").innerHTML = `
+<span class="green-rating">${average} ★</span>
+<span>${reviews.length} Ratings</span>
+`;
+}
 
 function addToCart(){
-
+   
     let customer =
         JSON.parse(localStorage.getItem("currentUser"));
 
@@ -51,33 +154,41 @@ function addToCart(){
         return;   
     }
 
-    fetch(`${API_BASE_URL}/api/cart/add`,{
+   fetch(`${API_BASE_URL}/api/cart/add`, {
 
-        method:"POST",
+    method: "POST",
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+    headers: {
+        "Content-Type": "application/json"
+    },
 
-        body:JSON.stringify({
+    body: JSON.stringify({
 
-            customerId:user.id,
+    userId: customer.id,
+    productId: Number(id),
+    quantity: 1
 
-            productId:id,
+})
 
-            quantity:1
+})
+.then(async response => {
 
-        })
+    const message = await response.text();
 
-    })
+    if (!response.ok) {
+        throw new Error(message);
+    }
 
-    .then(response=>response.text())
+    alert("Product Added To Cart");
 
-    .then(data=>{
+})
+.catch(error => {
 
-        alert("Product Added To Cart");
+    console.error(error);
 
-    });
+    alert(error.message);
+
+});
 
 }
 
@@ -319,3 +430,127 @@ break;
     document.getElementById("specificationTable").innerHTML = html;
 }
 
+async function submitReview() {
+
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+        alert("Please login first");
+        return;
+    }
+
+    const review = {
+        userId: user.id,
+        productId: Number(id),
+        rating: Number(document.getElementById("rating").value),
+        review: document.getElementById("reviewText").value
+    };
+
+    const response = await fetch(`${API_BASE_URL}/api/reviews`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(review)
+    });
+
+    if (response.ok) {
+       document.getElementById("reviewText").value="";
+
+document.getElementById("rating").value=5;
+
+stars.forEach(s=>s.classList.remove("active"));
+
+for(let i=0;i<5;i++){
+
+stars[i].classList.add("active");
+
+}
+
+loadReviews();
+
+alert("Thank you for your review.");
+        document.getElementById("reviewText").value = "";
+        loadReviews();
+    } else {
+        alert("Unable to submit review");
+    }
+}
+
+const stars = document.querySelectorAll(".star");
+
+stars.forEach(star => {
+
+    star.addEventListener("click", function () {
+
+        const value = Number(this.dataset.value);
+
+        document.getElementById("rating").value = value;
+
+        stars.forEach(s => s.classList.remove("active"));
+
+        for (let i = 0; i < value; i++) {
+            stars[i].classList.add("active");
+        }
+
+    });
+
+});
+
+function viewAllReviews() {
+
+    window.location.href =
+        `AllReviews.html?productId=${id}`;
+
+}
+
+async function loadRelatedProducts() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/products/${id}/related`
+        );
+
+        const products = await response.json();
+
+        const relatedProducts = document.getElementById("relatedProducts");
+
+        relatedProducts.innerHTML = "";
+
+        products.forEach(product => {
+
+            relatedProducts.innerHTML += `
+
+<div class="related-card"
+onclick="window.location='ProductDetails.html?id=${product.productId}'">
+
+    <img src="${API_BASE_URL}/api/products/image/${product.productId}" alt="${product.productName}">
+
+    <div class="related-info">
+
+        <h3>${product.productName}</h3>
+
+        <p class="related-price">
+            ₹${product.finalPrice}
+        </p>
+
+        <div class="related-rating">
+            ★ ${(product.averageRating ?? 0).toFixed(1)}
+        </div>
+
+    </div>
+
+</div>
+
+`;
+
+        });
+
+    } catch (error) {
+
+        console.error("Related Products Error:", error);
+
+    }
+
+}

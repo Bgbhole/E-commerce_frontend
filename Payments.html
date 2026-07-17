@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Payment</title>
 
-    <link rel="stylesheet" href="Payments.css">
+    <link rel="stylesheet"
+          href="Payments.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-    <!-- Top Bar -->
+<!-- ================= TOP BAR ================= -->
 
-    <div class="top-bar">
+<div class="top-bar">
 
-        <button class="nav-btn" onclick="window.location.href='index.html'">
-            🏠 Home
-        </button>
+    <button class="nav-btn"
+            onclick="window.location.href='index.html'">
+        🏠 Home
+    </button>
 
-        <button class="nav-btn" onclick="history.back()">
-            ← Back
-        </button>
+    <button class="nav-btn"
+            onclick="history.back()">
+        ← Back
+    </button>
 
-    </div>
+</div>
 
-    <!-- Payment Section -->
+<!-- ================= PAYMENT ================= -->
+
+<div class="payment-container">
 
     <div class="payment-section">
 
-        <!-- Gift Card -->
+        <!-- ================= Gift Card ================= -->
 
         <div class="payment-card">
 
@@ -39,8 +52,7 @@
 
         </div>
 
-
-        <!-- Cash On Delivery -->
+        <!-- ================= COD ================= -->
 
         <div class="payment-card">
 
@@ -48,51 +60,61 @@
 
             <div class="option">
 
-                <input type="radio"
-                       id="codOption"
-                       name="paymentMethod"
-                       value="COD">
+                <div class="option-left">
 
-                <label for="codOption">
+                    <input
+                        type="radio"
+                        id="codOption"
+                        name="paymentMethod"
+                        value="COD">
 
-                    <strong>Cash on Delivery</strong>
+                    <label for="codOption">
 
-                    <p>Pay when your order is delivered.</p>
+                        <strong>Cash on Delivery</strong>
 
-                </label>
+                        <p>Pay when your order is delivered.</p>
+
+                    </label>
+
+                </div>
 
             </div>
 
         </div>
 
-
-        <!-- UPI -->
+        <!-- ================= UPI ================= -->
 
         <div class="payment-card">
 
-            <h3>💳 UPI</h3>
+            <h3>📱 UPI</h3>
 
-            <input
-                type="text"
-                id="upiId"
-                placeholder="Enter UPI ID">
+            <div id="upiList">
 
-            <button onclick="addUpi()">
+                <!-- Loaded dynamically -->
 
-                Add UPI
+            </div>
 
-            </button>
+            <div class="upi-footer">
 
-            <div id="upiList"></div>
+                <button
+                    class="add-upi-btn"
+                    onclick="openUpiModal()">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add New UPI
+
+                </button>
+
+            </div>
 
         </div>
 
-
-        <!-- Cards -->
+        <!-- ================= CARD ================= -->
 
         <div class="payment-card">
 
-            <h3>💳 Credit / Debit Cards</h3>
+            <h3>💳 Credit / Debit Card</h3>
 
             <input
                 type="text"
@@ -104,19 +126,25 @@
                 id="cardNumber"
                 placeholder="Card Number">
 
-            <input
-                type="text"
-                id="expiryDate"
-                placeholder="MM/YY">
+            <div class="card-row">
 
-            <input
-                type="password"
-                id="cvv"
-                placeholder="CVV">
+                <input
+                    type="text"
+                    id="expiryDate"
+                    placeholder="MM/YY">
 
-            <button onclick="addCard()">
+                <input
+                    type="password"
+                    id="cvv"
+                    placeholder="CVV">
 
-                Add Card
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addCard()">
+
+                Save Card
 
             </button>
 
@@ -126,30 +154,98 @@
 
     </div>
 
-
-    <!-- Total -->
+    <!-- ================= PRICE BOX ================= -->
 
     <div class="price-box">
 
-        <h2>
+        <h2>Order Summary</h2>
 
-            Total Amount ₹<span id="payAmount">0</span>
+        <hr>
 
-        </h2>
+        <div class="price-row">
+
+            <span>Total Amount</span>
+
+            <span>
+
+                ₹<span id="payAmount">0</span>
+
+            </span>
+
+        </div>
+
+        <hr>
 
         <button
             class="pay-btn"
             onclick="payNow()">
 
-            PAY NOW
+            <i class="fa-solid fa-lock"></i>
+
+            PAY SECURELY
 
         </button>
 
     </div>
 
-    <script src="api-config.js"></script>
+</div>
 
-    <script src="Payments.js"></script>
+<!-- ================= UPI MODAL ================= -->
+
+<div
+    id="upiModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <h2>Add UPI</h2>
+
+        <input
+            type="hidden"
+            id="upiId">
+
+        <div class="form-group">
+
+            <label>
+
+                UPI ID
+
+            </label>
+
+            <input
+                type="text"
+                id="upiValue"
+                placeholder="example@upi">
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="closeUpiModal()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveUpi()">
+
+                Save
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="api-config.js"></script>
+
+<script src="Payments.js"></script>
 
 </body>
 

@@ -2,75 +2,245 @@
 <html>
 
 <head>
+
     <title>My Orders</title>
+
     <link rel="stylesheet" href="MyOrders.css">
+
 </head>
-<div class="top-bar">
 
-    <button class="nav-btn" onclick="window.location.href='index.html'">
-        🏠 Home
-    </button>
-
-    <button class="nav-btn" onclick="history.back()">
-        ← Back
-    </button>
-
-</div>
 <body>
 
-    <div class="container">
+    <!-- Top Navigation -->
 
-        <div class="header">
+    <div class="top-bar">
 
-            <h1>My Orders</h1>
+        <button class="nav-btn"
+            onclick="window.location.href='index.html'">
+            🏠 Home
+        </button>
 
-            <input type="text"
-                   id="searchBox"
-                   placeholder="Search your orders">
+        <button class="nav-btn"
+            onclick="window.location.href='index.html'">
+            ← Back
+        </button>
+
+    </div>
+
+    <!-- Header -->
+
+    <section class="page-header">
+
+        <h1>📦 My Orders</h1>
+
+        <p>
+            Track your orders, download invoices and manage purchases.
+        </p>
+
+    </section>
+
+    <!-- Search + Filters -->
+
+   <div class="container">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>📦 My Orders</h1>
+
+            <p>Track, manage and review your orders</p>
 
         </div>
 
-        <div class="filters">
-<div class="filters">
+        <input
+            type="text"
+            id="searchBox"
+            placeholder="Search your orders">
 
-    <button onclick="filterOrders('ALL')">All</button>
+    </div>
 
-    <button onclick="filterOrders('ORDER_CONFIRMED')">
-        Confirmed
-    </button>
+    <div class="filters">
 
-    <button onclick="filterOrders('PACKED')">
-        Packed
-    </button>
+        <button onclick="filterOrders('ALL')">All</button>
 
-    <button onclick="filterOrders('SHIPPED')">
-        Shipped
-    </button>
+        <button onclick="filterOrders('ORDER_CONFIRMED')">
+            Confirmed
+        </button>
 
-    <button onclick="filterOrders('OUT_FOR_DELIVERY')">
-        Out For Delivery
-    </button>
+        <button onclick="filterOrders('PACKED')">
+            Packed
+        </button>
 
-    <button onclick="filterOrders('DELIVERED')">
-        Delivered
-    </button>
+        <button onclick="filterOrders('SHIPPED')">
+            Shipped
+        </button>
 
-    <button onclick="filterOrders('CANCELLED')">
-        Cancelled
-    </button>
+        <button onclick="filterOrders('OUT_FOR_DELIVERY')">
+            Out For Delivery
+        </button>
+
+        <button onclick="filterOrders('DELIVERED')">
+            Delivered
+        </button>
+
+        <button onclick="filterOrders('CANCELLED')">
+            Cancelled
+        </button>
+
+    </div>
+
+    <div id="orderList"></div>
 
 </div>
 
+
+<section class="trust-section">
+
+    <div class="trust-box">
+        🚚
+        <h3>Fast Delivery</h3>
+        <p>Delivered Across India</p>
+    </div>
+
+    <div class="trust-box">
+        🔒
+        <h3>Secure Payment</h3>
+        <p>100% Safe Payments</p>
+    </div>
+
+    <div class="trust-box">
+        🔄
+        <h3>Easy Returns</h3>
+        <p>7 Days Return Policy</p>
+    </div>
+
+    <div class="trust-box">
+        🎧
+        <h3>24×7 Support</h3>
+        <p>Always Here To Help</p>
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h3>ABOUT</h3>
+
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+
         </div>
 
-        <!-- Orders will be loaded dynamically here -->
-        <div id="orderList"></div>
+        <div class="footer-column">
+
+            <h3>HELP</h3>
+
+            <a href="#">Payments</a>
+            <a href="#">Shipping</a>
+            <a href="#">Returns</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>POLICY</h3>
+
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>CONTACT</h3>
+
+            <p>Pune, Maharashtra</p>
+
+            <p>+91 9876543210</p>
+
+            <p>support@shopkart.com</p>
+
+        </div>
 
     </div>
+
+</footer>
+
+
+    
 
     <script src="api-config.js"></script>
     <script src="MyOrders.js"></script>
 
 </body>
+
+<footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-column">
+
+                <h3>ABOUT</h3>
+
+                <a href="#">About Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Press</a>
+                <a href="#">Corporate Information</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>HELP</h3>
+
+                <a href="#">Payments</a>
+                <a href="#">Shipping</a>
+                <a href="#">Returns</a>
+                <a href="#">FAQ</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>POLICY</h3>
+
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Cancellation Policy</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>CONTACT</h3>
+
+                <p>📍 Pune, Maharashtra</p>
+                <p>📞 +91 9876543210</p>
+                <p>✉ support@shopkart.com</p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 ShopKart. All Rights Reserved.
+
+            </p>
+
+        </div>
+
+    </footer>
 
 </html>

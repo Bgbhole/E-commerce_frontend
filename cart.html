@@ -10,7 +10,8 @@
 </head>
 
 <body>
-    <div class="top-bar">
+
+<div class="top-bar">
 
     <button class="nav-btn" onclick="window.location.href='index.html'">
         🏠 Home
@@ -22,49 +23,118 @@
 
 </div>
 
+<div class="page-title">
+
     <h1>🛒 My Cart</h1>
+    <p>Review your items before checkout</p>
 
-    <div class="container">
+</div>
 
-        <div class="cart-items" id="cartItems">
+<div class="container">
 
-        </div>
-
-        <div class="price-box">
-
-            <h2>Price Details</h2>
-
-            <hr>
-
-            <p>
-                Total Items :
-                <span id="itemsCount">0</span>
-            </p>
-
-            <p>
-                Total Quantity :
-                <span id="totalQuantity">0</span>
-            </p>
-
-            <hr>
-
-            <h2>
-                Total Amount :
-                ₹<span id="total">0</span>
-            </h2>
-
-            <button onclick="goCheckout()">
-                Proceed To Checkout
-            </button>
-
-        </div>
+    <div class="cart-items" id="cartItems">
 
     </div>
 
-    <script src="api-config.js"></script>
+    <div class="price-box">
 
-    <script src="cart.js"></script>
+        <h2>Price Details</h2>
+
+        <hr>
+
+        <div class="price-row">
+            <span>Total Items</span>
+            <span id="itemsCount">0</span>
+        </div>
+
+        <div class="price-row">
+            <span>Total Quantity</span>
+            <span id="totalQuantity">0</span>
+        </div>
+
+        <div class="price-row">
+            <span>Delivery</span>
+            <span class="free">FREE</span>
+        </div>
+
+        <hr>
+
+        <div class="total-row">
+            <span>Total Amount</span>
+            <span>₹<span id="total">0</span></span>
+        </div>
+
+        <button class="checkout-btn" onclick="goCheckout()">
+            Proceed To Secure Checkout
+        </button>
+
+    </div>
+
+</div>
+
+<section class="trust-section">
+
+<div class="trust-box">🚚<br>Fast Delivery</div>
+
+<div class="trust-box">🔒<br>Secure Payment</div>
+
+<div class="trust-box">↩<br>Easy Returns</div>
+
+<div class="trust-box">🎧<br>24×7 Support</div>
+
+</section>
+
+<section class="recommend-section">
+
+<h2>You May Also Like</h2>
+
+<div id="relatedProducts"></div>
+
+</section>
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-column">
+<h3>ABOUT</h3>
+<a href="#">About Us</a>
+<a href="#">Careers</a>
+<a href="#">Press</a>
+</div>
+
+<div class="footer-column">
+<h3>HELP</h3>
+<a href="#">Payments</a>
+<a href="#">Shipping</a>
+<a href="#">Returns</a>
+</div>
+
+<div class="footer-column">
+<h3>POLICY</h3>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms & Conditions</a>
+</div>
+
+<div class="footer-column">
+<h3>CONTACT</h3>
+<p>Pune, Maharashtra</p>
+<p>+91 9876543210</p>
+<p>support@shopkart.com</p>
+</div>
+
+</div>
+
+<hr>
+
+<p class="copyright">
+© 2026 ShopKart. All Rights Reserved.
+</p>
+
+</footer>
+
+<script src="api-config.js"></script>
+<script src="cart.js"></script>
 
 </body>
-
 </html>

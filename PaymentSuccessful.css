@@ -1,0 +1,139 @@
+body{
+    margin:0;
+    background:#f1f3f6;
+    font-family:Arial,sans-serif;
+}
+
+.top-bar{
+    background:#2874f0;
+    padding:15px 30px;
+    display:flex;
+    gap:15px;
+}
+
+.nav-btn{
+    background:white;
+    color:#2874f0;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.success-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:60px 20px;
+}
+
+.success-card{
+    width:550px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.12);
+    text-align:center;
+    padding:40px;
+}
+
+.success-icon{
+    font-size:70px;
+}
+
+.success-card h1{
+    color:#2e7d32;
+    margin-top:15px;
+}
+
+.order-box{
+    margin-top:30px;
+    background:#f5f5f5;
+    border-radius:8px;
+    padding:20px;
+    text-align:left;
+}
+
+.btn-group{
+    display:flex;
+    gap:15px;
+    margin-top:30px;
+}
+
+.btn-group button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.orders-btn{
+    background:#2874f0;
+    color:white;
+}
+
+.shopping-btn{
+    background:#fb641b;
+    color:white;
+}
+
+.trust-section{
+    width:90%;
+    margin:40px auto;
+    display:flex;
+    gap:20px;
+}
+
+.trust-box{
+    flex:1;
+    background:white;
+    padding:25px;
+    text-align:center;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:40px;
+    background:#172337;
+    color:white;
+    padding:40px 0;
+}
+
+.footer-container{
+    width:90%;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+}
+
+.footer-column{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.footer-column h3{
+    color:#878787;
+}
+
+.footer-column a{
+    color:white;
+    text-decoration:none;
+}
+
+.footer-column a:hover{
+    color:#2874f0;
+}
+
+.footer hr{
+    width:90%;
+    margin:30px auto;
+}
+
+.copyright{
+    text-align:center;
+}

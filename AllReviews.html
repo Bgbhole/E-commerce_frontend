@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Reviews</title>
+
+    <link rel="stylesheet" href="AllReviews.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-bar">
+
+    <button class="back-btn" onclick="history.back()">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </button>
+
+    <h2>Customer Reviews</h2>
+
+</header>
+
+<!-- ================= PRODUCT ================= -->
+
+<div class="product-summary">
+
+    <img id="productImage">
+
+    <div class="product-info">
+
+        <h2 id="productName"></h2>
+
+        <div class="rating-box">
+
+            <span class="rating-badge" id="avgRating">
+
+                0 ★
+
+            </span>
+
+            <span id="reviewCount">
+
+                0 Ratings & Reviews
+
+            </span>
+
+        </div>
+
+        <p id="productPrice"></p>
+
+    </div>
+
+</div>
+
+<!-- ================= RATING BREAKDOWN ================= -->
+
+<div class="rating-breakdown">
+
+    <h3>Ratings Breakdown</h3>
+
+    <div class="bar-row">
+
+        <span>5 ★</span>
+
+        <div class="bar">
+
+            <div class="fill" id="fiveBar"></div>
+
+        </div>
+
+        <span id="fiveCount">0</span>
+
+    </div>
+
+    <div class="bar-row">
+
+        <span>4 ★</span>
+
+        <div class="bar">
+
+            <div class="fill" id="fourBar"></div>
+
+        </div>
+
+        <span id="fourCount">0</span>
+
+    </div>
+
+    <div class="bar-row">
+
+        <span>3 ★</span>
+
+        <div class="bar">
+
+            <div class="fill" id="threeBar"></div>
+
+        </div>
+
+        <span id="threeCount">0</span>
+
+    </div>
+
+    <div class="bar-row">
+
+        <span>2 ★</span>
+
+        <div class="bar">
+
+            <div class="fill" id="twoBar"></div>
+
+        </div>
+
+        <span id="twoCount">0</span>
+
+    </div>
+
+    <div class="bar-row">
+
+        <span>1 ★</span>
+
+        <div class="bar">
+
+            <div class="fill" id="oneBar"></div>
+
+        </div>
+
+        <span id="oneCount">0</span>
+
+    </div>
+
+</div>
+
+<!-- ================= FILTER ================= -->
+
+<div class="toolbar">
+
+    <input
+        type="text"
+        id="searchReview"
+        placeholder="Search Reviews..."
+    >
+
+    <select id="sortReview">
+
+        <option value="newest">Newest</option>
+
+        <option value="oldest">Oldest</option>
+
+        <option value="highest">Highest Rating</option>
+
+        <option value="lowest">Lowest Rating</option>
+
+    </select>
+
+</div>
+
+<!-- ================= FILTER STARS ================= -->
+
+<div class="filter-stars">
+
+    <button onclick="filterRating(0)">All</button>
+
+    <button onclick="filterRating(5)">★★★★★</button>
+
+    <button onclick="filterRating(4)">★★★★☆</button>
+
+    <button onclick="filterRating(3)">★★★☆☆</button>
+
+    <button onclick="filterRating(2)">★★☆☆☆</button>
+
+    <button onclick="filterRating(1)">★☆☆☆☆</button>
+
+</div>
+
+<!-- ================= REVIEW LIST ================= -->
+
+<div id="reviewContainer">
+
+</div>
+
+<!-- ================= EMPTY ================= -->
+
+<div id="noReview" style="display:none;">
+
+    <img src="https://cdn-icons-png.flaticon.com/512/7486/7486809.png"
+         width="120">
+
+    <h2>No Reviews Yet</h2>
+
+    <p>Be the first customer to review this product.</p>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 ShopKart |
+
+        Customer Reviews
+
+    </p>
+
+</footer>
+
+<script src="api-config.js"></script>
+
+<script src="AllReviews.js"></script>
+
+</body>
+</html>

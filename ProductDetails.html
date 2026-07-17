@@ -21,7 +21,24 @@
 
     <div class="left">
 
-        <img id="productImage" alt="Product Image">
+       <div class="slider">
+
+    <button id="prevBtn">&#10094;</button>
+
+    <img id="productImage">
+
+    <button id="nextBtn">&#10095;</button>
+
+</div>
+
+<div class="dots">
+
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+
+</div>
 
         <div class="buttons">
             <button class="cart-btn"
@@ -35,15 +52,26 @@ BUY NOW
 </button>
         </div>
 
+        <div class="buttons">
+
+</div>
+
+<div class="specifications-box">
+
+    <h3>Specifications</h3>
+
+    <table class="spec-table">
+        <tbody id="specificationTable"></tbody>
+    </table>
+
+</div>  
+
     </div>
 
     <div class="right">
 
         <h1 id="name"></h1>
 
-        <div class="rating">
-            ★★★★☆ <span id="rating">4.3</span>
-        </div>
 
         <div class="price-section">
             <span id="price"></span>
@@ -64,18 +92,126 @@ BUY NOW
 
         <p id="description"></p>
 
-        <h3>Specifications</h3>
+        <div class="review-section">
 
-        <table class="spec-table">
-    <tbody id="specificationTable">
+            
 
-    </tbody>
-</table>
+    
 
-    </div>
+
+<h2>Ratings & Reviews</h2>
+
+    <div id="averageRating"></div>
+
+  <div class="write-review" id="reviewForm">
+
+        <h3>Write a Review</h3>
+
+        <div class="star-rating">
+
+    <span class="star" data-value="1">★</span>
+    <span class="star" data-value="2">★</span>
+    <span class="star" data-value="3">★</span>
+    <span class="star" data-value="4">★</span>
+    <span class="star" data-value="5">★</span>
 
 </div>
 
+<div id="productRating"></div>
+
+<input type="hidden" id="rating" value="5">
+
+        <textarea id="reviewText"
+            placeholder="Write your review..."></textarea>
+
+        <button onclick="submitReview()">
+            Submit Review
+        </button>
+
+    </div>
+
+    <div id="reviewList"></div>
+
+<div style="text-align:center;margin-top:20px;">
+    <button class="view-all-btn" onclick="viewAllReviews()">
+        View All Reviews
+    </button>
+</div>
+
+</div> <!-- review-section -->
+
+</div> <!-- right -->
+
+</div> <!-- container -->
+
+<div class="related-wrapper">
+
+    <section class="related-section">
+
+        <h2>You May Also Like</h2>
+
+        <div id="relatedProducts"></div>
+
+    </section>
+
+</div>
+
+
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+            <h3>ABOUT</h3>
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+            <a href="#">Corporate Information</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>HELP</h3>
+            <a href="#">Payments</a>
+            <a href="#">Shipping</a>
+            <a href="#">Cancellation</a>
+            <a href="#">Returns</a>
+            <a href="#">FAQ</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>POLICY</h3>
+            <a href="#">Return Policy</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Security</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>CONTACT</h3>
+            <p>📍 Pune, Maharashtra</p>
+            <p>📞 +91 9876543210</p>
+            <p>✉ support@shopkart.com</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="footer-bottom">
+
+        <div class="footer-links">
+            <span>🚚 Fast Delivery</span>
+            <span>🔒 Secure Payment</span>
+            <span>↩ Easy Returns</span>
+            <span>🎧 24×7 Support</span>
+        </div>
+
+        <p>© 2026 ShopKart. All Rights Reserved.</p>
+
+    </div>
+
+</footer>
 <script src="api-config.js"></script>
 <script src="ProductDetails.js"></script>
 

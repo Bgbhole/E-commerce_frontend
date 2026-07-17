@@ -1,28 +1,166 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>Payment Successful</title>
+
+    <link rel="stylesheet" href="PaymentSuccessful.css">
+
 </head>
+
 <body>
 
-<div class="success-box">
+<div class="top-bar">
 
-    <h1>✅ Payment Successful</h1>
-
-    <p>Your order has been placed successfully.</p>
-
-    <button onclick="goOrders()">
-        <a href="MyOrders.html">My Orders</a>
+    <button class="nav-btn"
+        onclick="window.location.href='index.html'">
+        🏠 Home
     </button>
 
-    <button onclick="continueShopping()">
-        <a href="index.html">Continue Shopping</a>
+    <button class="nav-btn"
+        onclick="window.location.href='index.html'">
+        ← Back
     </button>
 
 </div>
+
+<div class="success-container">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+
+            ✅
+
+        </div>
+
+        <h1>Payment Successful</h1>
+
+        <p>
+
+            Thank you for shopping with <b>ShopKart</b>.
+
+        </p>
+
+        <p>
+
+            Your order has been placed successfully.
+
+        </p>
+
+        <div class="order-box">
+
+            <p>📦 Order Confirmed</p>
+
+            <p>🚚 Expected Delivery : 2 - 4 Days</p>
+
+            <p>🔒 Payment Verified</p>
+
+        </div>
+
+        <div class="btn-group">
+
+            <button
+                class="orders-btn"
+                onclick="window.location.href='MyOrders.html'">
+
+                📦 My Orders
+
+            </button>
+
+            <button
+                class="shopping-btn"
+                onclick="window.location.href='index.html'">
+
+                Continue Shopping
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<section class="trust-section">
+
+<div class="trust-box">🚚<br>Fast Delivery</div>
+
+<div class="trust-box">🔒<br>Secure Payment</div>
+
+<div class="trust-box">↩<br>Easy Returns</div>
+
+<div class="trust-box">🎧<br>24×7 Support</div>
+
+</section>
+
 
 <script src="api-config.js"></script>
 <script src="PaymentSuccessful.js"></script>
 
 </body>
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-column">
+
+<h3>ABOUT</h3>
+
+<a href="#">About Us</a>
+
+<a href="#">Careers</a>
+
+<a href="#">Press</a>
+
+</div>
+
+<div class="footer-column">
+
+<h3>HELP</h3>
+
+<a href="#">Payments</a>
+
+<a href="#">Shipping</a>
+
+<a href="#">Returns</a>
+
+</div>
+
+<div class="footer-column">
+
+<h3>POLICY</h3>
+
+<a href="#">Privacy Policy</a>
+
+<a href="#">Terms</a>
+
+</div>
+
+<div class="footer-column">
+
+<h3>CONTACT</h3>
+
+<p>Pune, Maharashtra</p>
+
+<p>+91 9876543210</p>
+
+<p>support@shopkart.com</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<p class="copyright">
+
+© 2026 ShopKart. All Rights Reserved.
+
+</p>
+
+</footer>
+
 </html>

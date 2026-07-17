@@ -4,9 +4,9 @@ let editGift = null;
 let editUpi = null;
 let editCard = null;
 
-let giftCards = JSON.parse(localStorage.getItem("giftCards")) || [];
-let upis = JSON.parse(localStorage.getItem("upis")) || [];
-let cards = JSON.parse(localStorage.getItem("cards")) || [];
+let giftCards = [];
+let upis = [];
+let cards = [];
 
 window.onload = function () {
 
@@ -117,39 +117,51 @@ function deleteGiftCard(index) {
 
 // ================= UPI =================
 
-function addUpi() {
+async function saveUpi() {
 
-    let user = JSON.parse(localStorage.getItem("currentUser"));
+    const upiId = document.getElementById("upiId").value;
 
-    let upi = {
+    const upiValue = document.getElementById("upiValue").value;
 
-        customerId: user.id,
+    if(upiValue==""){
 
-        upiNumber: document.getElementById("upiId").value
+        alert("Enter UPI ID");
 
-    };
+        return;
 
-    fetch(`${API_BASE_URL}/api/saveUpi`, {
+    }
 
-        method: "POST",
+    const method = upiId ? "PUT" : "POST";
 
-        headers: {
-            "Content-Type": "application/json"
+    const url = upiId
+        ? `${API_BASE_URL}/api/upis/${upiId}`
+        : `${API_BASE_URL}/api/upis`;
+
+    const response = await fetch(url,{
+
+        method,
+
+        headers:{
+            "Content-Type":"application/json"
         },
 
-        body: JSON.stringify(upi)
+        body:JSON.stringify({
+            upiId:upiValue
+        })
 
-    })
-    .then(response => response.json())
-    .then(data => {
+    });
 
-        alert("UPI Saved Successfully");
+    if(response.ok){
 
-        document.getElementById("upiId").value = "";
+        closeUpiModal();
 
         loadUpis();
 
-    });
+    }else{
+
+        alert("Unable to save UPI");
+
+    }
 
 }
 
@@ -300,7 +312,7 @@ async function loadCards() {
     let response =
         await fetch(`${API_BASE_URL}/api/cards/${user.id}`);
 
-    let cards = await response.json();
+   cards = await response.json();
 
     let html = "";
 
@@ -388,7 +400,28 @@ async function payNow() {
         return;
     }
 
-    const paymentMethod = selected.value;
+   let paymentMethod = selected.value;
+
+if (paymentMethod.startsWith("card")) {
+
+    const card =
+        cards.find(c => c.cardId == paymentMethod.split("-")[1]);
+
+    paymentMethod =
+        "Card **** " + card.cardNumber.slice(-4);
+
+}
+
+if (paymentMethod.startsWith("upi")) {
+
+    const upiId =
+        document.querySelector('input[name="paymentMethod"]:checked')
+        .parentElement
+        .querySelector("h4").innerText;
+
+    paymentMethod = `UPI (${upiId})`;
+
+}
 
     const body = {
         userId: user.id,
@@ -460,4 +493,16 @@ async function payNow() {
 }
 
 
+function openUpiModal(){
 
+    document.getElementById("upiModal")
+            .classList.add("show");
+
+}
+
+function closeUpiModal(){
+
+    document.getElementById("upiModal")
+            .classList.remove("show");
+
+}

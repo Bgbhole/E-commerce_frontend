@@ -12,40 +12,57 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- Google Font -->
     <link rel="preconnect"
-        href="https://fonts.googleapis.com">
+          href="https://fonts.googleapis.com">
 
     <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
 
     <link rel="stylesheet"
-        href="TrackOrder.css">
+          href="TrackOrder.css">
 
 </head>
 
 <body>
 
+<!-- ================= TOP BAR ================= -->
+
+<div class="top-bar">
+
+    <button class="nav-btn"
+        onclick="window.location.href='index.html'">
+        🏠 Home
+    </button>
+
+    <button class="nav-btn"
+        onclick="window.location.href='MyOrders.html'">
+        ← Back
+    </button>
+
+</div>
+
 <div class="container">
 
-    <!-- Header -->
+    <!-- ================= PAGE HEADER ================= -->
 
     <div class="page-header">
 
         <h1>Track Your Order</h1>
 
-        <p>Stay updated with your order journey.</p>
+        <p>
+            Stay updated with your order journey.
+        </p>
 
     </div>
 
-
-    <!-- Order Card -->
+    <!-- ================= ORDER CARD ================= -->
 
     <div class="order-card">
 
@@ -53,13 +70,13 @@
 
             <div>
 
-                <h3 id="orderNo">
+                <h2 id="orderNo">
                     Order #
-                </h3>
+                </h2>
 
-                <span id="orderDate">
+                <p id="orderDate">
                     --
-                </span>
+                </p>
 
             </div>
 
@@ -77,200 +94,428 @@
 
         </div>
 
+        <!-- Product Details -->
+        <div id="productsContainer"></div>
 
-        <!-- Product -->
+    </div>
 
-      <!-- Products will be loaded here -->
+    <!-- ================= TIMELINE ================= -->
 
-<div id="productsContainer"></div>
+<div class="tracking-card">
 
+    <h2>Order Tracking</h2>
 
-    <!-- Timeline -->
+    <div class="timeline">
 
-    <div class="tracking-card">
+        <div class="timeline-item" data-status="confirmed">
 
-        <h2>Order Status</h2>
-
-        <div class="timeline">
-
-            <div class="timeline-item"
-                 data-status="confirmed">
-
-                <div class="icon">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-
-                <div class="content">
-
-                    <h4>Order Confirmed</h4>
-
-                    <span>Order Confirmed</span>
-
-                </div>
-
+            <div class="icon">
+                <i class="fa-solid fa-circle-check"></i>
             </div>
 
-
-            <div class="timeline-item"
-                 data-status="packed">
-
-                <div class="icon">
-                    <i class="fa-solid fa-box"></i>
-                </div>
-
-                <div class="content">
-
-                    <h4>Packed</h4>
-
-                    <span>Seller Packed Your Product</span>
-
-                </div>
-
+            <div class="content">
+                <h4>Order Confirmed</h4>
+                <span>Your order has been confirmed.</span>
             </div>
 
+        </div>
 
-            <div class="timeline-item"
-                 data-status="shipped">
+        <div class="timeline-item" data-status="packed">
 
-                <div class="icon">
-                    <i class="fa-solid fa-truck-fast"></i>
-                </div>
-
-                <div class="content">
-
-                    <h4>Shipped</h4>
-
-                    <span>Package Shipped</span>
-
-                </div>
-
+            <div class="icon">
+                <i class="fa-solid fa-box"></i>
             </div>
 
-
-            <div class="timeline-item"
-                 data-status="hub">
-
-                <div class="icon">
-                    <i class="fa-solid fa-warehouse"></i>
-                </div>
-
-                <div class="content">
-
-                    <h4>Reached Delivery Hub</h4>
-
-                    <span>Nearest Delivery Hub</span>
-
-                </div>
-
+            <div class="content">
+                <h4>Packed</h4>
+                <span>Seller packed your order.</span>
             </div>
 
+        </div>
 
-            <div class="timeline-item"
-                 data-status="out_for_delivery">
+        <div class="timeline-item" data-status="shipped">
 
-                <div class="icon">
-                    <i class="fa-solid fa-truck"></i>
-                </div>
-
-                <div class="content">
-
-                    <h4>Out For Delivery</h4>
-
-                    <span>Delivery Partner Assigned</span>
-
-                </div>
-
+            <div class="icon">
+                <i class="fa-solid fa-truck-fast"></i>
             </div>
 
+            <div class="content">
+                <h4>Shipped</h4>
+                <span>Your order is on the way.</span>
+            </div>
 
-            <div class="timeline-item"
-                 data-status="delivered">
+        </div>
 
-                <div class="icon">
-                    <i class="fa-solid fa-house-circle-check"></i>
-                </div>
+        <div class="timeline-item" data-status="hub">
 
-                <div class="content">
+            <div class="icon">
+                <i class="fa-solid fa-warehouse"></i>
+            </div>
 
-                    <h4>Delivered</h4>
+            <div class="content">
+                <h4>Reached Delivery Hub</h4>
+                <span>Reached nearest delivery hub.</span>
+            </div>
 
-                    <span>Order Delivered Successfully</span>
+        </div>
 
-                </div>
+        <div class="timeline-item" data-status="out_for_delivery">
 
+            <div class="icon">
+                <i class="fa-solid fa-truck"></i>
+            </div>
+
+            <div class="content">
+                <h4>Out For Delivery</h4>
+                <span>Delivery partner assigned.</span>
+            </div>
+
+        </div>
+
+        <div class="timeline-item" data-status="delivered">
+
+            <div class="icon">
+                <i class="fa-solid fa-house-circle-check"></i>
+            </div>
+
+            <div class="content">
+                <h4>Delivered</h4>
+                <span>Order delivered successfully.</span>
             </div>
 
         </div>
 
     </div>
 
+</div>
 
-    <!-- Delivery Address -->
+<!-- ================= INFORMATION CARDS ================= -->
 
-    <div class="info-grid">
+<div class="info-grid">
 
-        <div class="info-card">
+    <!-- Delivery -->
 
-            <h3>
+    <div class="info-card">
 
-                <i class="fa-solid fa-location-dot"></i>
+        <h3>
+            <i class="fa-solid fa-location-dot"></i>
+            Delivery Address
+        </h3>
 
-                Delivery Address
+        <p><strong id="deliveryName">--</strong></p>
 
-            </h3>
+        <p id="deliveryAddress">--</p>
 
-            <p>
+        <p id="deliveryCity">--</p>
 
-                <strong id="deliveryName">
-                    --
-                </strong>
+        <p id="deliveryMobile">--</p>
 
-            </p>
+    <button
+    id="editAddressBtn"
+    class="edit-address-btn"
+    onclick="openEditModal()">
 
-            <p id="deliveryAddress">
-                --
-            </p>
+    <i class="fa-solid fa-pen"></i>
 
-            <p id="deliveryCity">
-                --
-            </p>
-
-            <p id="deliveryMobile">
-                --
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- Buttons -->
-
-    <div class="action-buttons">
-
-        <button class="primary-btn">
-
-            <i class="fa-solid fa-phone"></i>
-
-            Contact Seller
-
-        </button>
-
-       <button class="secondary-btn"
-
-onclick="downloadInvoice()">
-
-<i class="fa-solid fa-file-arrow-down"></i>
-
-Download Invoice
+    Edit Address
 
 </button>
+
+        
+
+    </div>
+    
+
+    <!-- Seller -->
+
+    <div class="info-card">
+
+        <h3>
+            <i class="fa-solid fa-store"></i>
+            Seller Information
+        </h3>
+
+        <p><strong id="shopName">--</strong></p>
+
+        <p>Seller : <span id="sellerName">--</span></p>
+
+        <p>Email : <span id="sellerEmail">--</span></p>
+
+        <p>Mobile : <span id="sellerMobile">--</span></p>
+
+    </div>
+
+    <!-- Payment -->
+
+    <div class="info-card">
+
+        <h3>
+            <i class="fa-solid fa-credit-card"></i>
+            Payment Information
+        </h3>
+
+        <p>Method : <strong id="paymentMethod">--</strong></p>
+
+        <p>Status : <span id="paymentStatus">--</span></p>
+
+        <p>Tracking No : <span id="trackingNumber">--</span></p>
+
+        <p>Total Paid : ₹<strong id="totalPaid">0</strong></p>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="info-card">
+
+        <h3>
+            <i class="fa-solid fa-file-invoice"></i>
+            Order Summary
+        </h3>
+
+        <p>
+            Product Total :
+            ₹<span id="productTotal">0</span>
+        </p>
+
+        <p>
+            GST :
+            ₹<span id="gstAmount">0</span>
+        </p>
+
+        <p>
+            Delivery Charge :
+            <strong>FREE</strong>
+        </p>
+
+        <hr>
+
+        <h2>
+            Grand Total :
+            ₹<span id="grandTotal">0</span>
+        </h2>
+
+    </div>
+
+</div>
+
+<!-- ================= ACTION BUTTONS ================= -->
+
+<div class="action-buttons">
+
+    <button class="primary-btn">
+
+        <i class="fa-solid fa-phone"></i>
+
+        Contact Seller
+
+    </button>
+
+    <button class="secondary-btn"
+            onclick="downloadInvoice()">
+
+        <i class="fa-solid fa-file-arrow-down"></i>
+
+        Download Invoice
+
+    </button>
+
+    <button class="secondary-btn"
+            onclick="window.location.href='MyOrders.html'">
+
+        <i class="fa-solid fa-box"></i>
+
+        My Orders
+
+    </button>
+
+    <button class="secondary-btn"
+            onclick="window.location.href='index.html'">
+
+        <i class="fa-solid fa-house"></i>
+
+        Continue Shopping
+
+    </button>
+
+</div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h3>ABOUT</h3>
+
+            <a href="#">About Us</a>
+
+            <a href="#">Careers</a>
+
+            <a href="#">Press</a>
+
+            <a href="#">Corporate Information</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>HELP</h3>
+
+            <a href="#">Payments</a>
+
+            <a href="#">Shipping</a>
+
+            <a href="#">Cancellation</a>
+
+            <a href="#">Returns</a>
+
+            <a href="#">FAQ</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>POLICY</h3>
+
+            <a href="#">Return Policy</a>
+
+            <a href="#">Privacy Policy</a>
+
+            <a href="#">Terms & Conditions</a>
+
+            <a href="#">Security</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h3>CONTACT</h3>
+
+            <p>📍 Pune, Maharashtra</p>
+
+            <p>📞 +91 9876543210</p>
+
+            <p>✉ support@shopkart.com</p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="footer-bottom">
+
+        <div class="footer-links">
+
+            <span>🚚 Fast Delivery</span>
+
+            <span>🔒 Secure Payment</span>
+
+            <span>↩ Easy Returns</span>
+
+            <span>🎧 24×7 Support</span>
+
+        </div>
+
+        <p>
+
+            © 2026 ShopKart. All Rights Reserved.
+
+        </p>
+
+    </div>
+
+</footer>
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Edit Delivery Address</h2>
+
+        <div class="form-group">
+
+            <label>Name</label>
+
+            <input id="editName" type="text">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Mobile</label>
+
+            <input id="editMobile" type="text">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Address</label>
+
+            <textarea id="editAddress"></textarea>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>City</label>
+
+                <input id="editCity" type="text">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>State</label>
+
+                <input id="editState" type="text">
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Pincode</label>
+
+            <input id="editPincode" type="text">
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="closeEditModal()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveDeliveryAddress()">
+
+                Save Changes
+
+            </button>
+
+        </div>
 
     </div>
 
 </div>
 
 <script src="api-config.js"></script>
+
 <script src="TrackOrder.js"></script>
 
 </body>

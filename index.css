@@ -662,22 +662,31 @@ body{
 }
 
 .rating{
-
-    display:inline-flex;
+    display:flex;
     align-items:center;
-    gap:5px;
+    gap:8px;
+    margin:10px 0;
+}
 
+.rating-badge{
     background:#388e3c;
     color:#fff;
-
-    padding:6px 10px;
-
-    border-radius:5px;
-
-    margin-top:12px;
-
+    padding:4px 8px;
+    border-radius:4px;
     font-size:13px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
 
+.rating-badge i{
+    font-size:11px;
+}
+
+.rating-total{
+    color:#878787;
+    font-size:12px;
 }
 
 .price{
@@ -1495,4 +1504,25 @@ footer{
 
     font-weight:bold;
 
+}
+
+.product-rating{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:8px 0;
+}
+
+.rating-badge{
+    background:#388e3c;
+    color:#fff;
+    padding:3px 8px;
+    border-radius:4px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.rating-count{
+    color:#878787;
+    font-size:12px;
 }

@@ -1,21 +1,118 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>OTP Verification</title>
+
+    <title>OTP Verification</title>
+
+    <link rel="stylesheet" href="OtpPage.css">
+
 </head>
+
 <body>
 
-<h2>OTP Verification</h2>
+<div class="top-bar">
 
-<p>Enter OTP sent to registered mobile</p>
+    <button class="nav-btn" onclick="window.location.href='index.html'">
+        🏠 Home
+    </button>
 
-<input type="password"
-       id="otp"
-       placeholder="Enter OTP">
+    <button class="nav-btn" onclick="history.back()">
+        ← Back
+    </button>
 
-<button onclick="verifyOtp()">
-Verify OTP
-</button>
+</div>
+
+<div class="otp-container">
+
+    <div class="otp-card">
+
+        <div class="lock-icon">🔒</div>
+
+        <h2>OTP Verification</h2>
+
+        <p class="subtitle">
+            Enter the OTP sent to your registered mobile number
+        </p>
+
+        <input
+            type="password"
+            id="otp"
+            placeholder="Enter 6-digit OTP"
+            maxlength="6">
+
+        <button
+            class="verify-btn"
+            onclick="verifyOtp()">
+
+            Verify & Continue
+
+        </button>
+
+        <p class="otp-note">
+
+            Didn't receive OTP?
+
+            <a href="#">Resend OTP</a>
+
+        </p>
+
+        <div class="security-box">
+
+            🔒 100% Secure Payment
+
+            <br>
+
+            Your payment is protected using SSL encryption.
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+            <h3>ABOUT</h3>
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>HELP</h3>
+            <a href="#">Payments</a>
+            <a href="#">Shipping</a>
+            <a href="#">Returns</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>POLICY</h3>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>CONTACT</h3>
+            <p>Pune, Maharashtra</p>
+            <p>+91 9876543210</p>
+            <p>support@shopkart.com</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="copyright">
+
+        © 2026 ShopKart. All Rights Reserved.
+
+    </p>
+
+</footer>
 
 <script src="api-config.js"></script>
 <script src="OtpPage.js"></script>

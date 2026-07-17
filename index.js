@@ -5,6 +5,7 @@ let bannerIndex = 0;
 let searchInput;
 let suggestions;
 
+
 // ================= PAGE LOAD =================
 
 window.onload = async function () {
@@ -137,13 +138,15 @@ data-product-id="${product.productId}">
 
     </p>
 
-    <div class="rating">
+    <div class="product-rating">
+    <span class="rating-badge">
+        ${product.averageRating || "0.0"} ★
+    </span>
 
-        <i class="fa-solid fa-star"></i>
-
-        4.5
-
-    </div>
+    <span class="rating-count">
+        (${product.totalReviews || 0})
+    </span>
+</div>
 
     <h2 class="price">
 
@@ -483,9 +486,19 @@ ${product.description || ""}
 
 <div class="rating">
 
+<span class="rating-badge">
+
+${product.averageRating ? product.averageRating.toFixed(1) : "0.0"}
+
 <i class="fa-solid fa-star"></i>
 
-4.5
+</span>
+
+<span class="rating-total">
+
+(${product.totalReviews || 0})
+
+</span>
 
 </div>
 
