@@ -647,6 +647,10 @@ button{
 
 }
 
+.modal.show{
+    display:flex;
+}
+
 .modal-content{
 
     width:420px;

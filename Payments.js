@@ -119,45 +119,63 @@ function deleteGiftCard(index) {
 
 async function saveUpi() {
 
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
     const upiId = document.getElementById("upiId").value;
+    const upiValue = document.getElementById("upiValue").value.trim();
 
-    const upiValue = document.getElementById("upiValue").value;
-
-    if(upiValue==""){
-
+    if (upiValue === "") {
         alert("Enter UPI ID");
-
         return;
+    }
+
+    let response;
+
+    if (upiId === "") {
+
+        response = await fetch(`${API_BASE_URL}/api/saveUpi`, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                customerId: user.id,
+                upiNumber: upiValue
+            })
+
+        });
+
+    } else {
+
+        response = await fetch(`${API_BASE_URL}/api/upi/${upiId}`, {
+
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                upiNumber: upiValue
+            })
+
+        });
 
     }
 
-    const method = upiId ? "PUT" : "POST";
-
-    const url = upiId
-        ? `${API_BASE_URL}/api/upis/${upiId}`
-        : `${API_BASE_URL}/api/upis`;
-
-    const response = await fetch(url,{
-
-        method,
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            upiId:upiValue
-        })
-
-    });
-
-    if(response.ok){
+    if (response.ok) {
 
         closeUpiModal();
 
+        document.getElementById("upiId").value = "";
+        document.getElementById("upiValue").value = "";
+
         loadUpis();
 
-    }else{
+    } else {
 
         alert("Unable to save UPI");
 
@@ -167,57 +185,108 @@ async function saveUpi() {
 
 async function loadUpis() {
 
-    let user =
-        JSON.parse(localStorage.getItem("currentUser"));
+    const user = JSON.parse(localStorage.getItem("currentUser"));
 
-    let response =
-        await fetch(`${API_BASE_URL}/api/upis/${user.id}`);
+    const response = await fetch(`${API_BASE_URL}/api/upi/${user.id}`);
 
-    let upis = await response.json();
+    const upis = await response.json();
 
     let html = "";
 
-    upis.forEach(upi => {
+    const displayUpis = upis.slice(0, 4);
+
+    displayUpis.forEach(upi => {
 
         html += `
+        <div class="upi-card">
 
-        <div class="option">
+            <div class="upi-left">
 
-            <input type="radio"
-                   name="paymentMethod">
+                <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="upi-${upi.upiId}">
 
-            <div class="option-details">
+                <div class="upi-details">
 
-                <h4>${upi.upiNumber}</h4>
+                    <div class="upi-title">
+                        ${upi.upiNumber}
+                    </div>
 
-                <p>UPI Payment</p>
+                    <div class="upi-id">
+                        UPI Payment
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="upi-actions">
+
+                <button
+                    class="edit-upi"
+                    onclick="editUpiData(${upi.upiId}, '${upi.upiNumber}')">
+
+                    Edit
+
+                </button>
+
+                <button
+                    class="delete-upi"
+                    onclick="deleteUpiData(${upi.upiId})">
+
+                    Delete
+
+                </button>
 
             </div>
 
         </div>
-
         `;
 
     });
+
+    if (upis.length > 4) {
+
+        html += `
+        <div style="text-align:center;margin-top:15px;">
+            <button class="add-upi-btn"
+                    onclick="window.location.href='SaveUpi.html'">
+
+                View All UPI IDs
+
+            </button>
+        </div>
+        `;
+
+    }
 
     document.getElementById("upiList").innerHTML = html;
 
 }
 
-function editUpiData(index) {
+function editUpiData(upiId, upiNumber){
 
-    document.getElementById("upiId").value = upis[index];
+    document.getElementById("upiId").value = upiId;
 
-    editUpi = index;
+    document.getElementById("upiValue").value = upiNumber;
+
+    openUpiModal();
+
 }
 
-function deleteUpi(index) {
+async function deleteUpiData(upiId){
 
-    upis.splice(index, 1);
+    if(!confirm("Delete this UPI?")) return;
 
-    localStorage.setItem("upis", JSON.stringify(upis));
+    await fetch(`${API_BASE_URL}/api/upi/${upiId}`,{
+
+        method:"DELETE"
+
+    });
 
     loadUpis();
+
 }
 
 
@@ -493,16 +562,13 @@ if (paymentMethod.startsWith("upi")) {
 }
 
 
-function openUpiModal(){
+function openUpiModal() {
 
-    document.getElementById("upiModal")
-            .classList.add("show");
+    document.getElementById("upiModal").classList.add("show");
 
 }
 
-function closeUpiModal(){
+function closeUpiModal() {
 
-    document.getElementById("upiModal")
-            .classList.remove("show");
-
+    document.getElementById("upiModal").classList.remove("show");
 }

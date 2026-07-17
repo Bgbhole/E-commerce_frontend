@@ -54,16 +54,53 @@ button{
 }
 
 .card{
-    background:#fafafa;
+    background:#fff;
     margin-top:15px;
     padding:20px;
     border-left:5px solid #2874f0;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.upi-info h3{
+    margin:0;
+    font-size:20px;
+    color:#333;
+}
+
+.upi-buttons{
+    display:flex;
+    gap:10px;
 }
 
 .edit-btn{
-    background:orange;
+    background:#ff9800;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.edit-btn:hover{
+    background:#f57c00;
 }
 
 .delete-btn{
-    background:red;
+    background:#e53935;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.delete-btn:hover{
+    background:#c62828;
 }
