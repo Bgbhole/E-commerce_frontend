@@ -292,43 +292,43 @@ function searchProducts(){
 
 function showCategory(category) {
 
-    const filtered = products.filter(product =>
-
+    filteredProducts = products.filter(product =>
         (product.category || "")
             .trim()
-            .toLowerCase() ===
-        category.trim().toLowerCase()
-
+            .toLowerCase() === category.trim().toLowerCase()
     );
 
-    console.log("Category:", category);
-    console.log(filtered);
+    displayProducts(filteredProducts);
 
-    displayProducts(filtered);
-
+    loadFlashSale(filteredProducts);
+    loadTrending(filteredProducts);
+    loadBestSeller(filteredProducts);
+    loadRecommended(filteredProducts);
 }
 
 function showAll() {
 
-    displayProducts(products);
+    filteredProducts = [...products];
 
+    displayProducts(filteredProducts);
+
+    loadFlashSale(filteredProducts);
+    loadTrending(filteredProducts);
+    loadBestSeller(filteredProducts);
+    loadRecommended(filteredProducts);
 }
 
 // ================= TRENDING =================
 
-function loadTrending() {
+function loadFlashSale(list = products) {
 
-    const box =
-        document.getElementById("trendingProducts");
+    const box = document.getElementById("flashProducts");
 
     if (!box) return;
 
     box.innerHTML = "";
 
-    const list = [...products]
-        .slice(0, 4);
-
-    list.forEach(product => {
+    list.slice(0,4).forEach(product => {
 
         box.innerHTML += createProductCard(product);
 
@@ -338,19 +338,15 @@ function loadTrending() {
 
 // ================= BEST SELLER =================
 
-function loadBestSeller() {
+function loadBestSeller(list = products) {
 
-    const box =
-        document.getElementById("bestSellerProducts");
+    const box = document.getElementById("bestSellerProducts");
 
     if (!box) return;
 
     box.innerHTML = "";
 
-    const list = [...products]
-        .slice(4, 8);
-
-    list.forEach(product => {
+    list.slice(0,4).forEach(product => {
 
         box.innerHTML += createProductCard(product);
 
@@ -360,19 +356,15 @@ function loadBestSeller() {
 
 // ================= RECOMMENDED =================
 
-function loadRecommended() {
+function loadBestSeller(list = products) {
 
-    const box =
-        document.getElementById("recommendedProducts");
+    const box = document.getElementById("bestSellerProducts");
 
     if (!box) return;
 
     box.innerHTML = "";
 
-    const list = [...products]
-        .slice(0, 8);
-
-    list.forEach(product => {
+    list.slice(0,4).forEach(product => {
 
         box.innerHTML += createProductCard(product);
 
@@ -382,25 +374,62 @@ function loadRecommended() {
 
 // ================= FLASH SALE =================
 
-function loadFlashSale() {
+function loadFlashSale(list = products) {
 
-    const box =
-        document.getElementById("flashProducts");
+    const box = document.getElementById("flashProducts");
 
     if (!box) return;
 
     box.innerHTML = "";
 
-    const list = [...products]
+    if (list.length === 0) {
+        box.innerHTML = "<h3>No Products Available</h3>";
+        return;
+    }
+
+    // Randomize products for Flash Sale
+    const flashProducts = [...list]
+        .sort(() => Math.random() - 0.5)
         .slice(0, 4);
 
-    list.forEach(product => {
+    flashProducts.forEach(product => {
+        box.innerHTML += createProductCard(product);
+    });
+
+}
+
+
+function loadTrending(list = products) {
+
+    const box = document.getElementById("trendingProducts");
+
+    if (!box) return;
+
+    box.innerHTML = "";
+
+    list.slice(0, 4).forEach(product => {
+        box.innerHTML += createProductCard(product);
+    });
+
+}
+
+
+function loadRecommended(list = products) {
+
+    const box = document.getElementById("recommendedProducts");
+
+    if (!box) return;
+
+    box.innerHTML = "";
+
+    list.slice(0, 8).forEach(product => {
 
         box.innerHTML += createProductCard(product);
 
     });
 
 }
+
 
 // ================= REUSABLE CARD =================
 
