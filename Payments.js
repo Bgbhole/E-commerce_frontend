@@ -468,10 +468,11 @@ async function payNow() {
         alert("Please select payment method");
         return;
     }
-
+   
+   const selectedValue = selected.value;
    let paymentMethod = selected.value;
 
-if (paymentMethod.startsWith("card")) {
+if (selectedValue.startsWith("card")) {
 
     const card =
         cards.find(c => c.cardId == paymentMethod.split("-")[1]);
@@ -500,7 +501,7 @@ if (paymentMethod.startsWith("upi")) {
     };
 
     // CARD
-   if (paymentMethod.startsWith("card")) {
+  if (selectedValue.startsWith("card")) {
 
     const selectedCard = document.querySelector('input[name="paymentMethod"]:checked');
 

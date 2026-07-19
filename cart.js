@@ -58,52 +58,77 @@ async function loadCart() {
 
         cart.forEach(item => {
 
-            const itemTotal = item.product.finalPrice * item.quantity;
+    const originalPrice =
+        item.product.sellerPrice || item.product.sellingPrice;
 
-            total += itemTotal;
+    const finalPrice =
+        item.product.finalSellingPrice || item.product.finalPrice;
 
-            totalQuantity += item.quantity;
+    const price =
+    item.product.finalSellingPrice || item.product.finalPrice;
 
-            box.innerHTML += `
+const itemTotal = price * item.quantity;
 
-            <div class="item">
+    total += itemTotal;
 
-                <img src="${API_BASE_URL}/api/products/image/${item.product.productId}" width="150">
+    totalQuantity += item.quantity;
 
-                <div class="details">
+    box.innerHTML += `
 
-                    <h2>${item.product.productName}</h2>
+    <div class="item">
 
-                    <p>${item.product.description || ""}</p>
+        <img src="${API_BASE_URL}/api/products/image/${item.product.productId}" width="150">
 
-                    <h3>₹${item.product.finalPrice}</h3>
+        <div class="details">
 
-                    <div class="quantity-box">
+            <h2>${item.product.productName}</h2>
 
-                        <button onclick="decreaseQuantity(${item.cartId}, ${item.quantity})">-</button>
+            <p>${item.product.description || ""}</p>
 
-                        <span>${item.quantity}</span>
+            ${
+                originalPrice > finalPrice
+                ? `
+                    <h3>
+                        <span style="text-decoration:line-through;color:#888;">
+                            ₹${originalPrice.toFixed(2)}
+                        </span>
 
-                        <button onclick="increaseQuantity(${item.cartId}, ${item.quantity})">+</button>
+                        <span style="color:green;font-weight:bold;margin-left:10px;">
+                            ₹${finalPrice.toFixed(2)}
+                        </span>
+                    </h3>
+                  `
+                : `
+                    <h3>₹${finalPrice.toFixed(2)}</h3>
+                  `
+            }
 
-                    </div>
+            <div class="quantity-box">
 
-                    <h3>Total : ₹${itemTotal}</h3>
+                <button onclick="decreaseQuantity(${item.cartId}, ${item.quantity})">-</button>
 
-                    <button class="remove-btn"
-                        onclick="removeItem(${item.cartId})">
+                <span>${item.quantity}</span>
 
-                        Remove
-
-                    </button>
-
-                </div>
+                <button onclick="increaseQuantity(${item.cartId}, ${item.quantity})">+</button>
 
             </div>
 
-            `;
+            <h3>Total : ₹${itemTotal.toFixed(2)}</h3>
 
-        });
+            <button class="remove-btn"
+                onclick="removeItem(${item.cartId})">
+
+                Remove
+
+            </button>
+
+        </div>
+
+    </div>
+
+    `;
+
+});
 
         document.getElementById("itemsCount").innerHTML = totalItems;
 
@@ -216,6 +241,9 @@ async function removeItem(cartId) {
 }
 
 function goCheckout() {
+
+    // Clear Buy Now product
+    localStorage.removeItem("buyNowProduct");
 
     window.location.href = "checkout.html";
 

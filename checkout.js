@@ -2,9 +2,14 @@ let user = JSON.parse(localStorage.getItem("currentUser"));
 
 window.onload = function () {
 
+    if (!user) {
+        alert("Please login first.");
+        window.location.href = "Login.html";
+        return;
+    }
+
     loadAddresses();
     loadPrice();
-
 };
 
 // =====================
@@ -15,9 +20,13 @@ async function loadAddresses() {
 
     try {
 
-        let response = await fetch(`${API_BASE_URL}/api/address/${user.id}`);
+        const response = await fetch(`${API_BASE_URL}/api/address/${user.id}`);
 
-        let addresses = await response.json();
+        if (!response.ok) {
+            throw new Error("Unable to load addresses");
+        }
+
+        const addresses = await response.json();
 
         let deliveryHTML = "";
         let billingHTML = "";
@@ -27,21 +36,22 @@ async function loadAddresses() {
 
         addresses.forEach((address, index) => {
 
-            let deliveryChecked =
-                (savedDelivery && savedDelivery == address.addressId) ||
+            const deliveryChecked =
+                (savedDelivery == address.addressId) ||
                 (!savedDelivery && index === 0);
 
-            let billingChecked =
-                (savedBilling && savedBilling == address.addressId) ||
+            const billingChecked =
+                (savedBilling == address.addressId) ||
                 (!savedBilling && index === 0);
 
             deliveryHTML += `
                 <div class="address-card">
 
-                    <input type="radio"
-                           name="delivery"
-                           value="${address.addressId}"
-                           ${deliveryChecked ? "checked" : ""}>
+                    <input
+                        type="radio"
+                        name="delivery"
+                        value="${address.addressId}"
+                        ${deliveryChecked ? "checked" : ""}>
 
                     <h4>${address.fullName}</h4>
 
@@ -57,10 +67,11 @@ async function loadAddresses() {
             billingHTML += `
                 <div class="address-card">
 
-                    <input type="radio"
-                           name="billing"
-                           value="${address.addressId}"
-                           ${billingChecked ? "checked" : ""}>
+                    <input
+                        type="radio"
+                        name="billing"
+                        value="${address.addressId}"
+                        ${billingChecked ? "checked" : ""}>
 
                     <h4>${address.fullName}</h4>
 
@@ -78,7 +89,8 @@ async function loadAddresses() {
         document.getElementById("deliveryAddressList").innerHTML = deliveryHTML;
         document.getElementById("billingAddressList").innerHTML = billingHTML;
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(error);
 
@@ -87,46 +99,49 @@ async function loadAddresses() {
 }
 
 // =====================
-// Load Cart Price
+// Load Price
 // =====================
 
 async function loadPrice() {
 
-    // ==========================
+    const buyNowProduct = JSON.parse(localStorage.getItem("buyNowProduct"));
+
+    // =========================
     // BUY NOW
-    // ==========================
+    // =========================
 
-    let buyNowProduct = JSON.parse(localStorage.getItem("buyNowProduct"));
+    if (buyNowProduct != null) {
 
-    if (buyNowProduct) {
+        const price =
+            Number(
+                buyNowProduct.finalSellingPrice ??
+                buyNowProduct.finalPrice ??
+                buyNowProduct.sellingPrice ??
+                0
+            );
 
-        let totalItems = 1;
+        const totalItems = 1;
 
-        let productPrice = buyNowProduct.finalPrice;
+        const deliveryCharge = price >= 250 ? 0 : 40;
 
-        let deliveryCharge = productPrice > 250 ? 0 : 40;
-
-        let totalAmount = productPrice + deliveryCharge;
+        const totalAmount = price + deliveryCharge;
 
         document.getElementById("itemsCount").innerHTML = totalItems;
-
-        document.getElementById("productPrice").innerHTML =
-            productPrice.toFixed(2);
-
+        document.getElementById("productPrice").innerHTML = price.toFixed(2);
         document.getElementById("deliveryCharge").innerHTML =
             deliveryCharge === 0 ? "FREE" : "₹" + deliveryCharge;
-
         document.getElementById("totalAmount").innerHTML =
             totalAmount.toFixed(2);
 
         localStorage.setItem("orderAmount", totalAmount);
 
         return;
+
     }
 
-    // ==========================
+    // =========================
     // CART
-    // ==========================
+    // =========================
 
     try {
 
@@ -142,23 +157,34 @@ async function loadPrice() {
 
         const cart = await response.json();
 
-        let productPrice = 0;
-
         let totalItems = 0;
+        let productPrice = 0;
 
         cart.forEach(item => {
 
-            productPrice += item.product.finalPrice * item.quantity;
+            const quantity = Number(item.quantity || 0);
 
-            totalItems += item.quantity;
+            const price = Number(
+                item.product?.finalSellingPrice ??
+                item.product?.finalPrice ??
+                item.product?.sellingPrice ??
+                0
+            );
+
+            totalItems += quantity;
+
+            productPrice += price * quantity;
 
         });
 
-        let deliveryCharge = productPrice > 250 ? 0 : 40;
+        const deliveryCharge =
+            productPrice >= 250 ? 0 : 40;
 
-        let totalAmount = productPrice + deliveryCharge;
+        const totalAmount =
+            productPrice + deliveryCharge;
 
-        document.getElementById("itemsCount").innerHTML = totalItems;
+        document.getElementById("itemsCount").innerHTML =
+            totalItems;
 
         document.getElementById("productPrice").innerHTML =
             productPrice.toFixed(2);
@@ -172,7 +198,6 @@ async function loadPrice() {
         localStorage.setItem("orderAmount", totalAmount);
 
     }
-
     catch (error) {
 
         console.error(error);
@@ -183,18 +208,17 @@ async function loadPrice() {
 
 }
 
-
 // =====================
-// Proceed to Payment
+// Payment
 // =====================
 
 function goPayment() {
 
-    let delivery = document.querySelector(
+    const delivery = document.querySelector(
         'input[name="delivery"]:checked'
     );
 
-    let billing = document.querySelector(
+    const billing = document.querySelector(
         'input[name="billing"]:checked'
     );
 
@@ -214,9 +238,15 @@ function goPayment() {
 
     }
 
-    localStorage.setItem("deliveryAddressId", delivery.value);
+    localStorage.setItem(
+        "deliveryAddressId",
+        delivery.value
+    );
 
-    localStorage.setItem("billingAddressId", billing.value);
+    localStorage.setItem(
+        "billingAddressId",
+        billing.value
+    );
 
     window.location.href = "Payments.html";
 

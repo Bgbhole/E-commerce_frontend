@@ -1,15 +1,24 @@
 
-const params = new URLSearchParams(window.location.search);
 
+const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
+
+let images = [];
+let current = 0;
 
 async function loadProduct() {
 
     try {
 
-        let response = await fetch(`${API_BASE_URL}/api/products/${id}`);
-        let product = await response.json();
+        const response = await fetch(`${API_BASE_URL}/api/products/${id}`);
 
+        if (!response.ok) {
+            throw new Error("Unable to load product");
+        }
+
+        const product = await response.json();
+
+        // Product Images
         images = [
             `${API_BASE_URL}/api/products/image/${product.productId}`,
             `${API_BASE_URL}/api/products/image2/${product.productId}`,
@@ -18,36 +27,83 @@ async function loadProduct() {
         ];
 
         current = 0;
-
         document.getElementById("productImage").src = images[current];
 
-        // Product Info
-        document.getElementById("name").innerHTML = product.productName;
-        document.getElementById("price").innerHTML = "₹" + product.finalPrice;
-        document.getElementById("description").innerHTML = product.description;
+        // Product Name
+        document.getElementById("name").innerHTML =
+            product.productName || "";
 
-        loadSpecifications(product);
+        // Price
+        const sellerPrice =
+    product.sellerPrice ?? product.sellingPrice ?? 0;
 
-    } catch (error) {
-        console.log(error);
-    }
+const finalPrice =
+    product.finalSellingPrice ??
+    product.finalPrice ??
+    sellerPrice;
+
+const discount =
+    Number(product.adminDiscount || 0);
+
+let priceHtml = `
+<span class="current-price">
+    ₹${finalPrice.toFixed(2)}
+</span>
+`;
+
+if(discount > 0){
+
+    priceHtml += `
+        <span class="seller-price">
+            ₹${sellerPrice.toFixed(2)}
+        </span>
+
+        <span class="discount-percent">
+            ${discount}% OFF
+        </span>
+    `;
 }
 
+document.getElementById("price").innerHTML = priceHtml;
+
+        // Description
+        document.getElementById("description").innerHTML =
+            product.description || "";
+
+        // Specifications
+        loadSpecifications(product);
+
+    }
+    catch (error) {
+
+        console.error(error);
+        alert("Unable to load product.");
+
+    }
+
+}
+
+// Load everything
 loadProduct();
 loadRelatedProducts();
-
 loadReviews();
 
+// Review Form
 const user = JSON.parse(localStorage.getItem("currentUser"));
 
 if (!user) {
+
     document.getElementById("reviewForm").innerHTML = `
         <h3>Write a Review</h3>
         <p>Please <a href="loginpage.html">login</a> to write a review.</p>
     `;
+
 }
 
+// Next Image
 document.getElementById("nextBtn").onclick = function () {
+
+    if (images.length === 0) return;
 
     current++;
 
@@ -55,12 +111,15 @@ document.getElementById("nextBtn").onclick = function () {
         current = 0;
     }
 
-    document.getElementById("productImage").src = images[current];
+    document.getElementById("productImage").src =
+        images[current];
+
 };
 
-
-
+// Previous Image
 document.getElementById("prevBtn").onclick = function () {
+
+    if (images.length === 0) return;
 
     current--;
 
@@ -68,7 +127,9 @@ document.getElementById("prevBtn").onclick = function () {
         current = images.length - 1;
     }
 
-    document.getElementById("productImage").src = images[current];
+    document.getElementById("productImage").src =
+        images[current];
+
 };
 
 

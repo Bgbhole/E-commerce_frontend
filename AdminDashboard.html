@@ -209,17 +209,644 @@ onkeyup="searchTable()">
 
 </main>
 
-<!-- MODALS -->
+<!-- ===========================
+     EDIT SELLER MODAL
+=========================== -->
 
-<div id="modalContainer">
+<div id="editSellerModal" class="modal">
+
+    <div class="modal-content seller-modal">
+
+        <h2>Edit Seller Details</h2>
+
+        <input type="hidden" id="sellerId">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Seller Name</label>
+                <input type="text" id="sellerName">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="sellerEmail">
+            </div>
+
+            <div class="form-group">
+                <label>Mobile</label>
+                <input type="text" id="sellerMobile">
+            </div>
+
+            <div class="form-group">
+                <label>Alternate Mobile</label>
+                <input type="text" id="sellerAlternateMobile">
+            </div>
+
+        
+
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" id="businessName">
+            </div>
+
+            <div class="form-group">
+                <label>Business Type</label>
+                <input type="text" id="businessType">
+            </div>
+
+            <div class="form-group">
+                <label>Shop Name</label>
+                <input type="text" id="shopName">
+            </div>
+
+            <div class="form-group full-width">
+                <label>Shop Address</label>
+                <input type="text" id="shopAddress">
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" id="city">
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" id="state">
+            </div>
+
+            <div class="form-group">
+                <label>Pincode</label>
+                <input type="text" id="pincode">
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <input type="text" id="category">
+            </div>
+
+            <div class="form-group">
+                <label>Product Type</label>
+                <input type="text" id="productType">
+            </div>
+
+            <div class="form-group full-width">
+                <label>Pickup Address</label>
+                <input type="text" id="pickupAddress">
+            </div>
+
+            <div class="form-group">
+                <label>GST Number</label>
+                <input type="text" id="gstNumber">
+            </div>
+
+            <div class="form-group">
+                <label>PAN Number</label>
+                <input type="text" id="panNumber">
+            </div>
+
+            <div class="form-group">
+                <label>Aadhar Number</label>
+                <input type="text" id="aadharNumber">
+            </div>
+
+            <div class="form-group">
+                <label>Business License</label>
+                <input type="text" id="businessLicense">
+            </div>
+
+            <div class="form-group">
+                <label>Account Holder Name</label>
+                <input type="text" id="accountHolderName">
+            </div>
+
+            <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" id="accountNumber">
+            </div>
+
+            <div class="form-group">
+                <label>Bank Name</label>
+                <input type="text" id="bankName">
+            </div>
+
+            <div class="form-group">
+                <label>IFSC Code</label>
+                <input type="text" id="ifscCode">
+            </div>
+
+            <div class="form-group">
+                <label>UPI ID</label>
+                <input type="text" id="upiId">
+            </div>
+
+            <div class="form-group">
+                <label>Nominee Name</label>
+                <input type="text" id="nomineeName">
+            </div>
+
+            <div class="form-group">
+                <label>Nominee Mobile</label>
+                <input type="text" id="nomineeMobile">
+            </div>
+
+        </div>
+
+        <h3 style="margin-top:20px;">Shop Images</h3>
+
+        <div class="image-preview-grid">
+
+            <div>
+                <label>Shop Logo</label><br>
+                <img id="shopLogoPreview"
+                     src=""
+                     style="width:120px;height:120px;object-fit:cover;border:1px solid #ddd;border-radius:8px;">
+            </div>
+
+            <div>
+                <label>Shop Front</label><br>
+                <img id="shopFrontPreview"
+                     src=""
+                     style="width:120px;height:120px;object-fit:cover;border:1px solid #ddd;border-radius:8px;">
+            </div>
+
+            <div>
+                <label>Shop Inside</label><br>
+                <img id="shopInsidePreview"
+                     src=""
+                     style="width:120px;height:120px;object-fit:cover;border:1px solid #ddd;border-radius:8px;">
+            </div>
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button class="save-btn" onclick="updateSeller()">
+                Update Seller
+            </button>
+
+            <button class="cancel-btn" onclick="closeSellerModal()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
+<div id="editUserModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Edit Customer Details</h2>
+
+        <input type="hidden" id="editUserId">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="editFirstName">
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="editLastName">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="editEmail">
+            </div>
+
+            <div class="form-group">
+                <label>Mobile</label>
+                <input type="text" id="editMobile">
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <input type="text" id="editGender">
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" id="editDob">
+            </div>
+
+            <div class="form-group full-width">
+                <label>Address</label>
+                <input type="text" id="editAddress">
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" id="editCity">
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" id="editState">
+            </div>
+
+            <div class="form-group">
+                <label>Pincode</label>
+                <input type="text" id="editPincode">
+            </div>
+
+            <div class="form-group">
+                <label>Country</label>
+                <input type="text" id="editCountry">
+            </div>
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button class="save-btn" onclick="updateUser()">
+                Update Customer
+            </button>
+
+            <button class="cancel-btn" onclick="closeUserModal()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Product Details</h2>
+
+        <input type="hidden" id="productId">
+
+        <div class="form-grid">
+
+            <!-- ===========================
+                 PRODUCT IMAGES
+            ============================ -->
+
+            <div class="full-width">
+
+                <h3 class="section-title">Product Images</h3>
+
+                <div class="product-images">
+
+                    <img id="productImage1"
+                         class="product-preview"
+                         onclick="previewProductImage(this.src)">
+
+                    <img id="productImage2"
+                         class="product-preview"
+                         onclick="previewProductImage(this.src)">
+
+                    <img id="productImage3"
+                         class="product-preview"
+                         onclick="previewProductImage(this.src)">
+
+                    <img id="productImage4"
+                         class="product-preview"
+                         onclick="previewProductImage(this.src)">
+
+                </div>
+
+            </div>
+
+            <!-- ===========================
+                 BASIC INFORMATION
+            ============================ -->
+
+            <h3 class="section-title">
+                Basic Information
+            </h3>
+
+            <div class="form-group">
+                <label>Product Name</label>
+                <input id="productName" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Brand</label>
+                <input id="productBrand" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <input id="productCategory" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Seller</label>
+                <input id="productSeller" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Seller Price</label>
+                <input id="productSellerPrice" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Final Price</label>
+                <input id="productFinalPrice" readonly>
+            </div>
+
+            <!-- ===========================
+                 PRICING DETAILS
+            ============================ -->
+
+            <h3 class="section-title">
+                Pricing Details
+            </h3>
+
+            <div class="form-group">
+                <label>Purchase Price</label>
+                <input id="productPurchasePrice" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>GST (%)</label>
+                <input id="productGst" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>GST Amount</label>
+                <input id="productGstAmount" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Admin Discount (%)</label>
+                <input
+                    type="number"
+                    id="adminDiscount"
+                    min="0"
+                    max="100"
+                    oninput="calculateFinalPrice()">
+            </div>
+
+            <!-- ===========================
+                 GENERAL DETAILS
+            ============================ -->
+
+            <h3 class="section-title">
+                General Details
+            </h3>
+
+            <div class="form-group">
+                <label>Quantity</label>
+                <input id="productQuantity" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Color</label>
+                <input id="productColor" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Weight</label>
+                <input id="productWeight" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Warranty</label>
+                <input id="productWarranty" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Model</label>
+                <input id="productModel" readonly>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Description</label>
+                <textarea id="productDescription" readonly></textarea>
+            </div>
+
+            <!-- ===========================
+                 FASHION DETAILS
+            ============================ -->
+
+            <div id="fashionSection">
+
+                <h3 class="section-title">
+                    Fashion Details
+                </h3>
+
+                <div class="form-group">
+                    <label>Size</label>
+                    <input id="productSize" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Material</label>
+                    <input id="productMaterial" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Fabric</label>
+                    <input id="productFabric" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender</label>
+                    <input id="productGender" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Fit</label>
+                    <input id="productFit" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Pattern</label>
+                    <input id="productPattern" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Sleeve</label>
+                    <input id="productSleeve" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Wash Care</label>
+                    <input id="productWashCare" readonly>
+                </div>
+
+            </div>
+
+            <!-- ===========================
+                 MOBILE DETAILS
+            ============================ -->
+
+            <div id="mobileSection">
+
+                <h3 class="section-title">
+                    Mobile Details
+                </h3>
+
+                <div class="form-group">
+                    <label>RAM</label>
+                    <input id="productRam" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Storage</label>
+                    <input id="productStorage" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Processor</label>
+                    <input id="productProcessor" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Battery</label>
+                    <input id="productBattery" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Camera</label>
+                    <input id="productCamera" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Display</label>
+                    <input id="productDisplay" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Operating System</label>
+                    <input id="productOperatingSystem" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Network</label>
+                    <input id="productNetwork" readonly>
+                </div>
+
+            </div>
+
+                        <!-- ===========================
+                 ELECTRONICS DETAILS
+            ============================ -->
+
+            <div id="electronicsSection">
+
+                <h3 class="section-title">
+                    Electronics Details
+                </h3>
+
+                <div class="form-group">
+                    <label>Voltage</label>
+                    <input id="productVoltage" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Power</label>
+                    <input id="productPower" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Connectivity</label>
+                    <input id="productConnectivity" readonly>
+                </div>
+
+            </div>
+
+            <!-- ===========================
+                 FURNITURE DETAILS
+            ============================ -->
+
+            <div id="furnitureSection">
+
+                <h3 class="section-title">
+                    Furniture Details
+                </h3>
+
+                <div class="form-group">
+                    <label>Dimensions</label>
+                    <input id="productDimensions" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Finish</label>
+                    <input id="productFinish" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Assembly</label>
+                    <input id="productAssembly" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Room Type</label>
+                    <input id="productRoomType" readonly>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button class="save-btn"
+                    onclick="updateAdminDiscount()">
+                Save Discount
+            </button>
+
+            <button class="cancel-btn"
+                    onclick="closeProductModal()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+     IMAGE PREVIEW MODAL
+=========================== -->
+
+<div id="imagePreviewModal" class="modal">
+
+    <div class="modal-content" style="max-width:850px;">
+
+        <span
+            onclick="closeImagePreview()"
+            style="
+                float:right;
+                font-size:32px;
+                font-weight:bold;
+                cursor:pointer;
+                color:#444;
+            ">
+            &times;
+        </span>
+
+        <h2>Product Image</h2>
+
+        <img
+            id="previewImage"
+            style="
+                width:100%;
+                max-height:80vh;
+                object-fit:contain;
+                border-radius:10px;
+            ">
+
+    </div>
+
+</div>
 <script src="api-config.js"></script>
-<script src="common.js"></script>
-<script src="orders.js"></script>
-<script src="payments.js"></script>
 <script src="AdminDashboard.js"></script>
+
 
 </body>
 </html>

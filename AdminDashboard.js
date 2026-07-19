@@ -257,11 +257,19 @@ function showPage(page){
 
             break;
 
-        case "products":
 
-            loadPendingProducts();
+            
+      case "products":
 
-            break;
+    loadProducts();
+
+    break;
+
+case "pendingProducts":
+
+    loadPendingProducts();
+
+    break;
 
         case "orders":
 
@@ -408,10 +416,8 @@ Review
 
 <button
 class="verify-btn"
-onclick="showPage('products')">
-
+onclick="showPage('pendingProducts')">
 Verify
-
 </button>
 
 </div>
@@ -798,8 +804,9 @@ async function editUser(id) {
         document.getElementById("editCountry").value =
             user.country || "";
 
-        document.getElementById("editUserModal").style.display =
-            "block";
+            document.getElementById("editUserModal").style.display = "flex";
+
+        
 
     }
 
@@ -862,27 +869,21 @@ async function updateUser() {
 
         };
 
-        const response =
-            await fetch(
+       const response = await fetch(
 
-                `${API_BASE_URL}/api/users/update`,
+    `${API_BASE_URL}/api/users/update/${user.id}`,
 
-                {
+    {
+        method: "PUT",
 
-                    method:"PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-                    headers:{
+        body: JSON.stringify(user)
+    }
 
-                        "Content-Type":
-                        "application/json"
-
-                    },
-
-                    body:JSON.stringify(user)
-
-                }
-
-            );
+);
 
         if(!response.ok){
 
@@ -1235,8 +1236,11 @@ async function editSeller(id) {
         document.getElementById("sellerAlternateMobile").value =
             seller.alternateMobile || "";
 
-        document.getElementById("sellerPassword").value =
-            seller.password || "";
+    document.getElementById("businessName").value =
+    seller.businessName || "";
+
+document.getElementById("businessType").value =
+    seller.businessType || "";
 
         // ======================================
         // BUSINESS INFORMATION
@@ -1397,9 +1401,7 @@ async function updateSeller() {
             alternateMobile:
                 document.getElementById("sellerAlternateMobile").value,
 
-            password:
-                document.getElementById("sellerPassword").value,
-
+    
             // BUSINESS
 
             gstNumber:
@@ -1467,25 +1469,23 @@ async function updateSeller() {
 
         };
 
-        const response = await fetch(
+     const response = await fetch(
 
-            `${API_BASE_URL}/api/sellers/update`,
+    `${API_BASE_URL}/api/sellers/${seller.sellerId}`,
 
-            {
+    {
 
-                method: "PUT",
+        method: "PUT",
 
-                headers: {
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-                    "Content-Type": "application/json"
+        body: JSON.stringify(seller)
 
-                },
+    }
 
-                body: JSON.stringify(seller)
-
-            }
-
-        );
+);
 
         if (!response.ok) {
 
@@ -2169,5 +2169,403 @@ function getVerifyProductId() {
     }
 
     return id;
+
+}
+
+async function loadProducts() {
+
+    showLoading("Loading Products...");
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/products/all`);
+
+        if (!response.ok) {
+            throw new Error("Unable to load products.");
+        }
+
+        const products = await response.json();
+
+        if (products.length === 0) {
+
+            emptyState(
+                "No Products",
+                "No products found."
+            );
+
+            return;
+        }
+
+        let html = `
+
+<div class="panel-header">
+
+<div>
+
+<h2>All Products</h2>
+
+<p>Total Products : ${products.length}</p>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Image</th>
+<th>Product</th>
+<th>Seller</th>
+<th>Category</th>
+<th>Price</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+        products.forEach(product => {
+
+            html += `
+
+<tr>
+
+<td>${product.productId}</td>
+
+<td>
+<img
+src="${API_BASE_URL}/api/products/image/${product.productId}"
+class="table-image">
+</td>
+
+<td>
+
+<div class="cell-title">
+${safe(product.productName)}
+</div>
+
+<div class="cell-subtitle">
+${safe(product.brand)}
+</div>
+
+</td>
+
+<td>
+${safe(product.seller?.shopName)}
+</td>
+
+<td>
+${safe(product.category)}
+</td>
+
+<td>
+${formatMoney(product.finalSellingPrice)}
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button
+class="edit-btn"
+onclick="editProduct(${product.productId})">
+
+<i class="fa fa-edit"></i>
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteProduct(${product.productId})">
+
+<i class="fa fa-trash"></i>
+
+</button>
+
+<button
+class="verify-btn"
+onclick="sendToPending(${product.productId})">
+
+<i class="fa fa-clock"></i>
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+        });
+
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        document.getElementById("tableArea").innerHTML = html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+
+async function editProduct(id){
+
+    const response = await fetch(
+        `${API_BASE_URL}/api/products/${id}`
+    );
+
+    const product = await response.json();
+
+    const imageBase = `${API_BASE_URL}/uploads/`;
+
+document.getElementById("productImage1").src =
+    product.image ? imageBase + product.image : "";
+
+document.getElementById("productImage2").src =
+    product.image2 ? imageBase + product.image2 : "";
+
+document.getElementById("productImage3").src =
+    product.image3 ? imageBase + product.image3 : "";
+
+document.getElementById("productImage4").src =
+    product.image4 ? imageBase + product.image4 : "";
+
+    document.getElementById("productModal").style.display="flex";
+
+    document.getElementById("productId").value = product.productId;
+
+    document.getElementById("productName").value = product.productName;
+
+    document.getElementById("productBrand").value =
+    product.brand || "";
+
+document.getElementById("productCategory").value =
+    product.category || "";
+
+document.getElementById("productSeller").value =
+    product.seller?.shopName || "";
+
+document.getElementById("productSellerPrice").value =
+    product.sellingPrice || 0;
+
+document.getElementById("productFinalPrice").value =
+    product.finalSellingPrice || 0;
+
+document.getElementById("productDescription").value =
+    product.description || "";
+
+    document.getElementById("productPurchasePrice").value =
+    product.purchasePrice || 0;
+
+document.getElementById("productQuantity").value =
+    product.quantity || 0;
+
+document.getElementById("productGst").value =
+    product.gstPercentage || 0;
+
+document.getElementById("productGstAmount").value =
+    product.gstAmount || 0;
+
+document.getElementById("productColor").value =
+    product.color || "";
+
+document.getElementById("productWeight").value =
+    product.weight || "";
+
+document.getElementById("productWarranty").value =
+    product.warranty || "";
+
+document.getElementById("productModel").value =
+    product.model || "";
+
+    document.getElementById("productSize").value = product.size || "";
+document.getElementById("productMaterial").value = product.material || "";
+document.getElementById("productFabric").value = product.fabric || "";
+document.getElementById("productGender").value = product.gender || "";
+document.getElementById("productFit").value = product.fit || "";
+document.getElementById("productPattern").value = product.pattern || "";
+document.getElementById("productSleeve").value = product.sleeve || "";
+document.getElementById("productWashCare").value = product.washCare || "";
+
+document.getElementById("productRam").value = product.ram || "";
+document.getElementById("productStorage").value = product.storage || "";
+document.getElementById("productProcessor").value = product.processor || "";
+document.getElementById("productBattery").value = product.battery || "";
+document.getElementById("productCamera").value = product.camera || "";
+document.getElementById("productDisplay").value = product.display || "";
+document.getElementById("productOperatingSystem").value = product.operatingSystem || "";
+document.getElementById("productNetwork").value = product.network || "";
+
+document.getElementById("productVoltage").value = product.voltage || "";
+document.getElementById("productPower").value = product.power || "";
+document.getElementById("productConnectivity").value = product.connectivity || "";
+
+document.getElementById("productDimensions").value = product.dimensions || "";
+document.getElementById("productFinish").value = product.finish || "";
+document.getElementById("productAssembly").value = product.assembly || "";
+document.getElementById("productRoomType").value = product.roomType || "";
+
+    document.getElementById("adminDiscount").value =
+        product.adminDiscount || 0;
+
+        calculateFinalPrice();
+}  
+
+function calculateFinalPrice() {
+
+    const sellerPrice = Number(
+        document.getElementById("productSellerPrice").value || 0
+    );
+
+    const discount = Number(
+        document.getElementById("adminDiscount").value || 0
+    );
+
+    const finalPrice =
+        sellerPrice - (sellerPrice * discount / 100);
+
+    document.getElementById("productFinalPrice").value =
+        finalPrice.toFixed(2);
+
+        const finalPriceInput =
+    document.getElementById("productFinalPrice");
+
+finalPriceInput.classList.add("price-updated");
+
+setTimeout(() => {
+
+    finalPriceInput.classList.remove("price-updated");
+
+},1500);
+}
+
+function closeProductModal(){
+
+    document.getElementById("productModal").style.display = "none";
+
+}
+async function deleteProduct(id){
+
+    if(!confirm("Delete this product?")) return;
+
+    await fetch(
+        `${API_BASE_URL}/api/products/${id}`,
+        { method:"DELETE" }
+    );
+
+    loadProducts();
+}
+async function sendToPending(id){
+
+    if(!confirm("Send this product for verification again?"))
+        return;
+
+    const response = await fetch(
+
+        `${API_BASE_URL}/api/admin/${id}/pending`,
+
+        {
+            method:"PUT"
+        }
+
+    );
+
+    if(!response.ok){
+
+        alert(await response.text());
+        return;
+
+    }
+
+    alert("Product sent to Pending.");
+
+    loadProducts();
+
+}
+
+async function updateAdminDiscount(){
+
+    const id =
+        document.getElementById("productId").value;
+
+    const discount =
+        document.getElementById("adminDiscount").value;
+
+    const response = await fetch(
+
+        `${API_BASE_URL}/api/products/${id}/discount`,
+
+        {
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                adminDiscount:discount
+
+            })
+
+        }
+
+    );
+
+    if(response.ok){
+
+        alert("Discount Updated");
+
+        closeProductModal();
+
+        loadProducts();
+
+    }else{
+
+        alert(await response.text());
+
+    }
+
+}
+
+function previewProductImage(src){
+
+    document.getElementById("previewImage").src = src;
+
+    document.getElementById("imagePreviewModal").style.display = "flex";
+
+}
+
+function closeImagePreview(){
+
+    document.getElementById("imagePreviewModal").style.display = "none";
 
 }

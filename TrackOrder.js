@@ -137,15 +137,14 @@ if(order.status === "ORDER_CONFIRMED"){
         // Order Summary
         // =========================
 
-        document.getElementById("productTotal").innerHTML =
-            firstItem.sellingPrice;
+     document.getElementById("productTotal").innerHTML =
+    "₹" + firstItem.finalPrice.toFixed(2);
 
-        document.getElementById("gstAmount").innerHTML =
-            firstItem.gstAmount;
+document.getElementById("gstAmount").innerHTML =
+    "₹" + firstItem.gstAmount.toFixed(2);
 
-        document.getElementById("grandTotal").innerHTML =
-            order.totalAmount;
-
+document.getElementById("grandTotal").innerHTML =
+    "₹" + order.totalAmount.toFixed(2);
         // =========================
         // Product Card
         // =========================
@@ -209,13 +208,7 @@ if(order.status === "ORDER_CONFIRMED"){
 
             </p>
 
-            <p>
-
-                <b>Purchase Price :</b>
-
-                ₹${item.purchasePrice}
-
-            </p>
+        
 
             <p>
 
