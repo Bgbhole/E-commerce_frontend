@@ -20,20 +20,18 @@ async function loadReturns(){
             <td>${item.reason}</td>
             <td>${item.status}</td>
 
-            <td>
+           <td>
+<div class="action-group">
 
-                <button class="approve"
-                onclick="approveReturn(${item.returnId})">
-                Approve
-                </button>
+<button class="verify-btn"
+onclick="verifyProduct(${product.productId})">
 
-                <button class="reject"
-                onclick="rejectReturn(${item.returnId})">
-                Reject
-                </button>
+<i class="fa fa-eye"></i> Verify
 
-            </td>
+</button>
 
+</div>
+</td>
         </tr>
         `;
     });

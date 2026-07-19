@@ -79,20 +79,16 @@ function displayProducts(productList) {
     }
 
     productList.forEach(product => {
+const oldPrice =
+    product.sellerPrice ?? product.sellingPrice;
 
-        let discount = 0;
+const currentPrice =
+    product.finalSellingPrice ??
+    product.finalPrice;
 
-        if (product.sellingPrice > 0) {
+const discount = Number(product.adminDiscount || 0);
 
-            discount = Math.round(
-
-                ((product.sellingPrice - product.finalPrice)
-
-                / product.sellingPrice) * 100
-
-            );
-
-        }
+        
 
         box.innerHTML += `
 
@@ -112,12 +108,11 @@ data-product-id="${product.productId}">
 
 </button>
 
-    <span class="discount-badge">
-
-        ${discount}% OFF
-
-    </span>
-
+    ${discount > 0 ? `
+<span class="discount-badge">
+    ${discount}% OFF
+</span>
+` : ""}
     <img
 
         class="product-img"
@@ -149,16 +144,20 @@ data-product-id="${product.productId}">
 </div>
 
     <h2 class="price">
+₹${currentPrice.toFixed(2)}
+</h2>
 
-        ₹${product.finalPrice}
+${discount > 0 ? `
+<p class="old-price">
+₹${oldPrice.toFixed(2)}
+</p>
+` : ""}
 
-    </h2>
-
-    <p class="old-price">
-
-        ₹${product.sellingPrice}
-
-    </p>
+${discount > 0 ? `
+<span class="discount-badge">
+${discount}% OFF
+</span>
+` : ""}
 
     <p class="delivery">
 
@@ -191,14 +190,21 @@ data-product-id="${product.productId}">
 `;
 
     });
-
 }
 
 // ================= HERO BANNER =================
 
 function startBanner() {
 
-    if (bannerProducts.length === 0) return;
+    bannerProducts = products.filter(product =>
+        (product.adminDiscount ?? 0) > 0
+    );
+
+    if (bannerProducts.length === 0) {
+        return;
+    }
+
+    bannerIndex = 0;
 
     changeBanner();
 
@@ -219,16 +225,20 @@ function changeBanner() {
     document.getElementById("bannerPrice").innerHTML =
         "₹" + product.finalPrice;
 
-    let discount = 0;
+    const oldPrice =
+    product.sellerPrice ?? product.sellingPrice;
 
-    if (product.sellingPrice > 0) {
+const currentPrice =
+    product.finalSellingPrice ??
+    product.finalPrice;
+const discount = Number(product.adminDiscount || 0);
 
-       discount = Math.round(
-    ((product.sellingPrice - product.finalPrice) /
-     product.sellingPrice) * 100
-);
+document.getElementById("bannerPrice").innerHTML =
+    "₹" + currentPrice.toFixed(2);
 
-    }
+document.getElementById("bannerDiscount").innerHTML =
+    discount + "% OFF";
+    
 
     document.getElementById("bannerDiscount").innerHTML =
         discount + "% OFF";
@@ -435,19 +445,16 @@ function loadRecommended(list = products) {
 
 function createProductCard(product) {
 
-    let discount = 0;
+   const oldPrice =
+    product.sellerPrice ?? product.sellingPrice;
 
-    if (product.sellingPrice > 0) {
+const currentPrice =
+    product.finalSellingPrice ??
+    product.finalPrice;
 
-        discount = Math.round(
+const discount = Number(product.adminDiscount || 0);
 
-            ((product.sellingPrice - product.finalPrice)
-
-            / product.sellingPrice) * 100
-
-        );
-
-    }
+    
 
     let stockButton = "";
 
@@ -487,11 +494,11 @@ data-product-id="${product.productId}">
 
 </button>
 
+${discount > 0 ? `
 <span class="discount-badge">
-
-${discount}% OFF
-
+    ${discount}% OFF
 </span>
+` : ""}
 
 <img
 
@@ -532,17 +539,20 @@ ${product.averageRating ? product.averageRating.toFixed(1) : "0.0"}
 </div>
 
 <h2 class="price">
-
-₹${product.finalPrice}
-
+₹${currentPrice.toFixed(2)}
 </h2>
 
+${discount > 0 ? `
 <p class="old-price">
-
-₹${product.sellingPrice}
-
+₹${oldPrice.toFixed(2)}
 </p>
+` : ""}
 
+${discount > 0 ? `
+<span class="discount-badge">
+${discount}% OFF
+</span>
+` : ""}
 <p class="delivery">
 
 Free Delivery
@@ -1057,7 +1067,10 @@ function showSuggestions(){
 </div>
 
 <div class="search-price">
-₹${product.finalPrice}
+₹${(
+    product.finalSellingPrice ??
+    product.finalPrice
+).toFixed(2)}
 </div>
 
 </div>`;

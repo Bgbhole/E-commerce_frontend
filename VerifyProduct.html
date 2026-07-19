@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Verify Product</title>
+
+<link rel="stylesheet" href="VerifyProduct.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Header -->
+
+<header class="header">
+
+<button class="back-btn"
+onclick="history.back()">
+
+<i class="fa fa-arrow-left"></i>
+
+Back
+
+</button>
+
+<h1>
+
+Product Verification
+
+</h1>
+
+</header>
+
+<!-- Product -->
+
+<div class="product-card">
+
+<!-- Left -->
+
+<div class="left">
+
+<img id="productImage"
+class="product-image">
+
+<div class="thumbs">
+
+<img id="thumb1">
+
+<img id="thumb2">
+
+<img id="thumb3">
+
+</div>
+
+</div>
+
+<!-- Right -->
+
+<div class="right">
+
+<h2 id="productName"></h2>
+
+<p id="brand"></p>
+
+<span
+id="statusBadge"
+class="status pending">
+
+Pending
+
+</span>
+
+<div class="price-box">
+
+<h3>
+
+Seller Price
+
+</h3>
+
+<h2 id="sellerPrice">
+
+₹0
+
+</h2>
+
+</div>
+
+<div class="description">
+
+<h3>Description</h3>
+
+<p id="description"></p>
+
+</div>
+
+<div class="specifications">
+
+<h3>
+
+Specifications
+
+</h3>
+
+<table>
+
+<tr>
+
+<td>Category</td>
+
+<td id="category"></td>
+
+</tr>
+
+<tr>
+
+<td>Brand</td>
+
+<td id="brand2"></td>
+
+</tr>
+
+<tr>
+
+<td>Stock</td>
+
+<td id="quantity"></td>
+
+</tr>
+
+<tr>
+
+<td>Warranty</td>
+
+<td id="warranty"></td>
+
+</tr>
+
+<tr>
+
+<td>Color</td>
+
+<td id="color"></td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Seller -->
+
+<div class="seller-card">
+
+<h2>
+
+Seller Information
+
+</h2>
+
+<div class="seller-grid">
+
+<div>
+
+<label>Seller Name</label>
+
+<p id="sellerName"></p>
+
+</div>
+
+<div>
+
+<label>Shop Name</label>
+
+<p id="shopName"></p>
+
+</div>
+
+<div>
+
+<label>Email</label>
+
+<p id="sellerEmail"></p>
+
+</div>
+
+<div>
+
+<label>Mobile</label>
+
+<p id="sellerMobile"></p>
+
+</div>
+
+<div>
+
+<label>GST Number</label>
+
+<p id="gst"></p>
+
+</div>
+
+<div>
+
+<label>Business Type</label>
+
+<p id="businessType"></p>
+
+</div>
+
+</div>
+
+</div>
+<div class="verification-card">
+
+<h2>
+
+Verification
+
+</h2>
+
+<div class="grid">
+
+<div>
+
+<label>
+
+Seller Price
+
+</label>
+
+<input
+type="number"
+id="sellerPriceInput"
+readonly>
+
+</div>
+
+<div>
+
+<label>
+
+Admin Discount %
+
+</label>
+
+<input
+type="number"
+id="discountPercent">
+
+</div>
+
+<div>
+
+<label>
+
+Discount Amount
+
+</label>
+
+<input
+type="number"
+id="discountAmount"
+readonly>
+
+</div>
+
+<div>
+
+<label>
+
+Final Selling Price
+
+</label>
+
+<input
+type="number"
+id="finalPrice"
+readonly>
+
+</div>
+
+<div>
+
+<label>
+
+Seller Profit
+
+</label>
+
+<input
+type="number"
+id="sellerProfit">
+
+</div>
+
+<div>
+
+<label>
+
+Admin Contribution
+
+</label>
+
+<input
+type="number"
+id="adminContribution"
+readonly>
+
+</div>
+
+</div>
+<div class="remarks">
+
+<label>
+
+Admin Remarks
+
+</label>
+
+<textarea
+id="remarks">
+
+</textarea>
+
+</div>
+
+<div class="buttons">
+
+<button
+class="approve-btn"
+onclick="approveProduct()">
+
+<i class="fa fa-check"></i>
+
+Approve
+
+</button>
+
+<button
+class="reject-btn"
+onclick="rejectProduct()">
+
+<i class="fa fa-times"></i>
+
+Reject
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="api-config.js"></script>
+<script src="VerifyProduct.js"></script>
+
+</body>
+
+</html>

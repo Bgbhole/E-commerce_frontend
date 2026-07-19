@@ -99,7 +99,7 @@ onerror="this.src='images/no-image.png'">
 
 <td>₹${product.purchasePrice}</td>
 
-<td>₹${product.sellingPrice}</td>
+<td>₹${oldPrice.toFixed(2)}</td>
 
 <td style="color:green;font-weight:bold;">
 ₹${product.profit}

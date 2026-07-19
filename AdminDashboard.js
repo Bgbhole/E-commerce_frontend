@@ -1,493 +1,1228 @@
+// ======================================
+// ADMIN DASHBOARD
+// PART 1
+// ======================================
+
+
+
 const admin = JSON.parse(localStorage.getItem("currentAdmin"));
 
 if (!admin) {
-  alert("Please login as Admin.");
-
-  window.location.href = "admin-log.html";
+    alert("Please login as Admin.");
+    window.location.href = "admin-log.html";
 }
 
-window.onload = function () {
-  loadDashboard();
-};
+// ======================================
+// GLOBAL DATA
+// ======================================
+
+let dashboardData = {};
+let users = [];
+let sellers = [];
+let pendingSellers = [];
+let pendingProducts = [];
+let orders = [];
+
+
 
 function showPage(page) {
-  document.getElementById("pageTitle").innerHTML =
-    page.charAt(0).toUpperCase() + page.slice(1);
 
-  switch (page) {
-    case "users":
-      loadUsers();
-      break;
-
-    case "sellers":
-      loadSellers();
-      break;
-
-    case "confirmation":
-      document.getElementById("tableArea").innerHTML =
-        "<h2>Seller Confirmation</h2>";
-      break;
-
-    case "products":
-      loadPendingProducts();
-      break;
-
-    case "orders":
-      document.getElementById("tableArea").innerHTML = "<h2>Orders</h2>";
-      break;
-
-    case "transactions":
-      document.getElementById("tableArea").innerHTML = "<h2>Transactions</h2>";
-      break;
-
-    case "complaints":
-      document.getElementById("tableArea").innerHTML = "<h2>Complaints</h2>";
-      break;
-
-    default:
-      loadDashboard();
-  }
-}
-function openTab(event, tabName) {
-  let tabContent = document.getElementsByClassName("tab-content");
-
-  for (let i = 0; i < tabContent.length; i++) {
-    tabContent[i].style.display = "none";
-  }
-
-  let tabButtons = document.getElementsByClassName("tab-btn");
-
-  for (let i = 0; i < tabButtons.length; i++) {
-    tabButtons[i].classList.remove("active");
-  }
-
-  document.getElementById(tabName).style.display = "block";
-
-  event.currentTarget.classList.add("active");
-}
-
-function closeSellerModal() {
-  document.getElementById("editSellerModal").style.display = "none";
-}
-
-function clearSellerImages() {
-
-    document.getElementById("shopLogoPreview").src = "";
-
-    document.getElementById("shopFrontPreview").src = "";
-
-    document.getElementById("shopInsidePreview").src = "";
-
-}
-
-async function loadDashboard() {
-  document.getElementById("pageTitle").innerHTML = "Dashboard";
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/dashboard`);
-
-    if (!response.ok) {
-      throw new Error("Unable to load dashboard");
-    }
-
-    const dashboard = await response.json();
-
-    // Dashboard Cards
-    document.getElementById("usersCount").innerHTML = dashboard.totalUsers;
-
-    document.getElementById("sellerCount").innerHTML = dashboard.totalSellers;
-
-    document.getElementById("orderCount").innerHTML = dashboard.totalOrders;
-
-    document.getElementById("productCount").innerHTML = dashboard.totalProducts;
-
-    // Welcome Table
-    document.getElementById("tableArea").innerHTML = `
-
-            <h2>Welcome Administrator</h2>
-
-            <br>
-
-            <table>
-
-                <tr>
-                    <th>Statistic</th>
-                    <th>Count</th>
-                </tr>
-
-                <tr>
-                    <td>Total Users</td>
-                    <td>${dashboard.totalUsers}</td>
-                </tr>
-
-                <tr>
-                    <td>Total Sellers</td>
-                    <td>${dashboard.totalSellers}</td>
-                </tr>
-
-                <tr>
-                    <td>Total Products</td>
-                    <td>${dashboard.totalProducts}</td>
-                </tr>
-
-                <tr>
-                    <td>Total Orders</td>
-                    <td>${dashboard.totalOrders}</td>
-                </tr>
-
-                <tr>
-                    <td>Pending Sellers</td>
-                    <td>${dashboard.pendingSellers}</td>
-                </tr>
-
-                <tr>
-                    <td>Pending Products</td>
-                    <td>${dashboard.pendingProducts}</td>
-                </tr>
-
-            </table>
-
-        `;
-  } catch (error) {
-    console.log(error);
-
-    alert("Unable to load dashboard.");
-  }
-}
-
-function logout() {
-  localStorage.removeItem("currentAdmin");
-
-  window.location.href = "admin-log.html";
-}
-
-async function loadUsers() {
-  try {
-    let response = await fetch(`${API_BASE_URL}/api/users`);
-
-    if (!response.ok) {
-      throw new Error("Unable to fetch users");
-    }
-
-    let users = await response.json();
-
-    let html = `
-                <h2>Users</h2>
-
-                <table>
-
-                    <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Address</th>
-                        <th>Action</th>
-                    </tr>
-            `;
-
-    users.forEach((user) => {
-      html += `
-                    <tr>
-
-                        <td>${user.id}</td>
-
-                        <td>${user.firstName}</td>
-
-                        <td>${user.lastName}</td>
-
-                        <td>${user.email}</td>
-
-                        <td>${user.mobile}</td>
-
-                        <td>${user.address}</td>
-
-                        <td>
-
-                            <button onclick="editUser(${user.id})">
-                                Edit
-                            </button>
-
-                            <button onclick="deleteUser(${user.id})">
-                                Delete
-                            </button>
-
-                        </td>
-
-                    </tr>
-                `;
+    document.querySelectorAll(".page").forEach(p => {
+        p.style.display = "none";
     });
 
-    html += `</table>`;
+    const selected = document.getElementById(page);
 
-    document.getElementById("tableArea").innerHTML = html;
-  } catch (error) {
-    console.log(error);
+    if (selected) {
+        selected.style.display = "block";
+    }
 
-    alert("Unable to load users.");
-  }
+    switch (page) {
+        case "dashboard":
+            loadDashboard();
+            break;
+
+        case "users":
+            loadUsers();
+            break;
+
+        case "sellers":
+            loadSellers();
+            break;
+
+        case "pendingSellers":
+            loadPendingSellers();
+            break;
+
+        case "pendingProducts":
+            loadPendingProducts();
+            break;
+    }
 }
-async function loadSellers() {
-  try {
-    let response = await fetch(`${API_BASE_URL}/api/sellers`);
+// ======================================
+// HELPERS
+// ======================================
 
-    let sellers = await response.json();
+function safe(value, fallback = "-") {
 
-    let html = `
+    if (value === null || value === undefined || value === "")
+        return fallback;
 
-            <h2>Seller Management</h2>
+    return String(value).replace(
+        /[&<>'"]/g,
+        c => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            "'":"&#39;",
+            "\"":"&quot;"
+        })[c]
+    );
 
-            <table>
+}
 
-            <tr>
+function statusBadge(status){
 
-            <th>ID</th>
-            <th>Shop</th>
-            <th>Owner</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Status</th>
-            <th>Action</th>
+    status = status || "Unknown";
 
-            </tr>
+    return `
+    <span class="status ${status.toLowerCase()}">
+        ${safe(status)}
+    </span>`;
 
-            `;
+}
 
-    sellers.forEach((seller) => {
-      html += `
+function formatMoney(value){
 
-                <tr>
+    return "₹" +
+    Number(value || 0)
+    .toLocaleString("en-IN");
 
-                <td>${seller.sellerId}</td>
+}
 
-                <td>${seller.shopName}</td>
+function showLoading(message="Loading..."){
 
-                <td>${seller.name}</td>
+    document.getElementById("tableArea").innerHTML=`
 
-                <td>${seller.email}</td>
+    <div class="loading-state">
 
-                <td>${seller.mobile}</td>
+        <i class="fa fa-spinner fa-spin"></i>
 
-                <td>${seller.status}</td>
+        <h3>${message}</h3>
 
-                <td>
+    </div>
 
-    <button class="view-btn"
-    onclick="viewSeller(${seller.sellerId})">
+    `;
 
-    <i class="fa fa-eye"></i>
+}
 
-    </button>
+function showError(message){
 
-    </td>
+    document.getElementById("tableArea").innerHTML=`
 
-    <td>
+    <div class="empty-state">
 
-    <button class="edit-btn"
-    onclick="editSeller(${seller.sellerId})">
+        <i class="fa fa-triangle-exclamation"></i>
 
-    <i class="fa fa-edit"></i>
+        <h3>Error</h3>
 
-    </button>
+        <p>${safe(message)}</p>
 
-    </td>
+    </div>
 
-    <td>
+    `;
 
-    <button class="approve-btn"
-    onclick="approveSeller(${seller.sellerId})">
+}
 
-    <i class="fa fa-check"></i>
+function emptyState(title,msg){
 
-    </button>
+    document.getElementById("tableArea").innerHTML=`
 
-    </td>
+    <div class="empty-state">
 
-    <td>
+        <i class="fa fa-box-open"></i>
 
-    <button class="reject-btn"
-    onclick="rejectSeller(${seller.sellerId})">
+        <h3>${title}</h3>
 
-    <i class="fa fa-times"></i>
+        <p>${msg}</p>
 
-    </button>
+    </div>
 
-    </td>
+    `;
 
-    <td>
+}
 
-    <button class="delete-btn"
-    onclick="deleteSeller(${seller.sellerId})">
+// ======================================
+// SEARCH
+// ======================================
 
-    <i class="fa fa-trash"></i>
+function filterAdminTable(text){
 
-    </button>
+    text=text.toLowerCase();
 
-    </td>
+    document.querySelectorAll("#adminTable tbody tr")
+    .forEach(row=>{
 
-                </tr>
+        row.style.display=
+        row.innerText.toLowerCase().includes(text)
+        ? ""
+        : "none";
 
-                `;
     });
 
-    html += "</table>";
-
-    document.getElementById("tableArea").innerHTML = html;
-  } catch (error) {
-    console.log(error);
-
-    alert(error);
-  }
 }
 
-async function deleteUser(id) {
-  if (!confirm("Delete this user?")) {
-    return;
-  }
+// ======================================
+// SIDEBAR
+// ======================================
 
-  let response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
-    method: "DELETE",
-  });
+function toggleSidebar(){
 
-  let message = await response.text();
+    document
+    .querySelector(".sidebar")
+    .classList.toggle("open");
 
-  if (response.ok) {
-    alert(message);
-    loadUsers();
-  } else {
-    alert("Error: " + message);
-    console.log(message);
-  }
 }
 
-async function deleteSeller(id) {
-  if (!confirm("Delete this seller?")) return;
+function setActivePage(page){
 
-  let response = await fetch(`${API_BASE_URL}/api/sellers/${id}`, {
-    method: "DELETE",
-  });
+    document
+    .querySelectorAll(".sidebar li")
+    .forEach(li=>{
 
-  let message = await response.text();
+        li.classList.remove("active");
 
-  if (response.ok) {
-    alert(message);
+        if(li.dataset.page===page){
 
-    loadSellers();
-  } else {
-    alert(message);
-  }
+            li.classList.add("active");
+
+        }
+
+    });
+
 }
 
-async function editUser(id) {
-  let response = await fetch(`${API_BASE_URL}/api/users/${id}`);
+// ======================================
+// PAGE NAVIGATION
+// ======================================
 
-  let user = await response.json();
+function showPage(page){
 
-  document.getElementById("editUserId").value = user.id;
-  document.getElementById("editFirstName").value = user.firstName;
-  document.getElementById("editLastName").value = user.lastName;
-  document.getElementById("editEmail").value = user.email;
-  document.getElementById("editMobile").value = user.mobile;
-  document.getElementById("editGender").value = user.gender;
-  document.getElementById("editDob").value = user.dateOfBirth;
-  document.getElementById("editAddress").value = user.address;
-  document.getElementById("editCity").value = user.city;
-  document.getElementById("editState").value = user.state;
-  document.getElementById("editPincode").value = user.pincode;
-  document.getElementById("editCountry").value = user.country;
- 
+    setActivePage(page);
 
+    const titles={
 
-  document.getElementById("editUserModal").style.display = "block";
-}
+        dashboard:"Dashboard",
 
-async function updateUser() {
+        users:"Customers",
 
-    const id = document.getElementById("editUserId").value;
+        sellers:"Seller Management",
 
-    const user = {
+        confirmation:"Seller Approvals",
 
-        id: id,
+        products:"Product Approvals",
 
-        firstName: document.getElementById("editFirstName").value,
+        orders:"Orders",
 
-        lastName: document.getElementById("editLastName").value,
-
-        email: document.getElementById("editEmail").value,
-
-        mobile: document.getElementById("editMobile").value,
-
-        gender: document.getElementById("editGender").value,
-
-        dateOfBirth: document.getElementById("editDob").value,
-
-        address: document.getElementById("editAddress").value,
-
-        city: document.getElementById("editCity").value,
-
-        state: document.getElementById("editState").value,
-
-        pincode: document.getElementById("editPincode").value,
-
-        country: document.getElementById("editCountry").value,
-
+        transactions:"Payments"
 
     };
 
-    console.log(user);
+    document.getElementById("pageTitle").innerHTML=
+    titles[page] || "Admin";
 
-    const response = await fetch(`${API_BASE_URL}/api/users/update`, {
+    switch(page){
 
-        method: "PUT",
+        case "dashboard":
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            loadDashboard();
 
-        body: JSON.stringify(user)
+            break;
 
-    });
+        case "users":
 
-    if (response.ok) {
+            loadUsers();
 
-        alert("User Updated Successfully");
+            break;
+
+        case "sellers":
+
+            loadSellers();
+
+            break;
+
+        case "confirmation":
+
+            loadPendingSellers();
+
+            break;
+
+        case "products":
+
+            loadPendingProducts();
+
+            break;
+
+        case "orders":
+
+            loadOrders();
+
+            break;
+
+        default:
+
+            loadDashboard();
+
+    }
+
+}
+
+// ======================================
+// LOGOUT
+// ======================================
+
+function logout(){
+
+    if(confirm("Logout?")){
+
+        localStorage.removeItem("currentAdmin");
+
+        location.href="admin-log.html";
+
+    }
+
+}
+
+// ======================================
+// STARTUP
+// ======================================
+
+window.onload=function(){
+
+    showPage("dashboard");
+
+};
+// ======================================
+// PART 2
+// DASHBOARD
+// ======================================
+
+async function loadDashboard() {
+
+    showLoading("Loading Dashboard...");
+
+    try {
+
+        const response =
+        await fetch(`${API_BASE_URL}/api/admin/dashboard`);
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load dashboard.");
+
+        }
+
+        dashboardData = await response.json();
+
+        // Dashboard Cards
+
+        document.getElementById("usersCount").innerHTML =
+            dashboardData.totalUsers || 0;
+
+        document.getElementById("sellerCount").innerHTML =
+            dashboardData.totalSellers || 0;
+
+        document.getElementById("orderCount").innerHTML =
+            dashboardData.totalOrders || 0;
+
+        document.getElementById("productCount").innerHTML =
+            dashboardData.totalProducts || 0;
+
+        // Notification Badges
+
+        const sellerBadge =
+            document.getElementById("sellerApprovalBadge");
+
+        if (sellerBadge) {
+
+            sellerBadge.innerHTML =
+                dashboardData.pendingSellers || 0;
+
+        }
+
+        const productBadge =
+            document.getElementById("productApprovalBadge");
+
+        if (productBadge) {
+
+            productBadge.innerHTML =
+                dashboardData.pendingProducts || 0;
+
+        }
+
+        document.getElementById("tableArea").innerHTML = `
+
+<div class="dashboard-grid">
+
+<div class="panel">
+
+<h2>Pending Verification</h2>
+
+<p>Products and Sellers waiting for approval.</p>
+
+<div class="review-list">
+
+<div class="review-item">
+
+<i class="fa fa-store"></i>
+
+<div>
+
+<strong>${dashboardData.pendingSellers || 0} Pending Sellers</strong>
+
+<small>Seller registrations waiting for review.</small>
+
+</div>
+
+<button
+class="approve-btn"
+onclick="showPage('confirmation')">
+
+Review
+
+</button>
+
+</div>
+
+<div class="review-item">
+
+<i class="fa fa-box"></i>
+
+<div>
+
+<strong>${dashboardData.pendingProducts || 0} Pending Products</strong>
+
+<small>Products waiting for verification.</small>
+
+</div>
+
+<button
+class="verify-btn"
+onclick="showPage('products')">
+
+Verify
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>Marketplace Summary</h2>
+
+<p>Overall marketplace statistics.</p>
+
+<table>
+
+<tr>
+
+<td>Total Users</td>
+
+<td>${dashboardData.totalUsers}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Sellers</td>
+
+<td>${dashboardData.totalSellers}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Products</td>
+
+<td>${dashboardData.totalProducts}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Orders</td>
+
+<td>${dashboardData.totalOrders}</td>
+
+</tr>
+
+<tr>
+
+<td>Pending Sellers</td>
+
+<td>${dashboardData.pendingSellers}</td>
+
+</tr>
+
+<tr>
+
+<td>Pending Products</td>
+
+<td>${dashboardData.pendingProducts}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+`;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+// ======================================
+// PART 3A
+// CUSTOMER MANAGEMENT
+// ======================================
+
+async function loadUsers() {
+
+    showLoading("Loading Customers...");
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/users`);
+
+        if (!response.ok) {
+            throw new Error("Unable to load customers.");
+        }
+
+        users = await response.json();
+
+        if (users.length === 0) {
+
+            emptyState(
+                "No Customers",
+                "No registered customers found."
+            );
+
+            return;
+        }
+
+        let html = `
+
+<div class="panel-header">
+
+<div>
+
+<h2>Customer Management</h2>
+
+<p>Total Customers : ${users.length}</p>
+
+</div>
+
+<div class="toolbar">
+
+<div class="search-box">
+
+<i class="fa fa-search"></i>
+
+<input
+type="text"
+placeholder="Search customer..."
+onkeyup="filterAdminTable(this.value)">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Customer</th>
+
+<th>Email</th>
+
+<th>Mobile</th>
+
+<th>Address</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+        users.forEach(user => {
+
+            html += `
+
+<tr>
+
+<td>
+
+${user.id}
+
+</td>
+
+<td>
+
+<span class="cell-title">
+
+${safe(user.firstName)}
+${safe(user.lastName)}
+
+</span>
+
+</td>
+
+<td>
+
+${safe(user.email)}
+
+</td>
+
+<td>
+
+${safe(user.mobile)}
+
+</td>
+
+<td>
+
+${safe(
+user.city ||
+user.address ||
+"-"
+)}
+
+</td>
+
+<td>
+
+${statusBadge("ACTIVE")}
+
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button
+class="edit-btn"
+onclick="editUser(${user.id})">
+
+<i class="fa fa-edit"></i>
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteUser(${user.id})">
+
+<i class="fa fa-trash"></i>
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+        });
+
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        document.getElementById("tableArea").innerHTML =
+            html;
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+
+
+// ======================================
+// DELETE CUSTOMER
+// ======================================
+
+async function deleteUser(id) {
+
+    if (!confirm("Delete this customer?")) {
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+
+                `${API_BASE_URL}/api/users/${id}`,
+
+                {
+                    method: "DELETE"
+                }
+
+            );
+
+        const message =
+            await response.text();
+
+        if (!response.ok) {
+
+            throw new Error(message);
+
+        }
+
+        alert(message);
+
+        loadUsers();
+
+        loadDashboard();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+// ======================================
+// PART 3B
+// EDIT CUSTOMER
+// ======================================
+
+async function editUser(id) {
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/users/${id}`);
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load customer.");
+
+        }
+
+        const user = await response.json();
+
+        document.getElementById("editUserId").value =
+            user.id || "";
+
+        document.getElementById("editFirstName").value =
+            user.firstName || "";
+
+        document.getElementById("editLastName").value =
+            user.lastName || "";
+
+        document.getElementById("editEmail").value =
+            user.email || "";
+
+        document.getElementById("editMobile").value =
+            user.mobile || "";
+
+        document.getElementById("editGender").value =
+            user.gender || "";
+
+        document.getElementById("editDob").value =
+            user.dateOfBirth || "";
+
+        document.getElementById("editAddress").value =
+            user.address || "";
+
+        document.getElementById("editCity").value =
+            user.city || "";
+
+        document.getElementById("editState").value =
+            user.state || "";
+
+        document.getElementById("editPincode").value =
+            user.pincode || "";
+
+        document.getElementById("editCountry").value =
+            user.country || "";
+
+        document.getElementById("editUserModal").style.display =
+            "block";
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+
+// ======================================
+// UPDATE CUSTOMER
+// ======================================
+
+async function updateUser() {
+
+    try {
+
+        const user = {
+
+            id:
+            document.getElementById("editUserId").value,
+
+            firstName:
+            document.getElementById("editFirstName").value,
+
+            lastName:
+            document.getElementById("editLastName").value,
+
+            email:
+            document.getElementById("editEmail").value,
+
+            mobile:
+            document.getElementById("editMobile").value,
+
+            gender:
+            document.getElementById("editGender").value,
+
+            dateOfBirth:
+            document.getElementById("editDob").value,
+
+            address:
+            document.getElementById("editAddress").value,
+
+            city:
+            document.getElementById("editCity").value,
+
+            state:
+            document.getElementById("editState").value,
+
+            pincode:
+            document.getElementById("editPincode").value,
+
+            country:
+            document.getElementById("editCountry").value
+
+        };
+
+        const response =
+            await fetch(
+
+                `${API_BASE_URL}/api/users/update`,
+
+                {
+
+                    method:"PUT",
+
+                    headers:{
+
+                        "Content-Type":
+                        "application/json"
+
+                    },
+
+                    body:JSON.stringify(user)
+
+                }
+
+            );
+
+        if(!response.ok){
+
+            throw new Error(await response.text());
+
+        }
+
+        alert("Customer Updated Successfully");
 
         closeUserModal();
 
         loadUsers();
 
-    } else {
+        loadDashboard();
 
-        alert(await response.text());
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
 
     }
 
 }
 
-function closeUserModal() {
-  document.getElementById("editUserModal").style.display = "none";
+
+// ======================================
+// CLOSE CUSTOMER MODAL
+// ======================================
+
+function closeUserModal(){
+
+    document
+    .getElementById("editUserModal")
+    .style.display="none";
+
 }
+// ======================================
+// PART 4A
+// SELLER MANAGEMENT
+// loadSellers()
+// deleteSeller()
+// ======================================
+
+async function loadSellers() {
+
+    showLoading("Loading Sellers...");
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/sellers`);
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load sellers.");
+
+        }
+
+        sellers = await response.json();
+
+        if (sellers.length === 0) {
+
+            emptyState(
+                "No Sellers",
+                "No sellers are registered."
+            );
+
+            return;
+
+        }
+
+        let html = `
+
+<div class="panel-header">
+
+<div>
+
+<h2>Seller Management</h2>
+
+<p>Total Sellers : ${sellers.length}</p>
+
+</div>
+
+<div class="toolbar">
+
+<div class="search-box">
+
+<i class="fa fa-search"></i>
+
+<input
+type="text"
+placeholder="Search seller..."
+onkeyup="filterAdminTable(this.value)">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Shop</th>
+
+<th>Owner</th>
+
+<th>Email</th>
+
+<th>Mobile</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+        sellers.forEach(seller => {
+
+            html += `
+
+<tr>
+
+<td>
+
+${seller.sellerId}
+
+</td>
+
+<td>
+
+<span class="cell-title">
+
+${safe(seller.shopName)}
+
+</span>
+
+<span class="cell-subtitle">
+
+${safe(seller.category)}
+
+</span>
+
+</td>
+
+<td>
+
+${safe(seller.name)}
+
+</td>
+
+<td>
+
+${safe(seller.email)}
+
+</td>
+
+<td>
+
+${safe(seller.mobile)}
+
+</td>
+
+<td>
+
+${statusBadge(seller.status)}
+
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button
+class="view-btn"
+title="View Seller"
+onclick="editSeller(${seller.sellerId})">
+
+<i class="fa fa-eye"></i>
+
+</button>
+
+<button
+class="edit-btn"
+title="Edit Seller"
+onclick="editSeller(${seller.sellerId})">
+
+<i class="fa fa-edit"></i>
+
+</button>
+
+<button
+class="delete-btn"
+title="Delete Seller"
+onclick="deleteSeller(${seller.sellerId})">
+
+<i class="fa fa-trash"></i>
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+        });
+
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        document.getElementById("tableArea").innerHTML =
+            html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+
+
+// ======================================
+// DELETE SELLER
+// ======================================
+
+async function deleteSeller(id){
+
+    if(!confirm("Delete this seller?")){
+
+        return;
+
+    }
+
+    try{
+
+        const response =
+        await fetch(
+
+            `${API_BASE_URL}/api/sellers/${id}`,
+
+            {
+
+                method:"DELETE"
+
+            }
+
+        );
+
+        const message =
+        await response.text();
+
+        if(!response.ok){
+
+            throw new Error(message);
+
+        }
+
+        alert(message);
+
+        loadSellers();
+
+        loadDashboard();
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+// ======================================
+// PART 4B-1
+// EDIT SELLER (START)
+// ======================================
 
 async function editSeller(id) {
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/api/sellers/${id}`);
+        showLoading("Loading Seller Details...");
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/sellers/${id}`);
 
         if (!response.ok) {
-            throw new Error("Unable to load seller details");
+
+            throw new Error("Unable to load seller details.");
+
         }
 
         const seller = await response.json();
 
-        console.log("Seller Data :", seller);
+        console.log("Seller :", seller);
 
-        // Hidden Id
+        // ======================================
+        // HIDDEN ID
+        // ======================================
+
         document.getElementById("sellerId").value =
             seller.sellerId || "";
 
-        // Personal
+        // ======================================
+        // PERSONAL INFORMATION
+        // ======================================
+
         document.getElementById("sellerName").value =
             seller.name || "";
 
@@ -503,9 +1238,9 @@ async function editSeller(id) {
         document.getElementById("sellerPassword").value =
             seller.password || "";
 
-    
-
-        // Business
+        // ======================================
+        // BUSINESS INFORMATION
+        // ======================================
 
         document.getElementById("gstNumber").value =
             seller.gstNumber || "";
@@ -519,7 +1254,9 @@ async function editSeller(id) {
         document.getElementById("businessLicense").value =
             seller.businessLicense || "";
 
-        // Shop
+        // ======================================
+        // SHOP INFORMATION
+        // ======================================
 
         document.getElementById("shopName").value =
             seller.shopName || "";
@@ -544,8 +1281,9 @@ async function editSeller(id) {
 
         document.getElementById("pickupAddress").value =
             seller.pickupAddress || "";
-
-        // Bank
+        // ======================================
+        // BANK DETAILS
+        // ======================================
 
         document.getElementById("accountHolderName").value =
             seller.accountHolderName || "";
@@ -562,7 +1300,9 @@ async function editSeller(id) {
         document.getElementById("upiId").value =
             seller.upiId || "";
 
-        // Nominee
+        // ======================================
+        // NOMINEE DETAILS
+        // ======================================
 
         document.getElementById("nomineeName").value =
             seller.nomineeName || "";
@@ -570,48 +1310,56 @@ async function editSeller(id) {
         document.getElementById("nomineeMobile").value =
             seller.nomineeMobile || "";
 
-       // ================= IMAGE PREVIEW =================
+        // ======================================
+        // IMAGE PREVIEW
+        // ======================================
 
-const logo = seller.shopLogo || "";
+        const imageBase =
+            `${API_BASE_URL}/uploads/`;
 
-const front = seller.shopFrontPhoto || "";
+        const logo =
+            document.getElementById("shopLogoPreview");
 
-const inside = seller.shopInsidePhoto || "";
+        const front =
+            document.getElementById("shopFrontPreview");
 
-document.getElementById("shopLogoPreview").src =
-    logo
-        ? `${API_BASE_URL}/api/sellers/logo/${seller.sellerId}`
-        : "";
+        const inside =
+            document.getElementById("shopInsidePreview");
 
-document.getElementById("shopFrontPreview").src =
-    front
-        ? `${API_BASE_URL}/api/sellers/front/${seller.sellerId}`
-        : "";
+        if (logo) {
 
-document.getElementById("shopInsidePreview").src =
-    inside
-        ? `${API_BASE_URL}/api/sellers/inside/${seller.sellerId}`
-        : "";
-        // Show Modal
+            logo.src = seller.shopLogo
+                ? imageBase + seller.shopLogo
+                : "";
 
-        document.getElementById("editSellerModal").style.display =
-            "block";
+        }
 
-        // First Tab
+        if (front) {
 
-        document.querySelectorAll(".tab-content")
-            .forEach(tab => tab.style.display = "none");
+            front.src = seller.shopFrontPhoto
+                ? imageBase + seller.shopFrontPhoto
+                : "";
 
-        document.getElementById("personal").style.display =
-            "block";
+        }
 
-        document.querySelectorAll(".tab-btn")
-            .forEach(btn => btn.classList.remove("active"));
+        if (inside) {
 
-        document.querySelector(".tab-btn")
-            .classList.add("active");
+            inside.src = seller.shopInsidePhoto
+                ? imageBase + seller.shopInsidePhoto
+                : "";
+
+        }
+
+        // ======================================
+        // OPEN MODAL
+        // ======================================
+
+        document
+            .getElementById("editSellerModal")
+            .style.display = "block";
 
     }
+
     catch (error) {
 
         console.log(error);
@@ -621,6 +1369,10 @@ document.getElementById("shopInsidePreview").src =
     }
 
 }
+// ======================================
+// PART 4C-1
+// UPDATE SELLER
+// ======================================
 
 async function updateSeller() {
 
@@ -628,72 +1380,129 @@ async function updateSeller() {
 
         const seller = {
 
-            sellerId: document.getElementById("sellerId").value,
+            sellerId:
+                document.getElementById("sellerId").value,
 
-            // Personal
-            name: document.getElementById("sellerName").value,
-            email: document.getElementById("sellerEmail").value,
-            mobile: document.getElementById("sellerMobile").value,
-            alternateMobile: document.getElementById("sellerAlternateMobile").value,
-            password: document.getElementById("sellerPassword").value,
-           
+            // PERSONAL
 
-            // Business
-            gstNumber: document.getElementById("gstNumber").value,
-            panNumber: document.getElementById("panNumber").value,
-            aadharNumber: document.getElementById("aadharNumber").value,
-            businessLicense: document.getElementById("businessLicense").value,
+            name:
+                document.getElementById("sellerName").value,
 
-            // Shop
-            shopName: document.getElementById("shopName").value,
-            shopAddress: document.getElementById("shopAddress").value,
-            city: document.getElementById("city").value,
-            state: document.getElementById("state").value,
-            pincode: document.getElementById("pincode").value,
-            category: document.getElementById("category").value,
-            productType: document.getElementById("productType").value,
-            pickupAddress: document.getElementById("pickupAddress").value,
+            email:
+                document.getElementById("sellerEmail").value,
 
-            // Bank
-            accountHolderName: document.getElementById("accountHolderName").value,
-            accountNumber: document.getElementById("accountNumber").value,
-            bankName: document.getElementById("bankName").value,
-            ifscCode: document.getElementById("ifscCode").value,
-            upiId: document.getElementById("upiId").value,
+            mobile:
+                document.getElementById("sellerMobile").value,
 
-            // Nominee
-            nomineeName: document.getElementById("nomineeName").value,
-            nomineeMobile: document.getElementById("nomineeMobile").value
+            alternateMobile:
+                document.getElementById("sellerAlternateMobile").value,
+
+            password:
+                document.getElementById("sellerPassword").value,
+
+            // BUSINESS
+
+            gstNumber:
+                document.getElementById("gstNumber").value,
+
+            panNumber:
+                document.getElementById("panNumber").value,
+
+            aadharNumber:
+                document.getElementById("aadharNumber").value,
+
+            businessLicense:
+                document.getElementById("businessLicense").value,
+
+            // SHOP
+
+            shopName:
+                document.getElementById("shopName").value,
+
+            shopAddress:
+                document.getElementById("shopAddress").value,
+
+            city:
+                document.getElementById("city").value,
+
+            state:
+                document.getElementById("state").value,
+
+            pincode:
+                document.getElementById("pincode").value,
+
+            category:
+                document.getElementById("category").value,
+
+            productType:
+                document.getElementById("productType").value,
+
+            pickupAddress:
+                document.getElementById("pickupAddress").value,
+
+            // BANK
+
+            accountHolderName:
+                document.getElementById("accountHolderName").value,
+
+            accountNumber:
+                document.getElementById("accountNumber").value,
+
+            bankName:
+                document.getElementById("bankName").value,
+
+            ifscCode:
+                document.getElementById("ifscCode").value,
+
+            upiId:
+                document.getElementById("upiId").value,
+
+            // NOMINEE
+
+            nomineeName:
+                document.getElementById("nomineeName").value,
+
+            nomineeMobile:
+                document.getElementById("nomineeMobile").value
+
         };
 
-        console.log("Updating Seller:", seller);
-
         const response = await fetch(
+
             `${API_BASE_URL}/api/sellers/update`,
+
             {
+
                 method: "PUT",
+
                 headers: {
+
                     "Content-Type": "application/json"
+
                 },
+
                 body: JSON.stringify(seller)
+
             }
+
         );
 
         if (!response.ok) {
 
-            const message = await response.text();
-
-            throw new Error(message);
+            throw new Error(await response.text());
 
         }
 
         alert("Seller Updated Successfully");
 
-        closeSellerModal();
+                closeSellerModal();
 
         loadSellers();
 
+        loadDashboard();
+
     }
+
     catch (error) {
 
         console.log(error);
@@ -704,747 +1513,661 @@ async function updateSeller() {
 
 }
 
+
+// ======================================
+// CLOSE SELLER MODAL
+// ======================================
+
+function closeSellerModal() {
+
+    document
+        .getElementById("editSellerModal")
+        .style.display = "none";
+
+}
+
+
+// ======================================
+// IMAGE PREVIEW
+// ======================================
+
+function previewImage(input, previewId) {
+
+    const preview =
+        document.getElementById(previewId);
+
+    if (!preview) return;
+
+    if (input.files && input.files[0]) {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            preview.src = e.target.result;
+
+        };
+
+        reader.readAsDataURL(input.files[0]);
+
+    }
+
+}
+
+
+// ======================================
+// IMAGE CHANGE EVENTS
+// ======================================
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    const logo =
+        document.getElementById("shopLogo");
+
+    if (logo) {
+
+        logo.addEventListener("change", function () {
+
+            previewImage(this, "shopLogoPreview");
+
+        });
+
+    }
+
+    const front =
+        document.getElementById("shopFrontPhoto");
+
+    if (front) {
+
+        front.addEventListener("change", function () {
+
+            previewImage(this, "shopFrontPreview");
+
+        });
+
+    }
+
+    const inside =
+        document.getElementById("shopInsidePhoto");
+
+    if (inside) {
+
+        inside.addEventListener("change", function () {
+
+            previewImage(this, "shopInsidePreview");
+
+        });
+
+    }
+
+});
+// ======================================
+// PART 5A
+// PENDING SELLERS
+// ======================================
+
 async function loadPendingSellers() {
-  document.getElementById("pageTitle").innerHTML = "Seller Confirmation";
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/pending-sellers`);
-
-    if (!response.ok) {
-      throw new Error("Unable to load sellers");
-    }
-
-    const sellers = await response.json();
-
-    let html = `
-
-        <table>
-
-            <tr>
-
-                <th>Seller ID</th>
-
-                <th>Owner</th>
-
-                <th>Email</th>
-
-                <th>Mobile</th>
-
-                <th>Shop Name</th>
-
-                <th>Status</th>
-
-                <th>Action</th>
-
-            </tr>
-
-        `;
-
-    sellers.forEach((seller) => {
-      html += `
-
-            <tr>
-
-                <td>${seller.sellerId}</td>
-
-                <td>${seller.name}</td>
-
-                <td>${seller.email}</td>
-
-                <td>${seller.mobile}</td>
-
-                <td>${seller.shopName}</td>
-
-                <td>${seller.status}</td>
-
-                <td>
-
-                    <button class="approve-btn"
-                        onclick="approveSeller(${seller.sellerId})">
-
-                        Approve
-
-                    </button>
-
-                    <button class="reject-btn"
-                        onclick="rejectSeller(${seller.sellerId})">
-
-                        Reject
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
-    });
-
-    html += "</table>";
-
-    document.getElementById("tableArea").innerHTML = html;
-  } catch (error) {
-    console.log(error);
-
-    alert(error.message);
-  }
-}
-
-async function approveSeller(id) {
-  if (!confirm("Approve this seller?")) {
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/admin/approve-seller/${id}`,
-
-      {
-        method: "PUT",
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Unable to approve seller");
-    }
-
-    alert("Seller Approved Successfully");
-
-    loadPendingSellers();
-
-    loadDashboard();
-  } catch (error) {
-    console.log(error);
-
-    alert(error.message);
-  }
-}
-
-async function rejectSeller(id) {
-  if (!confirm("Reject this seller?")) {
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/admin/reject-seller/${id}`,
-
-      {
-        method: "PUT",
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Unable to reject seller");
-    }
-
-    alert("Seller Rejected Successfully");
-
-    loadPendingSellers();
-
-    loadDashboard();
-  } catch (error) {
-    console.log(error);
-
-    alert(error.message);
-  }
-}
-
-async function loadPendingProducts() {
-  document.getElementById("pageTitle").innerHTML = "Product Approval";
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/products/pending-products`)
-
-    if (!response.ok) {
-      throw new Error("Unable to load products");
-    }
-
-    const products = await response.json();
-
-    let html = `
-
-        <table>
-
-            <tr>
-
-                <th>Image</th>
-
-                <th>Product</th>
-
-                <th>Brand</th>
-
-                <th>Category</th>
-
-                <th>Seller</th>
-
-                <th>Price</th>
-
-                <th>Status</th>
-
-                <th>Action</th>
-
-            </tr>
-
-        `;
-
-    products.forEach((product) => {
-      html += `
-
-            <tr>
-
-                <td>
-
-                    <img src="${API_BASE_URL}/api/products/image/${product.productId}"
-                         width="70">
-
-                </td>
-
-                <td>${product.productName}</td>
-
-                <td>${product.brand}</td>
-
-                <td>${product.category}</td>
-
-                <td>${product.seller.shopName}</td>
-
-                <td>₹${product.finalPrice}</td>
-
-                <td>${product.status}</td>
-
-                <td>
-
-                    <button class="approve-btn"
-                        onclick="approveProduct(${product.productId})">
-
-                        Approve
-
-                    </button>
-
-                    <button class="reject-btn"
-                        onclick="rejectProduct(${product.productId})">
-
-                        Reject
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
-    });
-
-    html += "</table>";
-
-    document.getElementById("tableArea").innerHTML = html;
-  } catch (error) {
-    console.log(error);
-
-    alert(error.message);
-  }
-}
-
-async function approveProduct(productId) {
-  if (!confirm("Approve this product?")) {
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/admin/approve-product/${productId}`,
-
-      {
-        method: "PUT",
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Unable to approve product");
-    }
-
-    alert("Product Approved Successfully");
-
-    loadPendingProducts();
-
-    loadDashboard();
-  } catch (error) {
-    console.log(error);
-
-    alert(error.message);
-  }
-}
-
-async function rejectProduct(productId) {
-  if (!confirm("Reject this product?")) {
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/admin/reject-product/${productId}`,
-
-      {
-        method: "PUT",
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Unable to reject product");
-    }
-
-    alert("Product Rejected Successfully");
-
-    loadPendingProducts();
-
-    loadDashboard();
-  } catch (error) {
-    console.log(error);
-
-    alert(error.message);
-  }
-}
-
-function logout() {
-  localStorage.removeItem("currentAdmin");
-
-  window.location.href = "admin-log.html";
-}
-/* Redesigned admin workspace */
-function safe(value, fallback = "?") {
-  if (value === null || value === undefined || value === "") return fallback;
-  return String(value).replace(
-    /[&<>'"]/g,
-    (char) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[
-        char
-      ],
-  );
-}
-
-function setLoading(message = "Loading data?") {
-  document.getElementById("tableArea").innerHTML =
-    `<div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> ${message}</div>`;
-}
-
-function emptyState(icon, title, message) {
-  return `<div class="empty-state"><i class="fa-solid ${icon}"></i><h3>${title}</h3><p>${message}</p></div>`;
-}
-
-function errorState(message) {
-  document.getElementById("tableArea").innerHTML =
-    `<div class="error-state"><i class="fa-solid fa-triangle-exclamation"></i><h3>Something went wrong</h3><p>${safe(message)}</p></div>`;
-}
-
-function statusBadge(status) {
-  const value = String(status || "Unknown");
-  return `<span class="status ${value.toLowerCase()}">${safe(value)}</span>`;
-}
-
-function filterAdminTable(query) {
-  const term = query.toLowerCase().trim();
-  document.querySelectorAll("#adminTable tbody tr").forEach((row) => {
-    row.style.display = row.textContent.toLowerCase().includes(term)
-      ? ""
-      : "none";
-  });
-}
-
-function toggleSidebar() {
-  document.querySelector(".sidebar").classList.toggle("open");
-}
-
-function enhanceAdminShell() {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.id = "sidebar";
-  const items = [...sidebar.querySelectorAll("li")];
-  items.forEach((item) => {
-    const action = item.getAttribute("onclick") || "";
-    const match = action.match(/showPage\('([^']+)'/);
-    if (match) item.dataset.page = match[1];
-    if (match && match[1] === "complaints") item.remove();
-    if (match && match[1] === "confirmation") {
-      item.childNodes.forEach((node) => {
-        if (node.nodeType === 3 && node.textContent.trim())
-          node.textContent = " Seller approvals ";
-      });
-      item.insertAdjacentHTML(
-        "beforeend",
-        '<span class="nav-badge" id="sellerApprovalBadge">0</span>',
-      );
-    }
-    if (match && match[1] === "products") {
-      item.childNodes.forEach((node) => {
-        if (node.nodeType === 3 && node.textContent.trim())
-          node.textContent = " Product approvals ";
-      });
-      item.insertAdjacentHTML(
-        "beforeend",
-        '<span class="nav-badge" id="productApprovalBadge">0</span>',
-      );
-    }
-    if (match && match[1] === "transactions")
-      item.childNodes.forEach((node) => {
-        if (node.nodeType === 3 && node.textContent.trim())
-          node.textContent = " Payments ";
-      });
-  });
-  const topbar = document.querySelector(".topbar");
-  topbar.innerHTML = `<div class="title-group"><button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation"><i class="fa-solid fa-bars"></i></button><div><p class="eyebrow">ADMIN CONSOLE</p><h1 id="pageTitle">Dashboard</h1></div></div><div class="admin-profile"><span class="avatar"><i class="fa-solid fa-user-shield"></i></span><div><strong>${safe(admin.name || admin.email || "Administrator")}</strong><small>Platform admin</small></div></div>`;
-  const cardData = [
-    [
-      "usersCount",
-      "Total customers",
-      "Registered accounts",
-      "fa-users",
-      "blue",
-    ],
-    [
-      "sellerCount",
-      "Total sellers",
-      "Marketplace partners",
-      "fa-store",
-      "violet",
-    ],
-    [
-      "orderCount",
-      "Total orders",
-      "Orders placed",
-      "fa-cart-shopping",
-      "amber",
-    ],
-    ["productCount", "Total products", "Catalog items", "fa-box-open", "green"],
-  ];
-  document.querySelector(".cards").id = "summaryCards";
-  document.querySelectorAll(".card").forEach((card, index) => {
-    const [id, label, note, icon, color] = cardData[index];
-    card.innerHTML = `<div class="card-icon ${color}"><i class="fa-solid ${icon}"></i></div><div><h3>${label}</h3><p id="${id}">0</p><small>${note}</small></div>`;
-  });
-}
-
-document.addEventListener("DOMContentLoaded", enhanceAdminShell);
-
-function setActivePage(page, clickedItem) {
-  document
-    .querySelectorAll(".sidebar li")
-    .forEach((item) =>
-      item.classList.toggle(
-        "active",
-        item === clickedItem || item.dataset.page === page,
-      ),
-    );
-  document.getElementById("summaryCards").style.display =
-    page === "dashboard" ? "grid" : "none";
-  document.querySelector(".sidebar").classList.remove("open");
-}
-
-async function loadOrders() {
+    showLoading("Loading Pending Sellers...");
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/api/orders`);
+        const response =
+            await fetch(`${API_BASE_URL}/api/admin/pending-sellers`);
 
         if (!response.ok) {
-            throw new Error("Unable to load orders");
+
+            throw new Error("Unable to load pending sellers.");
+
         }
 
-        const orders = await response.json();
+        pendingSellers = await response.json();
+
+        if (pendingSellers.length === 0) {
+
+            emptyState(
+                "No Pending Sellers",
+                "All seller registrations have been reviewed."
+            );
+
+            return;
+
+        }
 
         let html = `
-        <h2>All Orders</h2>
 
-        <table id="adminTable">
+<div class="panel-header">
 
-        <tr>
+<div>
 
-        <th>Order ID</th>
-        <th>Customer</th>
-        <th>Seller</th>
-        <th>Shop</th>
-        <th>Total</th>
-        <th>Payment</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Action</th>
+<h2>Pending Seller Approvals</h2>
 
-        </tr>
-        `;
+<p>${pendingSellers.length} seller(s) waiting for verification</p>
 
-        orders.forEach(order => {
+</div>
+
+<div class="toolbar">
+
+<div class="search-box">
+
+<i class="fa fa-search"></i>
+
+<input
+type="text"
+placeholder="Search seller..."
+onkeyup="filterAdminTable(this.value)">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Seller</th>
+
+<th>Business</th>
+
+<th>Email</th>
+
+<th>Mobile</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+        pendingSellers.forEach(seller => {
 
             html += `
 
-            <tr>
+<tr>
 
-            <td>${order.orderId}</td>
-
-            <td>${order.user ?
-                order.user.firstName + " " + order.user.lastName
-                : "-"}</td>
-
-            <td>${order.sellerName || "-"}</td>
-
-            <td>${order.shopName || "-"}</td>
-
-            <td>₹${order.totalAmount}</td>
-
-            <td>${order.paymentStatus}</td>
-
-            <td>${order.status}</td>
-
-            <td>${new Date(order.orderDate).toLocaleDateString()}</td>
+<td>${seller.sellerId}</td>
 
 <td>
 
-<button class="edit-btn"
-onclick="editOrder(${order.orderId})">
+<div class="cell-title">
+${safe(seller.name)}
+</div>
 
-<i class="fa fa-edit"></i>
+<div class="cell-subtitle">
+${safe(seller.shopName)}
+</div>
 
-Edit
+</td>
+
+<td>
+
+${safe(seller.businessName)}
+
+</td>
+
+<td>
+
+${safe(seller.email)}
+
+</td>
+
+<td>
+
+${safe(seller.mobile)}
+
+</td>
+
+<td>
+
+${statusBadge(seller.status)}
+
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button
+class="view-btn"
+onclick="editSeller(${seller.sellerId})">
+
+<i class="fa fa-eye"></i>
+View
+
+</button>
+
+<button
+class="approve-btn"
+onclick="approveSeller(${seller.sellerId})">
+
+<i class="fa fa-check"></i>
+Approve
+
+</button>
+
+<button
+class="reject-btn"
+onclick="rejectSeller(${seller.sellerId})">
+
+<i class="fa fa-times"></i>
+Reject
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+        });
+
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        document.getElementById("tableArea").innerHTML = html;
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+// ======================================
+// PART 5B
+// APPROVE / REJECT SELLER
+// ======================================
+
+async function approveSeller(sellerId) {
+
+    if (!confirm("Approve this seller?")) {
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/admin/approve-seller/${sellerId}`,
+
+            {
+
+                method: "PUT"
+
+            }
+
+        );
+
+        const message = await response.text();
+
+        if (!response.ok) {
+
+            throw new Error(message);
+
+        }
+
+        alert(message || "Seller Approved Successfully.");
+
+        loadPendingSellers();
+
+        loadDashboard();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+
+
+// ======================================
+// REJECT SELLER
+// ======================================
+
+async function rejectSeller(sellerId) {
+
+    const reason = prompt("Enter rejection reason:");
+
+    if (reason === null) {
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE_URL}/api/admin/reject-seller/${sellerId}`,
+
+            {
+
+                method: "PUT",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    reason: reason
+
+                })
+
+            }
+
+        );
+
+        const message = await response.text();
+
+        if (!response.ok) {
+
+            throw new Error(message);
+
+        }
+
+        alert(message || "Seller Rejected Successfully.");
+
+        loadPendingSellers();
+
+        loadDashboard();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+// ======================================
+// PART 6A
+// PRODUCT VERIFICATION
+// ======================================
+
+async function loadPendingProducts() {
+
+    showLoading("Loading Pending Products...");
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/admin/pending-products`);
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load pending products.");
+
+        }
+
+        pendingProducts = await response.json();
+
+        if (pendingProducts.length === 0) {
+
+            emptyState(
+
+                "No Pending Products",
+
+                "All products have already been verified."
+
+            );
+
+            return;
+
+        }
+
+        let html = `
+
+<div class="panel-header">
+
+<div>
+
+<h2>Pending Product Verification</h2>
+
+<p>${pendingProducts.length} product(s) waiting for verification</p>
+
+</div>
+
+<div class="toolbar">
+
+<div class="search-box">
+
+<i class="fa fa-search"></i>
+
+<input
+type="text"
+placeholder="Search Product..."
+onkeyup="filterAdminTable(this.value)">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Image</th>
+
+<th>Product</th>
+
+<th>Seller</th>
+
+<th>Category</th>
+
+<th>Seller Price</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+        pendingProducts.forEach(product => {
+
+            html += `
+
+<tr>
+
+<td>
+
+${product.productId}
+
+</td>
+
+<td>
+
+<img
+src="${API_BASE_URL}/api/products/image/${product.productId}"
+class="table-image">
+
+</td>
+
+<td>
+
+<div class="cell-title">
+
+${safe(product.productName)}
+
+</div>
+
+<div class="cell-subtitle">
+
+${safe(product.brand)}
+
+</div>
+
+</td>
+
+<td>
+
+${safe(product.seller?.shopName)}
+
+</td>
+
+<td>
+
+${safe(product.category)}
+
+</td>
+
+<td>
+
+${formatMoney(product.sellerPrice)}
+
+</td>
+
+<td>
+
+${statusBadge(product.status)}
+
+</td>
+
+<td>
+
+<button
+class="verify-btn"
+onclick="verifyProduct(${product.productId})">
+
+<i class="fa fa-eye"></i>
+
+Verify
 
 </button>
 
 </td>
 
-            </tr>
+</tr>
 
-            `;
+`;
 
         });
 
-        html += "</table>";
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
 
         document.getElementById("tableArea").innerHTML = html;
 
     }
-    catch (e) {
 
-        console.log(e);
+    catch (error) {
 
-        alert("Unable to load orders");
+        console.log(error);
+
+        showError(error.message);
 
     }
 
 }
 
-async function editOrder(id){
+// ======================================
+// PART 6B
+// VERIFY PRODUCT
+// ======================================
 
-    const response = await fetch(`${API_BASE_URL}/api/orders/${id}`);
+function verifyProduct(productId) {
 
-    const order = await response.json();
+    if (!productId) {
 
-    document.getElementById("editOrderId").value = order.orderId;
+        alert("Invalid Product.");
 
-    document.getElementById("editDeliveryName").value = order.deliveryName;
+        return;
 
-    document.getElementById("editDeliveryMobile").value = order.deliveryMobile;
+    }
 
-    document.getElementById("editDeliveryAddress").value = order.deliveryAddress;
-
-    document.getElementById("editDeliveryCity").value = order.deliveryCity;
-
-    document.getElementById("editDeliveryState").value = order.deliveryState;
-
-    document.getElementById("editDeliveryPincode").value = order.deliveryPincode;
-
-    document.getElementById("editOrderStatus").value = order.status;
-
-    document.getElementById("editOrderModal").style.display = "block";
-
-}
-
-function closeOrderModal(){
-
-    document.getElementById("editOrderModal").style.display =
-    "none";
-
-}
-
-async function updateOrder() {
-
-    const id = document.getElementById("editOrderId").value;
-
-    const body = {
-
-        deliveryName: document.getElementById("editDeliveryName").value,
-        deliveryMobile: document.getElementById("editDeliveryMobile").value,
-        deliveryAddress: document.getElementById("editDeliveryAddress").value,
-        deliveryCity: document.getElementById("editDeliveryCity").value,
-        deliveryState: document.getElementById("editDeliveryState").value,
-        deliveryPincode: document.getElementById("editDeliveryPincode").value
-
-    };
-
-    console.log("Order ID:", id);
-    console.log("Request Body:", body);
-
-    const response = await fetch(
-        `${API_BASE_URL}/api/orders/update/${id}`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        }
+    localStorage.setItem(
+        "verifyProductId",
+        productId
     );
 
-    console.log("Status:", response.status);
+    window.location.href =
+        `VerifyProduct.html?id=${productId}`;
 
-    const result = await response.text();
+}
 
-    console.log("Response:", result);
 
-    if (response.ok) {
 
-        alert("Order Updated Successfully");
+// ======================================
+// GET PRODUCT ID
+// (Used inside VerifyProduct.html)
+// ======================================
 
-        closeOrderModal();
+function getVerifyProductId() {
 
-        loadOrders();
+    const params =
+        new URLSearchParams(window.location.search);
 
-    } else {
+    let id = params.get("id");
 
-        alert(result);
+    if (!id) {
+
+        id =
+        localStorage.getItem("verifyProductId");
 
     }
-}
 
-function showPage(page, clickedItem) {
+    return id;
 
-    setActivePage(page, clickedItem);
-
-    const titles = {
-        dashboard: "Dashboard",
-        users: "Customers",
-        sellers: "Sellers",
-        confirmation: "Seller Approvals",
-        products: "Product Approvals",
-        orders: "Orders",
-        transactions: "Payments"
-    };
-
-    document.getElementById("pageTitle").textContent =
-        titles[page] || "Admin";
-
-    if (page === "dashboard") return loadDashboard();
-
-    if (page === "users") return loadUsers();
-
-    if (page === "sellers") return loadSellers();
-
-    if (page === "confirmation") return loadPendingSellers();
-
-    if (page === "products") return loadPendingProducts();
-
-    if (page === "orders") return loadOrders();
-
-    document.getElementById("tableArea").innerHTML = "";
-}
-
-
-
-async function loadDashboard() {
-  setActivePage("dashboard");
-  document.getElementById("pageTitle").textContent = "Dashboard";
-  setLoading("Loading dashboard?");
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/dashboard`);
-    if (!response.ok) throw new Error("The dashboard service is unavailable.");
-    const data = await response.json();
-    document.getElementById("usersCount").textContent = data.totalUsers ?? 0;
-    document.getElementById("sellerCount").textContent = data.totalSellers ?? 0;
-    document.getElementById("orderCount").textContent = data.totalOrders ?? 0;
-    document.getElementById("productCount").textContent =
-      data.totalProducts ?? 0;
-    const sellerBadge = document.getElementById("sellerApprovalBadge");
-    const productBadge = document.getElementById("productApprovalBadge");
-    if (sellerBadge) sellerBadge.textContent = data.pendingSellers ?? 0;
-    if (productBadge) productBadge.textContent = data.pendingProducts ?? 0;
-    document.getElementById("tableArea").innerHTML =
-      `<div class="dashboard-grid"><section class="quick-panel"><h2>Review centre</h2><p>Items that need an administrator decision.</p><div class="review-list"><div class="review-item"><i class="fa-solid fa-store"></i><div><strong>${data.pendingSellers ?? 0} seller applications</strong><small>Review business and shop details</small></div><button onclick="showPage('confirmation')">Review</button></div><div class="review-item"><i class="fa-solid fa-box"></i><div><strong>${data.pendingProducts ?? 0} product submissions</strong><small>Check product information before publishing</small></div><button onclick="showPage('products')">Review</button></div></div></section><section class="quick-panel"><h2>Platform overview</h2><p>A quick snapshot of marketplace activity.</p><div class="review-list"><div class="review-item"><i class="fa-solid fa-chart-line"></i><div><strong>${data.totalOrders ?? 0} total orders</strong><small>Across ${data.totalUsers ?? 0} registered customers</small></div></div><div class="review-item"><i class="fa-solid fa-cubes"></i><div><strong>${data.totalProducts ?? 0} catalog products</strong><small>Managed by ${data.totalSellers ?? 0} sellers</small></div></div></div></section></div>`;
-  } catch (error) {
-    errorState(error.message);
-  }
-}
-
-async function loadUsers() {
-  setLoading("Loading customers?");
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/users`);
-    if (!response.ok) throw new Error("Unable to load customers.");
-    const users = await response.json();
-    const rows = users
-      .map(
-        (user) =>
-          `<tr><td><span class="cell-title">#${safe(user.id)}</span></td><td><span class="cell-title">${safe(`${user.firstName || ""} ${user.lastName || ""}`.trim())}</span><span class="cell-subtitle">${safe(user.email)}</span></td><td>${safe(user.mobile)}</td><td>${safe(user.city || user.address)}</td><td>${statusBadge(user.status || "Active")}</td><td><div class="action-group"><button class="edit-btn" title="Edit customer" onclick="editUser(${user.id})"><i class="fa-solid fa-pen"></i></button><button class="delete-btn" title="Delete customer" onclick="deleteUser(${user.id})"><i class="fa-solid fa-trash"></i></button></div></td></tr>`,
-      )
-      .join("");
-    document.getElementById("tableArea").innerHTML =
-      `<div class="panel-header"><div><h2>Customers</h2><p>${users.length} registered customer${users.length === 1 ? "" : "s"}</p></div><div class="toolbar"><label class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Search customers" oninput="filterAdminTable(this.value)"></label></div></div>${users.length ? `<div class="table-wrap"><table id="adminTable"><thead><tr><th>ID</th><th>Customer</th><th>Mobile</th><th>Location</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>` : emptyState("fa-users", "No customers found", "Registered customers will appear here.")}`;
-  } catch (error) {
-    errorState(error.message);
-  }
-}
-
-async function loadSellers() {
-  setLoading("Loading sellers?");
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/sellers`);
-    if (!response.ok) throw new Error("Unable to load sellers.");
-    const sellers = await response.json();
-    const rows = sellers
-      .map(
-        (seller) =>
-          `<tr><td><span class="cell-title">#${safe(seller.sellerId)}</span></td><td><span class="cell-title">${safe(seller.shopName)}</span><span class="cell-subtitle">${safe(seller.name)}</span></td><td>${safe(seller.email)}<span class="cell-subtitle">${safe(seller.mobile)}</span></td><td>${statusBadge(seller.status)}</td><td><div class="action-group"><button class="edit-btn" title="Edit seller" onclick="editSeller(${seller.sellerId})"><i class="fa-solid fa-pen"></i></button><button class="approve-btn" title="Approve seller" onclick="approveSeller(${seller.sellerId})"><i class="fa-solid fa-check"></i></button><button class="reject-btn" title="Reject seller" onclick="rejectSeller(${seller.sellerId})"><i class="fa-solid fa-xmark"></i></button><button class="delete-btn" title="Delete seller" onclick="deleteSeller(${seller.sellerId})"><i class="fa-solid fa-trash"></i></button></div></td></tr>`,
-      )
-      .join("");
-    document.getElementById("tableArea").innerHTML =
-      `<div class="panel-header"><div><h2>Seller management</h2><p>${sellers.length} marketplace seller${sellers.length === 1 ? "" : "s"}</p></div><div class="toolbar"><label class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Search sellers" oninput="filterAdminTable(this.value)"></label></div></div>${sellers.length ? `<div class="table-wrap"><table id="adminTable"><thead><tr><th>ID</th><th>Shop and owner</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>` : emptyState("fa-store", "No sellers found", "Seller registrations will appear here.")}`;
-  } catch (error) {
-    errorState(error.message);
-  }
-}
-
-async function loadPendingSellers() {
-  setLoading("Loading seller applications?");
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/pending-sellers`);
-    if (!response.ok) throw new Error("Unable to load seller applications.");
-    const sellers = await response.json();
-    const rows = sellers
-      .map(
-        (seller) =>
-          `<tr><td><span class="cell-title">${safe(seller.shopName)}</span><span class="cell-subtitle">#${safe(seller.sellerId)}</span></td><td>${safe(seller.name)}</td><td>${safe(seller.email)}<span class="cell-subtitle">${safe(seller.mobile)}</span></td><td>${statusBadge(seller.status)}</td><td><div class="action-group"><button class="edit-btn" onclick="editSeller(${seller.sellerId})" title="Review details"><i class="fa-solid fa-eye"></i></button><button class="approve-btn" onclick="approveSeller(${seller.sellerId})">Approve</button><button class="reject-btn" onclick="rejectSeller(${seller.sellerId})">Reject</button></div></td></tr>`,
-      )
-      .join("");
-    document.getElementById("tableArea").innerHTML =
-      `<div class="panel-header"><div><h2>Seller approvals</h2><p>Review business details before allowing sellers onto the marketplace.</p></div></div>${sellers.length ? `<div class="table-wrap"><table><thead><tr><th>Shop</th><th>Owner</th><th>Contact</th><th>Status</th><th>Decision</th></tr></thead><tbody>${rows}</tbody></table></div>` : emptyState("fa-circle-check", "No pending sellers", "All seller applications have been reviewed.")}`;
-  } catch (error) {
-    errorState(error.message);
-  }
-}
-
-async function loadPendingProducts() {
-  setLoading("Loading product submissions?");
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/products/pending-products`)
-    if (!response.ok) throw new Error("Unable to load product submissions.");
-    const products = await response.json();
-    const rows = products
-      .map(
-        (product) =>
-          `<tr><td><img
-src="${API_BASE_URL}/api/products/image/${product.productId}"
-width="52"
-height="52"
-style="object-fit:cover;border-radius:10px"></td><td><span class="cell-title">${safe(product.productName)}</span><span class="cell-subtitle">${safe(product.brand)}</span></td><td>${safe(product.category)}</td><td>${safe(product.seller?.shopName)}</td><td>?${safe(product.finalPrice || product.price || 0)}</td><td>${statusBadge(product.status)}</td><td><div class="action-group"><button class="approve-btn" onclick="approveProduct(${product.productId})">Approve</button><button class="reject-btn" onclick="rejectProduct(${product.productId})">Reject</button></div></td></tr>`,
-      )
-      .join("");
-    document.getElementById("tableArea").innerHTML =
-      `<div class="panel-header"><div><h2>Product approvals</h2><p>Verify product quality and information before publishing.</p></div></div>${products.length ? `<div class="table-wrap"><table><thead><tr><th>Image</th><th>Product</th><th>Category</th><th>Seller</th><th>Price</th><th>Status</th><th>Decision</th></tr></thead><tbody>${rows}</tbody></table></div>` : emptyState("fa-circle-check", "No pending products", "All product submissions have been reviewed.")}`;
-  } catch (error) {
-    errorState(error.message);
-  }
 }
