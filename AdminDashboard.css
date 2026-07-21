@@ -1226,3 +1226,309 @@ tbody td::before{
     box-shadow:0 0 12px rgba(34,197,94,.5);
 
 }
+
+.badge{
+
+padding:6px 12px;
+
+border-radius:20px;
+
+font-size:12px;
+
+font-weight:bold;
+
+color:white;
+
+display:inline-block;
+
+}
+
+.success{
+
+background:#16a34a;
+
+}
+
+.pending{
+
+background:#f59e0b;
+
+}
+
+.failed{
+
+background:#dc2626;
+
+}
+
+.processing{
+
+background:#3b82f6;
+
+}
+
+.packed{
+
+background:#8b5cf6;
+
+}
+
+.shipped{
+
+background:#0ea5e9;
+
+}
+
+.delivery{
+
+background:#f97316;
+
+}
+
+.placed{
+
+background:#64748b;
+
+}
+
+.order-view{
+
+    width:1000px;
+    max-width:96%;
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    padding:35px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+
+}
+
+.view-product-image{
+
+    width:220px;
+    height:220px;
+
+    object-fit:contain;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    padding:8px;
+
+    background:#fff;
+
+    display:block;
+
+    margin:15px auto;
+
+}
+
+#orderDetails h3{
+
+    font-size:24px;
+
+    color:#2563eb;
+
+    margin:25px 0 15px;
+
+    border-bottom:2px solid #e5e7eb;
+
+    padding-bottom:8px;
+
+}
+
+#orderDetails p{
+
+    font-size:17px;
+
+    line-height:1.8;
+
+    margin:10px 0;
+
+}
+
+
+#orderDetails b{
+
+    color:#111;
+
+    font-size:17px;
+
+}
+
+.modal-content .close{
+
+    float:right;
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    color:#444;
+
+    transition:.3s;
+
+}
+
+.modal-content .close:hover{
+
+    color:#dc2626;
+
+    transform:scale(1.15);
+
+}
+
+.order-edit{
+
+    width:650px;
+
+    max-width:95%;
+
+}
+
+.form-group{
+
+    margin-bottom:15px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-weight:bold;
+
+}
+
+.form-group input{
+
+    width:100%;
+
+    padding:10px;
+
+    border:1px solid #ccc;
+
+    border-radius:6px;
+
+}
+
+.save-btn{
+
+    width:100%;
+
+    padding:12px;
+
+    background:#2874f0;
+
+    color:white;
+
+    border:none;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+.edit-order{
+
+width:650px;
+
+max-width:95%;
+
+}
+
+.edit-order label{
+
+font-weight:bold;
+
+display:block;
+
+margin-top:12px;
+
+}
+
+.edit-order input,
+.edit-order textarea{
+
+width:100%;
+
+padding:10px;
+
+margin-top:5px;
+
+border:1px solid #ddd;
+
+border-radius:6px;
+
+}
+
+.save-btn{
+
+margin-top:20px;
+
+width:100%;
+
+padding:12px;
+
+background:#2874f0;
+
+color:white;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-size:16px;
+
+}
+
+.payment-modal{
+
+    width:500px;
+    max-width:95%;
+
+}
+
+.payment-modal label{
+
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+
+}
+
+.payment-modal input,
+.payment-modal select{
+
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border-radius:6px;
+    border:1px solid #ccc;
+
+}
+
+.modal-footer{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:25px;
+
+}

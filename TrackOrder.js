@@ -36,6 +36,14 @@ async function loadOrder() {
 
        const order = await response.json();
 
+       console.log(order);
+
+console.log("Shop Name :", order.shopName);
+console.log("Seller Name :", order.sellerName);
+console.log("Seller Email :", order.sellerEmail);
+console.log("Seller Mobile :", order.sellerMobile);
+console.log("Seller Object :", order.seller);
+
 currentOrder = order;
 
 const firstItem = order.orderItems[0];

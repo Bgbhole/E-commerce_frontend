@@ -158,41 +158,55 @@ oninput="calculateValues()">
 
 <div class="row">
 
-<div class="field">
+    <div class="field">
+        <label>Profit</label>
+        <input id="profit" readonly>
+    </div>
 
-<label>Profit</label>
-
-<input
-id="profit"
-readonly>
-
-</div>
-
-<div class="field">
-
-<label>GST Amount</label>
-
-<input
-id="gstAmount"
-readonly>
-
-</div>
+    <div class="field">
+        <label>Platform Fee (%)</label>
+        <input
+            type="number"
+            id="platformFee"
+            value="2"
+            readonly>
+    </div>
 
 </div>
 
 <div class="row">
 
-<div class="field">
+    <div class="field">
+        <label>Platform Fee Amount</label>
+        <input
+            id="platformFeeAmount"
+            readonly>
+    </div>
 
-<label>Final Price</label>
-
-<input
-id="finalPrice"
-readonly>
+    <div class="field">
+        <label>Net Seller Profit</label>
+        <input
+            id="sellerNetProfit"
+            readonly>
+    </div>
 
 </div>
 
-</div>
+<div class="row">
+
+    <div class="field">
+        <label>GST Amount</label>
+        <input
+            id="gstAmount"
+            readonly>
+    </div>
+
+    <div class="field">
+        <label>Final Price</label>
+        <input
+            id="finalPrice"
+            readonly>
+    </div>
 
 </div>
 

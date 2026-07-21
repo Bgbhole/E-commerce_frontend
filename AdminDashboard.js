@@ -92,6 +92,86 @@ function statusBadge(status){
 
 }
 
+function paymentBadge(status){
+
+status = status || "PENDING";
+
+let cls = "pending";
+
+if(status==="SUCCESS") cls="success";
+
+if(status==="FAILED") cls="failed";
+
+return `
+
+<span class="badge ${cls}">
+
+${status}
+
+</span>
+
+`;
+
+}
+
+function orderBadge(status){
+
+status=status||"PLACED";
+
+let cls="placed";
+
+switch(status){
+
+case "PROCESSING":
+
+cls="processing";
+
+break;
+
+case "PACKED":
+
+cls="packed";
+
+break;
+
+case "SHIPPED":
+
+cls="shipped";
+
+break;
+
+case "OUT_FOR_DELIVERY":
+
+cls="delivery";
+
+break;
+
+case "DELIVERED":
+
+cls="success";
+
+break;
+
+case "CANCELLED":
+
+cls="failed";
+
+break;
+
+}
+
+return `
+
+<span class="badge ${cls}">
+
+${status.replaceAll("_"," ")}
+
+</span>
+
+`;
+
+}
+
 function formatMoney(value){
 
     return "₹" +
@@ -210,23 +290,23 @@ function showPage(page){
 
     setActivePage(page);
 
-    const titles={
+   const titles = {
 
-        dashboard:"Dashboard",
+    dashboard:"Dashboard",
 
-        users:"Customers",
+    users:"Customers",
 
-        sellers:"Seller Management",
+    sellers:"Seller Management",
 
-        confirmation:"Seller Approvals",
+    confirmation:"Seller Approvals",
 
-        products:"Product Approvals",
+    products:"Products",
 
-        orders:"Orders",
+    orders:"Orders",
 
-        transactions:"Payments"
+    payments:"Payments"
 
-    };
+};
 
     document.getElementById("pageTitle").innerHTML=
     titles[page] || "Admin";
@@ -276,6 +356,10 @@ case "pendingProducts":
             loadOrders();
 
             break;
+            
+            case "payments":
+    loadPayments();
+    break;
 
         default:
 
@@ -2241,36 +2325,86 @@ async function loadProducts() {
 
 <tr>
 
-<td>${product.productId}</td>
+<td>
+
+<img
+class="table-image"
+src="${API_BASE_URL}/api/products/image/${product.productId}">
+
+</td>
 
 <td>
-<img
-src="${API_BASE_URL}/api/products/image/${product.productId}"
-class="table-image">
+
+#${product.orderId}
+
+</td>
+
+<td>
+
+${safe(product.orderDate)}
+
 </td>
 
 <td>
 
 <div class="cell-title">
-${safe(product.productName)}
+
+${safe(product.user?.firstName)}
+
 </div>
 
 <div class="cell-subtitle">
-${safe(product.brand)}
+
+${safe(product.mobile)}
+
 </div>
 
 </td>
 
 <td>
-${safe(product.seller?.shopName)}
+
+<div class="cell-title">
+
+${safe(product.shopName)}
+
+</div>
+
+<div class="cell-subtitle">
+
+${safe(product.sellerName)}
+
+</div>
+
 </td>
 
 <td>
-${safe(product.category)}
+
+${safe(product.productName)}
+
 </td>
 
 <td>
-${formatMoney(product.finalSellingPrice)}
+
+${product.quantity}
+
+</td>
+
+<td>
+
+${formatMoney(product.totalAmount)}
+
+</td>
+
+<td>
+
+${paymentBadge(product.paymentStatus)}
+
+</td>
+
+<td>
+
+${orderBadge(product.orderStatus)}
+
 </td>
 
 <td>
@@ -2278,26 +2412,18 @@ ${formatMoney(product.finalSellingPrice)}
 <div class="action-group">
 
 <button
+class="view-btn"
+onclick="viewOrder(${product.orderId})">
+
+<i class="fa fa-eye"></i>
+
+</button>
+
+<button
 class="edit-btn"
-onclick="editProduct(${product.productId})">
+onclick="editOrder(${product.orderId})">
 
 <i class="fa fa-edit"></i>
-
-</button>
-
-<button
-class="delete-btn"
-onclick="deleteProduct(${product.productId})">
-
-<i class="fa fa-trash"></i>
-
-</button>
-
-<button
-class="verify-btn"
-onclick="sendToPending(${product.productId})">
-
-<i class="fa fa-clock"></i>
 
 </button>
 
@@ -2567,5 +2693,806 @@ function previewProductImage(src){
 function closeImagePreview(){
 
     document.getElementById("imagePreviewModal").style.display = "none";
+
+}
+
+async function loadOrders() {
+
+    showLoading("Loading Orders...");
+
+    try {
+
+        const response = await fetch(`${API_BASE_URL}/api/orders`);
+
+        if (!response.ok) {
+            throw new Error("Unable to load orders.");
+        }
+
+        const orders = await response.json();
+
+        if (orders.length === 0) {
+
+            emptyState(
+                "No Orders",
+                "No orders found."
+            );
+
+            return;
+        }
+
+        let html = `
+
+<div class="panel-header">
+
+<h2>Orders</h2>
+
+<p>Total Orders : ${orders.length}</p>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<th>Image</th>
+
+<th>Order ID</th>
+
+<th>Date</th>
+
+<th>Customer</th>
+
+<th>Seller</th>
+
+<th>Product</th>
+
+<th>Qty</th>
+
+<th>Amount</th>
+
+<th>Payment</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+       orders.forEach(order=>{
+
+html += `
+
+<tr>
+
+<td>
+<img
+class="table-image"
+src="${API_BASE_URL}/api/products/image/${order.orderItems?.[0]?.product?.productId}"
+</td>
+
+<td>#${order.orderId}</td>
+
+<td>${safe(order.orderDate)}</td>
+
+<td>
+<div class="cell-title">
+${safe(order.user?.firstName)}
+</div>
+<div class="cell-subtitle">
+${safe(order.deliveryMobile)}
+</div>
+</td>
+
+<td>
+<div class="cell-title">
+${safe(order.shopName)}
+</div>
+<div class="cell-subtitle">
+${safe(order.sellerName)}
+</div>
+</td>
+
+<td>${safe(order.productName)}</td>
+
+<td>${order.orderItems?.[0]?.quantity}</td>
+
+<td>${formatMoney(order.totalAmount)}</td>
+
+<td>
+${paymentBadge(order.paymentStatus)}
+</td>
+
+<td>
+${orderBadge(order.status)}
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button
+class="view-btn"
+onclick="viewOrder(${order.orderId})">
+
+<i class="fa fa-eye"></i>
+
+</button>
+
+<button
+class="edit-btn"
+onclick="editOrder(${order.orderId})">
+
+<i class="fa fa-edit"></i>
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+        html += `
+</tbody>
+</table>
+</div>`;
+
+        document.getElementById("tableArea").innerHTML = html;
+
+    } catch (error) {
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+
+
+async function viewOrder(id){
+
+    try{
+
+        const response =
+        await fetch(`${API_BASE_URL}/api/orders/${id}`);
+
+        if(!response.ok){
+
+            throw new Error("Unable to load order.");
+
+        }
+
+        const order =
+        await response.json();
+
+   console.log(order);
+
+   const item = order.orderItems?.[0];
+
+        document.getElementById("orderDetails").innerHTML = `
+
+<h3>📦 Product</h3>
+
+<img
+src="${API_BASE_URL}/api/products/image/${item?.product?.productId}"
+class="view-product-image">
+
+<p><b>Name :</b> ${safe(item?.productName)}</p>
+
+<p><b>Brand :</b> ${safe(item?.brand)}</p>
+
+<p><b>Category :</b> ${safe(item?.category)}</p>
+
+<p><b>Quantity :</b> ${item?.quantity || 0}</p>
+
+<p><b>Amount :</b> ${formatMoney(order.totalAmount)}</p>
+
+<hr>
+
+<h3>👤 Customer</h3>
+
+<p><b>Name :</b> ${safe(order.user?.firstName)}</p>
+
+<p><b>Email :</b> ${safe(order.user?.email)}</p>
+
+<p><b>Mobile :</b> ${safe(order.deliveryMobile)}</p>
+
+<hr>
+
+<h3>🏪 Seller</h3>
+
+<p><b>Shop :</b> ${safe(order.shopName)}</p>
+
+<p><b>Seller :</b> ${safe(order.sellerName)}</p>
+
+<p><b>Email :</b> ${safe(order.sellerEmail)}</p>
+
+<p><b>Mobile :</b> ${safe(order.sellerMobile)}</p>
+
+<hr>
+
+<h3>🚚 Shipping Address</h3>
+
+<p>
+<b>Name :</b> ${safe(order.deliveryName)}
+</p>
+
+<p>
+<b>Mobile :</b> ${safe(order.deliveryMobile)}
+</p>
+
+<p>
+<b>Address :</b> ${safe(order.deliveryAddress)}
+</p>
+
+<p>
+<b>City :</b> ${safe(order.deliveryCity)}
+</p>
+
+<p>
+<b>State :</b> ${safe(order.deliveryState)}
+</p>
+
+<p>
+<b>Pincode :</b> ${safe(order.deliveryPincode)}
+</p>
+
+<hr>
+
+<h3>💳 Payment</h3>
+
+<p><b>Method :</b> ${safe(order.paymentMethod)}</p>
+
+<p><b>Status :</b> ${paymentBadge(order.paymentStatus)}</p>
+
+<p><b>Total :</b> ${formatMoney(order.totalAmount)}</p>
+
+<hr>
+
+<h3>📋 Order</h3>
+
+<p><b>Order Date :</b> ${safe(order.orderDate)}</p>
+
+<p><b>Status :</b> ${orderBadge(order.status)}</p>
+
+`;
+
+        document
+        .getElementById("viewOrderModal")
+        .style.display = "block";
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+function closeOrderModal(){
+
+document
+.getElementById("viewOrderModal")
+.style.display="none";
+
+}
+
+async function saveDeliveryAddress(){
+
+    const orderId =
+    document.getElementById("editOrderId").value;
+
+    const request={
+
+        customerName:
+        document.getElementById("editCustomerName").value,
+
+        mobile:
+        document.getElementById("editMobile").value,
+
+        house:
+        document.getElementById("editHouse").value,
+
+        area:
+        document.getElementById("editArea").value,
+
+        landmark:
+        document.getElementById("editLandmark").value,
+
+        city:
+        document.getElementById("editCity").value,
+
+        state:
+        document.getElementById("editState").value,
+
+        pincode:
+        document.getElementById("editPincode").value
+
+    };
+
+    const response=
+    await fetch(
+
+        `${API_BASE_URL}/api/orders/update-address/${orderId}`,
+
+        {
+
+            method:"PUT",
+
+            headers:{
+
+                "Content-Type":"application/json"
+
+            },
+
+            body:JSON.stringify(request)
+
+        }
+
+    );
+
+    if(response.ok){
+
+        alert("Order updated successfully.");
+
+        closeEditOrder();
+
+        loadOrders();
+
+    }else{
+
+        const msg=await response.text();
+
+        alert(msg);
+
+    }
+
+}
+
+function closeEditOrder(){
+
+    document
+    .getElementById("editOrderModal")
+    .style.display="none";
+
+}
+
+async function editOrder(orderId){
+
+    const response =
+    await fetch(`${API_BASE_URL}/api/orders/${orderId}`);
+
+    const order =
+    await response.json();
+
+    document.getElementById("editOrderId").value =
+    order.orderId;
+
+    document.getElementById("deliveryName").value =
+    order.deliveryName;
+
+    document.getElementById("deliveryMobile").value =
+    order.deliveryMobile;
+
+    document.getElementById("deliveryAddress").value =
+    order.deliveryAddress;
+
+    document.getElementById("deliveryCity").value =
+    order.deliveryCity;
+
+    document.getElementById("deliveryState").value =
+    order.deliveryState;
+
+    document.getElementById("deliveryPincode").value =
+    order.deliveryPincode;
+
+    document.getElementById("editOrderModal")
+    .style.display="block";
+
+}
+
+async function updateDeliveryAddress(){
+
+    const id =
+    document.getElementById("editOrderId").value;
+
+    const request={
+
+        deliveryName:
+        document.getElementById("deliveryName").value,
+
+        deliveryMobile:
+        document.getElementById("deliveryMobile").value,
+
+        deliveryAddress:
+        document.getElementById("deliveryAddress").value,
+
+        deliveryCity:
+        document.getElementById("deliveryCity").value,
+
+        deliveryState:
+        document.getElementById("deliveryState").value,
+
+        deliveryPincode:
+        document.getElementById("deliveryPincode").value
+
+    };
+
+    const response =
+    await fetch(
+
+        `${API_BASE_URL}/api/orders/update-address/${id}`,
+
+        {
+
+            method:"PUT",
+
+            headers:{
+
+                "Content-Type":"application/json"
+
+            },
+
+            body:JSON.stringify(request)
+
+        }
+
+    );
+
+    if(response.ok){
+
+        alert("Delivery details updated successfully.");
+
+       closeEditOrder();
+
+        loadOrders();
+
+    }else{
+
+        const msg =
+        await response.text();
+
+        alert(msg);
+
+    }
+
+}
+
+async function loadPayments() {
+
+    showLoading("Loading Payments...");
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/api/orders/payments`);
+
+        if (!response.ok) {
+            throw new Error("Unable to load payments.");
+        }
+
+        const payments = await response.json();
+
+        if (payments.length === 0) {
+
+            emptyState(
+                "No Payments",
+                "No payment records found."
+            );
+
+            return;
+        }
+
+        let html = `
+
+<div class="panel-header">
+
+<div>
+
+<h2>Payment Management</h2>
+
+<p>Total Transactions : ${payments.length}</p>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="adminTable">
+
+<thead>
+
+<tr>
+
+<tr>
+
+<th>Order ID</th>
+
+<th>Customer</th>
+
+<th>Seller</th>
+
+<th>Customer Paid</th>
+
+<th>Seller Price</th>
+
+<th>ShopKart Contribution</th>
+
+<th>Payment Method</th>
+
+<th>Seller Payment</th>
+
+<th>Order Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+       payments.forEach(order => {
+
+let action = "-";
+
+if (
+    order.status !== "CANCELLED" &&
+    order.status === "DELIVERED" &&
+    order.shopkartContribution > 0 &&
+    order.sellerPaymentStatus !== "PAID"
+) {
+
+    action = `
+    <button
+    class="approve-btn"
+    onclick="paySeller(${order.orderId})">
+
+        Pay ₹${formatMoney(order.shopkartContribution)}
+
+    </button>
+    `;
+
+}
+else if(order.status==="CANCELLED"){
+
+    action=`<span class="badge failed">
+    Cancelled
+    </span>`;
+
+}
+else if(order.sellerPaymentStatus==="PAID"){
+
+    action=`<span class="badge success">
+    Paid
+    </span>`;
+
+}
+
+html += `
+
+<tr>
+
+<td>#${order.orderId}</td>
+
+<td>
+
+${safe(order.user?.firstName)}
+
+</td>
+
+<td>
+
+${safe(order.shopName)}
+
+</td>
+
+<td>
+
+${formatMoney(order.customerPaidAmount)}
+
+</td>
+
+<td>
+
+${formatMoney(order.sellerPrice)}
+
+</td>
+
+<td>
+
+${formatMoney(order.shopkartContribution)}
+
+</td>
+
+<td>
+
+${safe(order.paymentMethod)}
+
+</td>
+
+<td>
+
+${statusBadge(order.sellerPaymentStatus)}
+
+</td>
+
+<td>
+
+${orderBadge(order.status)}
+
+</td>
+
+<td>
+
+${action}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        document.getElementById("tableArea").innerHTML =
+            html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        showError(error.message);
+
+    }
+
+}
+
+async function paySeller(orderId){
+
+    const response =
+    await fetch(`${API_BASE_URL}/api/orders/${orderId}`);
+
+    const order =
+    await response.json();
+
+    document.getElementById("paymentOrderId").value =
+    order.orderId;
+
+    document.getElementById("paymentSeller").value =
+    order.sellerName;
+
+    document.getElementById("paymentShop").value =
+    order.shopName;
+
+   document.getElementById("paymentAmount").value =
+formatMoney(order.shopkartContribution);
+
+    document.getElementById("transactionId").value="";
+
+    document.getElementById("sellerPaymentModal")
+    .style.display="flex";
+
+    if(order.getStatus() != TrackingStatus.DELIVERED){
+
+    throw new RuntimeException(
+        "Seller payment is allowed only after delivery.");
+
+}
+
+if(order.getStatus()==TrackingStatus.CANCELLED){
+
+    throw new RuntimeException(
+        "Cancelled orders cannot be paid.");
+
+}
+
+if(order.getShopkartContribution()<=0){
+
+    throw new RuntimeException(
+        "Nothing to pay.");
+
+}
+
+}
+
+async function confirmSellerPayment(){
+
+    const orderId =
+    document.getElementById("paymentOrderId").value;
+
+    const paymentMethod =
+    document.getElementById("paymentMethod").value;
+
+    const transactionId =
+    document.getElementById("transactionId").value;
+
+    if(transactionId===""){
+
+        alert("Enter Transaction ID");
+
+        return;
+
+    }
+
+    const response =
+    await fetch(
+
+        `${API_BASE_URL}/api/orders/pay-seller/${orderId}`,
+
+        {
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                paymentMethod,
+
+                transactionId
+
+            })
+
+        }
+
+    );
+
+    if(response.ok){
+
+        alert("Seller Payment Successful");
+
+        closePaymentModal();
+
+        loadPayments();
+
+    }else{
+
+        alert(await response.text());
+
+    }
+
+}
+
+function closePaymentModal(){
+
+    document
+    .getElementById("sellerPaymentModal")
+    .style.display="none";
 
 }

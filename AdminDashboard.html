@@ -10,6 +10,140 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
+
+<div id="viewOrderModal" class="modal">
+
+<div class="modal-content order-view">
+
+<span class="close"
+onclick="closeOrderModal()">
+
+&times;
+
+</span>
+
+<h2>Order Details</h2>
+
+<div id="orderDetails"></div>
+
+</div>
+
+</div>
+
+<div id="editOrderModal" class="modal">
+
+    <div class="modal-content edit-order">
+
+        <span class="close"
+              onclick="closeEditModal()">&times;</span>
+
+        <h2>Edit Delivery Details</h2>
+
+        <input type="hidden" id="editOrderId">
+
+        <label>Customer Name</label>
+        <input type="text" id="deliveryName">
+
+        <label>Mobile</label>
+        <input type="text" id="deliveryMobile">
+
+        <label>Address</label>
+        <textarea id="deliveryAddress"></textarea>
+
+        <label>City</label>
+        <input type="text" id="deliveryCity">
+
+        <label>State</label>
+        <input type="text" id="deliveryState">
+
+        <label>Pincode</label>
+        <input type="text" id="deliveryPincode">
+
+        <button
+            class="save-btn"
+            onclick="updateDeliveryAddress()">
+
+            Save Changes
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="sellerPaymentModal" class="modal">
+
+    <div class="modal-content payment-modal">
+
+        <div class="modal-header">
+
+            <h2>Seller Payment</h2>
+
+            <span onclick="closePaymentModal()">&times;</span>
+
+        </div>
+
+        <div class="modal-body">
+
+            <input type="hidden" id="paymentOrderId">
+
+            <label>Seller</label>
+            <input type="text" id="paymentSeller" readonly>
+
+            <label>Shop Name</label>
+            <input type="text" id="paymentShop" readonly>
+
+            <label>ShopKart Contribution</label>
+
+<input
+type="text"
+id="paymentAmount"
+readonly>
+
+            <label>Payment Method</label>
+
+            <select id="paymentMethod">
+
+                <option>UPI</option>
+                <option>NEFT</option>
+                <option>IMPS</option>
+                <option>Bank Transfer</option>
+
+            </select>
+
+            <label>Transaction ID</label>
+
+            <input
+            type="text"
+            id="transactionId"
+            placeholder="Enter Transaction ID">
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+            class="approve-btn"
+            onclick="confirmSellerPayment()">
+
+                Pay Seller
+
+            </button>
+
+            <button
+            class="cancel-btn"
+            onclick="closePaymentModal()">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <body>
 
 <!-- SIDEBAR -->
@@ -48,7 +182,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     Orders
 </li>
 
-<li onclick="showPage('transactions')">
+<li onclick="showPage('payments')">
     <i class="fa fa-credit-card"></i>
     Payments
 </li>

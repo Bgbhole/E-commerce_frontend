@@ -68,34 +68,56 @@
 
     function calculateValues(){
 
-        let purchasePrice =
-        parseFloat(document.getElementById("purchasePrice").value)||0;
+    let purchasePrice =
+    parseFloat(document.getElementById("purchasePrice").value) || 0;
 
-        let sellingPrice =
-        parseFloat(document.getElementById("sellingPrice").value)||0;
+    let sellingPrice =
+    parseFloat(document.getElementById("sellingPrice").value) || 0;
 
-        let gst =
-        parseFloat(document.getElementById("gst").value)||0;
+    let gst =
+    parseFloat(document.getElementById("gst").value) || 0;
 
-        let profit =
-        sellingPrice-purchasePrice;
+    // Profit
+    let profit = sellingPrice - purchasePrice;
 
-        let gstAmount =
-        (sellingPrice*gst)/100;
+    // Platform Fee %
+    let platformFee = 2;
 
-        let finalPrice =
-        sellingPrice+gstAmount;
+    // Platform Fee Amount
+    let platformFeeAmount =
+    (sellingPrice * platformFee) / 100;
 
-        document.getElementById("profit").value =
-        profit.toFixed(2);
+    // Seller Net Profit
+    let sellerNetProfit =
+    profit - platformFeeAmount;
 
-        document.getElementById("gstAmount").value =
-        gstAmount.toFixed(2);
+    // GST
+    let gstAmount =
+    (sellingPrice * gst) / 100;
 
-        document.getElementById("finalPrice").value =
-        finalPrice.toFixed(2);
+    // Final Price
+    let finalPrice =
+    sellingPrice + gstAmount;
 
-    }
+    document.getElementById("profit").value =
+    profit.toFixed(2);
+
+    document.getElementById("platformFee").value =
+    platformFee;
+
+    document.getElementById("platformFeeAmount").value =
+    platformFeeAmount.toFixed(2);
+
+    document.getElementById("sellerNetProfit").value =
+    sellerNetProfit.toFixed(2);
+
+    document.getElementById("gstAmount").value =
+    gstAmount.toFixed(2);
+
+    document.getElementById("finalPrice").value =
+    finalPrice.toFixed(2);
+
+}
 
 
 
