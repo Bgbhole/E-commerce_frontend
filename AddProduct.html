@@ -19,1441 +19,1165 @@ href="AddProduct.css">
 
 <div class="container">
 
-<h1>Add New Product</h1>
+    <!-- ================= HEADER ================= -->
 
-<!-- ================= BASIC DETAILS ================= -->
+    <div class="page-header">
 
-<div class="card">
+        <h1>Add New Product</h1>
 
-<h2>Basic Information</h2>
+        <p>Add product details for your ShopKart store.</p>
 
-<div class="row">
-
-<div class="field">
-
-<label>Category</label>
-
-<select
-id="category"
-onchange="changeCategory()">
-
-<option value="">Select Category</option>
-
-<option value="Mobile">Mobile</option>
-
-<option value="Electronics">Electronics</option>
-
-<option value="Fashion">Fashion</option>
-
-<option value="Furniture">Furniture</option>
-
-<option value="Home & Kitchen">Home & Kitchen</option>
-
-<option value="Books">Books</option>
-
-<option value="Beauty">Beauty</option>
-
-<option value="Sports">Sports</option>
-
-<option value="Grocery">Grocery</option>
-
-<option value="Toys">Toys</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>Quantity</label>
-
-<input
-type="number"
-id="quantity"
-placeholder="Quantity">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Product Name</label>
-
-<input
-type="text"
-id="productName"
-placeholder="Product Name">
-
-</div>
-
-<div class="field">
-
-<label>Brand</label>
-
-<input
-type="text"
-id="brand"
-placeholder="Brand">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field full">
-
-<label>Description</label>
-
-<textarea
-id="description"
-placeholder="Product Description"></textarea>
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Purchase Price</label>
-
-<input
-type="number"
-id="purchasePrice"
-oninput="calculateValues()">
-
-</div>
-
-<div class="field">
-
-<label>Selling Price</label>
-
-<input
-type="number"
-id="sellingPrice"
-oninput="calculateValues()">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>GST %</label>
-
-<input
-type="number"
-id="gst"
-oninput="calculateValues()">
-
-
-</div>
-
-<div class="row">
-
-    <div class="field">
-        <label>Profit</label>
-        <input id="profit" readonly>
     </div>
 
-    <div class="field">
-        <label>Platform Fee (%)</label>
-        <input
-            type="number"
-            id="platformFee"
-            value="2"
-            readonly>
+    <!-- ================= BASIC INFORMATION ================= -->
+
+    <div class="card">
+
+        <h2>📦 Basic Information</h2>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Category</label>
+
+                <select id="category" onchange="changeCategory()">
+
+                    <option value="">Select Category</option>
+                    <option value="Mobile">Mobile</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Home & Kitchen">Home & Kitchen</option>
+                    <option value="Books">Books</option>
+                    <option value="Beauty">Beauty</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Grocery">Grocery</option>
+                    <option value="Toys">Toys</option>
+
+                </select>
+
+            </div>
+
+            <div class="field">
+
+                <label>Quantity</label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    placeholder="Enter Quantity">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Product Name</label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="Enter Product Name">
+
+            </div>
+
+            <div class="field">
+
+                <label>Brand</label>
+
+                <input
+                    type="text"
+                    id="brand"
+                    placeholder="Enter Brand">
+
+            </div>
+
+        </div>
+
+        <div class="row single">
+
+            <div class="field">
+
+                <label>Description</label>
+
+                <textarea
+                    id="description"
+                    placeholder="Product Description"></textarea>
+
+            </div>
+
+        </div>
+
     </div>
 
-</div>
+    <!-- ================= PRICE DETAILS ================= -->
 
-<div class="row">
+    <div class="card">
 
-    <div class="field">
-        <label>Platform Fee Amount</label>
-        <input
-            id="platformFeeAmount"
-            readonly>
+        <h2>💰 Pricing Details</h2>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Purchase Price</label>
+
+                <input
+                    type="number"
+                    id="purchasePrice"
+                    oninput="calculateValues()">
+
+            </div>
+
+            <div class="field">
+
+                <label>Selling Price</label>
+
+                <input
+                    type="number"
+                    id="sellingPrice"
+                    oninput="calculateValues()">
+
+            </div>
+
+            <div class="field">
+
+                <label>GST %</label>
+
+                <input
+                    type="number"
+                    id="gst"
+                    oninput="calculateValues()">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Profit</label>
+
+                <input
+                    id="profit"
+                    readonly>
+
+            </div>
+
+            <div class="field">
+
+                <label>Platform Fee (%)</label>
+
+                <input
+                    id="platformFee"
+                    value="2"
+                    readonly>
+
+            </div>
+
+            <div class="field">
+
+                <label>Platform Fee Amount</label>
+
+                <input
+                    id="platformFeeAmount"
+                    readonly>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Net Seller Profit</label>
+
+                <input
+                    id="sellerNetProfit"
+                    readonly>
+
+            </div>
+
+            <div class="field">
+
+                <label>GST Amount</label>
+
+                <input
+                    id="gstAmount"
+                    readonly>
+
+            </div>
+
+            <div class="field">
+
+                <label>Final Price</label>
+
+                <input
+                    id="finalPrice"
+                    readonly>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="field">
-        <label>Net Seller Profit</label>
-        <input
-            id="sellerNetProfit"
-            readonly>
+    <!-- ========================================================= -->
+    <!-- KEEP ALL CATEGORY BOXES HERE (Mobile, Fashion, etc.) -->
+    <!-- I WILL SEND THEM IN PART 2 -->
+    <!-- ========================================================= -->
+
+    <!-- ================= PRODUCT IMAGES ================= -->
+
+    <div class="card">
+
+        <h2>🖼 Product Images</h2>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Main Image</label>
+
+                <input
+                    type="file"
+                    id="image">
+
+            </div>
+
+            <div class="field">
+
+                <label>Image 2</label>
+
+                <input
+                    type="file"
+                    id="image2">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Image 3</label>
+
+                <input
+                    type="file"
+                    id="image3">
+
+            </div>
+
+            <div class="field">
+
+                <label>Image 4</label>
+
+                <input
+                    type="file"
+                    id="image4">
+
+            </div>
+
+        </div>
+
     </div>
 
-</div>
+    <!-- ================= DELIVERY ================= -->
 
-<div class="row">
+    <div class="card">
 
-    <div class="field">
-        <label>GST Amount</label>
-        <input
-            id="gstAmount"
-            readonly>
+        <h2>🚚 Delivery Details</h2>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>Estimated Delivery (Days)</label>
+
+                <input
+                    type="number"
+                    id="deliveryDays"
+                    placeholder="3">
+
+            </div>
+
+            <div class="field">
+
+                <label>Return Policy</label>
+
+                <select id="returnPolicy">
+
+                    <option>7 Days</option>
+                    <option>10 Days</option>
+                    <option>15 Days</option>
+                    <option>No Return</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="field">
-        <label>Final Price</label>
-        <input
-            id="finalPrice"
-            readonly>
+    <!-- ================= BUTTON ================= -->
+
+    <div class="submit-section">
+
+        <button
+            type="button"
+            onclick="addProduct()">
+
+            ➕ Add Product
+
+        </button>
+
     </div>
 
 </div>
 
 <!-- ================= MOBILE ================= -->
 
-<div
-id="mobileFields"
-class="category-box"
-style="display:none;">
+<div id="mobileFields" class="category-box">
 
-<h2>Mobile Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>📱 Mobile Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Model</label>
+            <div class="field">
+                <label>Model</label>
+                <input type="text" id="model" placeholder="Enter Model">
+            </div>
 
-<input
-id="model">
+            <div class="field">
+                <label>Color</label>
+                <input type="text" id="color" placeholder="Enter Color">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Color</label>
+            <div class="field">
+                <label>RAM</label>
+                <input type="text" id="ram" placeholder="8 GB">
+            </div>
 
-<input
-id="color">
+            <div class="field">
+                <label>Storage</label>
+                <input type="text" id="storage" placeholder="128 GB">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Processor</label>
+                <input type="text" id="processor" placeholder="Snapdragon / MediaTek">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Battery</label>
+                <input type="text" id="battery" placeholder="5000 mAh">
+            </div>
 
-<label>RAM</label>
+        </div>
 
-<input
-id="ram">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Camera</label>
+                <input type="text" id="camera" placeholder="50 MP">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Display</label>
+                <input type="text" id="display" placeholder="6.7 inch AMOLED">
+            </div>
 
-<label>Storage</label>
+        </div>
 
-<input
-id="storage">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Operating System</label>
+                <input type="text" id="operatingSystem" placeholder="Android 15">
+            </div>
 
-</div>
+            <div class="field">
+                <label>Network</label>
+                <select id="network">
+                    <option value="">Select Network</option>
+                    <option>2G</option>
+                    <option>3G</option>
+                    <option>4G</option>
+                    <option>5G</option>
+                </select>
+            </div>
 
-<div class="row">
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Processor</label>
+            <div class="field">
+                <label>Weight</label>
+                <input type="text" id="weight" placeholder="190 g">
+            </div>
 
-<input
-id="processor">
+            <div class="field">
+                <label>Warranty</label>
+                <select id="warranty">
+                    <option value="">Select Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                    <option>2 Years</option>
+                    <option>No Warranty</option>
+                </select>
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
-
-<label>Battery</label>
-
-<input
-id="battery">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Camera</label>
-
-<input
-id="camera">
-
-</div>
-
-<div class="field">
-
-<label>Display</label>
-
-<input
-id="display">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Operating System</label>
-
-<input
-id="operatingSystem">
-
-</div>
-
-<div class="field">
-
-<label>Network</label>
-
-<input
-id="network">
+    </div>
 
 </div>
 
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="warranty">
-
-</div>
-
-<div class="field">
-
-<label>Weight</label>
-
-<input
-id="weight">
-
-</div>
-
-</div>
-
-</div>
 <!-- ================= ELECTRONICS ================= -->
 
-<div id="electronicsFields"
-class="category-box"
-style="display:none;">
+<div id="electronicsFields" class="category-box">
 
-<h2>Electronics Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>🔌 Electronics Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Model</label>
+            <div class="field">
+                <label>Model</label>
+                <input type="text" id="eModel" placeholder="Model Number">
+            </div>
 
-<input
-id="eModel"
-placeholder="Model Number">
+            <div class="field">
+                <label>Brand Color</label>
+                <input type="text" id="eColor" placeholder="Color">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Brand Color</label>
+            <div class="field">
+                <label>Voltage</label>
+                <input type="text" id="voltage" placeholder="220V">
+            </div>
 
-<input
-id="eColor"
-placeholder="Color">
+            <div class="field">
+                <label>Power Consumption</label>
+                <input type="text" id="power" placeholder="1500W">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Connectivity</label>
+                <input type="text" id="connectivity" placeholder="Bluetooth / WiFi / USB">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Weight</label>
+                <input type="text" id="eWeight" placeholder="Weight">
+            </div>
 
-<label>Voltage</label>
+        </div>
 
-<input
-id="voltage"
-placeholder="220V">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Warranty</label>
+                <select id="eWarranty">
+                    <option value="">Select Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                    <option>2 Years</option>
+                    <option>No Warranty</option>
+                </select>
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Country Of Origin</label>
+                <input type="text" id="eCountry" placeholder="India">
+            </div>
 
-<label>Power Consumption</label>
+        </div>
 
-<input
-id="power"
-placeholder="1500W">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Connectivity</label>
-
-<input
-id="connectivity"
-placeholder="Bluetooth / WiFi">
-
-</div>
-
-<div class="field">
-
-<label>Weight</label>
-
-<input
-id="eWeight"
-placeholder="Weight">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="eWarranty"
-placeholder="Warranty">
-
-</div>
-
-<div class="field">
-
-<label>Country Of Origin</label>
-
-<input
-id="eCountry"
-placeholder="India">
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <!-- ================= FASHION ================= -->
 
-<div id="fashionFields"
-class="category-box"
-style="display:none;">
+<div id="fashionFields" class="category-box">
 
-<h2>Fashion Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>👕 Fashion Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Size</label>
+            <div class="field">
+                <label>Size</label>
+                <select id="size">
+                    <option value="">Select Size</option>
+                    <option>S</option>
+                    <option>M</option>
+                    <option>L</option>
+                    <option>XL</option>
+                    <option>XXL</option>
+                </select>
+            </div>
 
-<input
-id="size"
-placeholder="S / M / L / XL">
+            <div class="field">
+                <label>Color</label>
+                <input type="text" id="fashionColor" placeholder="Color">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Color</label>
+            <div class="field">
+                <label>Fabric</label>
+                <input type="text" id="fabric" placeholder="Cotton">
+            </div>
 
-<input
-id="fashionColor"
-placeholder="Color">
+            <div class="field">
+                <label>Material</label>
+                <input type="text" id="fashionMaterial" placeholder="Material">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Gender</label>
+                <select id="gender">
+                    <option>Men</option>
+                    <option>Women</option>
+                    <option>Kids</option>
+                    <option>Unisex</option>
+                </select>
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Fit</label>
+                <input type="text" id="fit" placeholder="Regular Fit">
+            </div>
 
-<label>Fabric</label>
+        </div>
 
-<input
-id="fabric"
-placeholder="Cotton">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Pattern</label>
+                <input type="text" id="pattern" placeholder="Printed">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Sleeve</label>
+                <input type="text" id="sleeve" placeholder="Full Sleeve">
+            </div>
 
-<label>Material</label>
+        </div>
 
-<input
-id="fashionMaterial"
-placeholder="Material">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Wash Care</label>
+                <input type="text" id="washCare" placeholder="Machine Wash">
+            </div>
 
-</div>
+            <div class="field">
+                <label>Warranty</label>
+                <select id="fashionWarranty">
+                    <option value="">Select Warranty</option>
+                    <option>No Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                </select>
+            </div>
 
-<div class="row">
+        </div>
 
-<div class="field">
-
-<label>Gender</label>
-
-<select id="gender">
-
-<option>Men</option>
-
-<option>Women</option>
-
-<option>Kids</option>
-
-<option>Unisex</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>Fit</label>
-
-<input
-id="fit"
-placeholder="Regular Fit">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Pattern</label>
-
-<input
-id="pattern"
-placeholder="Printed">
-
-</div>
-
-<div class="field">
-
-<label>Sleeve</label>
-
-<input
-id="sleeve"
-placeholder="Full Sleeve">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Wash Care</label>
-
-<input
-id="washCare"
-placeholder="Machine Wash">
-
-</div>
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="fashionWarranty"
-placeholder="Warranty">
-
-</div>
-
-</div>
+    </div>
 
 </div>
 <!-- ================= FURNITURE ================= -->
 
-<div id="furnitureFields"
-class="category-box"
-style="display:none;">
+<div id="furnitureFields" class="category-box">
 
-<h2>Furniture Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>🪑 Furniture Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Material</label>
+            <div class="field">
+                <label>Material</label>
+                <input type="text"
+                       id="furnitureMaterial"
+                       placeholder="Wood / Metal / Plastic">
+            </div>
 
-<input
-id="furnitureMaterial"
-placeholder="Wood / Metal / Plastic">
+            <div class="field">
+                <label>Dimensions</label>
+                <input type="text"
+                       id="dimensions"
+                       placeholder="L × W × H">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Dimensions</label>
+            <div class="field">
+                <label>Weight</label>
+                <input type="text"
+                       id="fWeight"
+                       placeholder="Weight">
+            </div>
 
-<input
-id="dimensions"
-placeholder="L × W × H">
+            <div class="field">
+                <label>Color</label>
+                <input type="text"
+                       id="fColor"
+                       placeholder="Brown">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Finish</label>
+                <input type="text"
+                       id="finish"
+                       placeholder="Matte / Glossy">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Room Type</label>
+                <input type="text"
+                       id="roomType"
+                       placeholder="Bedroom / Hall">
+            </div>
 
-<label>Weight</label>
+        </div>
 
-<input
-id="fWeight"
-placeholder="Weight">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Assembly Required</label>
+                <select id="assembly">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Warranty</label>
+                <select id="fWarranty">
+                    <option value="">Select Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                    <option>2 Years</option>
+                    <option>No Warranty</option>
+                </select>
+            </div>
 
-<label>Color</label>
+        </div>
 
-<input
-id="fColor"
-placeholder="Brown">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Finish</label>
-
-<input
-id="finish"
-placeholder="Matte / Glossy">
-
-</div>
-
-<div class="field">
-
-<label>Room Type</label>
-
-<input
-id="roomType"
-placeholder="Bedroom">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Assembly Required</label>
-
-<select id="assembly">
-
-<option>Yes</option>
-
-<option>No</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="fWarranty"
-placeholder="Warranty">
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <!-- ================= HOME & KITCHEN ================= -->
 
-<div id="homeFields"
-class="category-box"
-style="display:none;">
+<div id="homeFields" class="category-box">
 
-<h2>Home & Kitchen Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>🍳 Home & Kitchen Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Material</label>
+            <div class="field">
+                <label>Material</label>
+                <input type="text"
+                       id="hMaterial"
+                       placeholder="Steel / Plastic">
+            </div>
 
-<input
-id="hMaterial"
-placeholder="Steel / Plastic">
+            <div class="field">
+                <label>Capacity</label>
+                <input type="text"
+                       id="capacity"
+                       placeholder="2 Litres">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Capacity</label>
+            <div class="field">
+                <label>Color</label>
+                <input type="text"
+                       id="hColor"
+                       placeholder="Silver">
+            </div>
 
-<input
-id="capacity"
-placeholder="2 Litres">
+            <div class="field">
+                <label>Weight</label>
+                <input type="text"
+                       id="hWeight"
+                       placeholder="Weight">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Microwave Safe</label>
+                <select id="microwave">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Dishwasher Safe</label>
+                <select id="dishwasher">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
 
-<label>Color</label>
+        </div>
 
-<input
-id="hColor"
-placeholder="Silver">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Usage</label>
+                <input type="text"
+                       id="usage"
+                       placeholder="Kitchen / Home">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Warranty</label>
+                <select id="hWarranty">
+                    <option value="">Select Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                    <option>2 Years</option>
+                    <option>No Warranty</option>
+                </select>
+            </div>
 
-<label>Weight</label>
+        </div>
 
-<input
-id="hWeight"
-placeholder="Weight">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Microwave Safe</label>
-
-<select id="microwave">
-
-<option>Yes</option>
-
-<option>No</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>Dishwasher Safe</label>
-
-<select id="dishwasher">
-
-<option>Yes</option>
-
-<option>No</option>
-
-</select>
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Usage</label>
-
-<input
-id="usage"
-placeholder="Kitchen">
+    </div>
 
 </div>
 
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="hWarranty"
-placeholder="Warranty">
-
-</div>
-
-</div>
-
-</div>
 <!-- ================= BOOKS ================= -->
 
-<div id="bookFields"
-class="category-box"
-style="display:none;">
+<div id="bookFields" class="category-box">
 
-<h2>Book Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>📚 Book Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Author</label>
+            <div class="field">
+                <label>Author</label>
+                <input type="text"
+                       id="author"
+                       placeholder="Author Name">
+            </div>
 
-<input
-id="author"
-placeholder="Author Name">
+            <div class="field">
+                <label>Publisher</label>
+                <input type="text"
+                       id="publisher"
+                       placeholder="Publisher">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Publisher</label>
+            <div class="field">
+                <label>Language</label>
+                <input type="text"
+                       id="language"
+                       placeholder="English">
+            </div>
 
-<input
-id="publisher"
-placeholder="Publisher">
+            <div class="field">
+                <label>ISBN</label>
+                <input type="text"
+                       id="isbn"
+                       placeholder="ISBN Number">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Edition</label>
+                <input type="text"
+                       id="edition"
+                       placeholder="Edition">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Pages</label>
+                <input type="number"
+                       id="pages"
+                       placeholder="250">
+            </div>
 
-<label>Language</label>
+        </div>
 
-<input
-id="language"
-placeholder="English">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Binding</label>
+                <select id="binding">
+                    <option>Paperback</option>
+                    <option>Hardcover</option>
+                </select>
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Publication Year</label>
+                <input type="number"
+                       id="publicationYear"
+                       placeholder="2025">
+            </div>
 
-<label>ISBN</label>
+        </div>
 
-<input
-id="isbn"
-placeholder="ISBN Number">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Edition</label>
-
-<input
-id="edition"
-placeholder="Edition">
-
-</div>
-
-<div class="field">
-
-<label>Pages</label>
-
-<input
-id="pages"
-placeholder="Number Of Pages">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Binding</label>
-
-<input
-id="binding"
-placeholder="Paperback / Hardcover">
-
-</div>
-
-<div class="field">
-
-<label>Publication Year</label>
-
-<input
-id="publicationYear"
-placeholder="2025">
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <!-- ================= GROCERY ================= -->
 
-<div id="groceryFields"
-class="category-box"
-style="display:none;">
+<div id="groceryFields" class="category-box">
 
-<h2>Grocery Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>🛒 Grocery Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Weight</label>
+            <div class="field">
+                <label>Weight</label>
+                <input type="text"
+                       id="gWeight"
+                       placeholder="1 Kg">
+            </div>
 
-<input
-id="gWeight"
-placeholder="1 Kg">
+            <div class="field">
+                <label>Brand</label>
+                <input type="text"
+                       id="gBrand"
+                       placeholder="Brand">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Brand</label>
+            <div class="field">
+                <label>Manufacturer</label>
+                <input type="text"
+                       id="manufacturer"
+                       placeholder="Manufacturer">
+            </div>
 
-<input
-id="gBrand"
-placeholder="Brand">
+            <div class="field">
+                <label>Country Of Origin</label>
+                <input type="text"
+                       id="country"
+                       placeholder="India">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Expiry Date</label>
+                <input type="date"
+                       id="expiryDate">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Storage Instructions</label>
+                <input type="text"
+                       id="storageInstruction"
+                       placeholder="Store in a cool & dry place">
+            </div>
 
-<label>Manufacturer</label>
+        </div>
 
-<input
-id="manufacturer"
-placeholder="Manufacturer">
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Vegetarian</label>
+                <select id="veg">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Organic</label>
+                <select id="organic">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
 
-<label>Country Of Origin</label>
+        </div>
 
-<input
-id="country"
-placeholder="India">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Expiry Date</label>
-
-<input
-type="date"
-id="expiryDate">
-
-</div>
-
-<div class="field">
-
-<label>Storage Instructions</label>
-
-<input
-id="storageInstruction"
-placeholder="Store In Cool Place">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Vegetarian</label>
-
-<select id="veg">
-
-<option>Yes</option>
-
-<option>No</option>
-
-</select>
+    </div>
 
 </div>
 
-<div class="field">
-
-<label>Organic</label>
-
-<select id="organic">
-
-<option>Yes</option>
-
-<option>No</option>
-
-</select>
-
-</div>
-
-</div>
-
-</div>
 <!-- ================= BEAUTY ================= -->
 
-<div id="beautyFields"
-class="category-box"
-style="display:none;">
+<div id="beautyFields" class="category-box">
 
-<h2>Beauty Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>💄 Beauty Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Skin Type</label>
+            <div class="field">
+                <label>Skin Type</label>
+                <select id="skinType">
+                    <option>All Skin Types</option>
+                    <option>Dry</option>
+                    <option>Oily</option>
+                    <option>Combination</option>
+                    <option>Sensitive</option>
+                </select>
+            </div>
 
-<select id="skinType">
+            <div class="field">
+                <label>Hair Type</label>
+                <select id="hairType">
+                    <option>All Hair Types</option>
+                    <option>Dry</option>
+                    <option>Normal</option>
+                    <option>Oily</option>
+                </select>
+            </div>
 
-<option>All Skin Types</option>
-<option>Dry</option>
-<option>Oily</option>
-<option>Combination</option>
-<option>Sensitive</option>
+        </div>
 
-</select>
+        <div class="row">
 
-</div>
+            <div class="field">
+                <label>Ingredients</label>
+                <input type="text" id="ingredients" placeholder="Ingredients">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Benefits</label>
+                <input type="text" id="benefits" placeholder="Benefits">
+            </div>
 
-<label>Hair Type</label>
+        </div>
 
-<select id="hairType">
+        <div class="row">
 
-<option>All Hair Types</option>
-<option>Dry</option>
-<option>Normal</option>
-<option>Oily</option>
+            <div class="field">
+                <label>Net Quantity</label>
+                <input type="text" id="netQuantity" placeholder="200 ml">
+            </div>
 
-</select>
+            <div class="field">
+                <label>Expiry Date</label>
+                <input type="date" id="beautyExpiry">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Country Of Origin</label>
+                <input type="text" id="beautyCountry" placeholder="India">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Warranty</label>
+                <select id="beautyWarranty">
+                    <option>No Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                </select>
+            </div>
 
-<label>Ingredients</label>
+        </div>
 
-<input
-id="ingredients"
-placeholder="Ingredients">
-
-</div>
-
-<div class="field">
-
-<label>Benefits</label>
-
-<input
-id="benefits"
-placeholder="Benefits">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Net Quantity</label>
-
-<input
-id="netQuantity"
-placeholder="200 ml">
-
-</div>
-
-<div class="field">
-
-<label>Expiry Date</label>
-
-<input
-type="date"
-id="beautyExpiry">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Country Of Origin</label>
-
-<input
-id="beautyCountry"
-placeholder="India">
-
-</div>
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="beautyWarranty"
-placeholder="Warranty">
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <!-- ================= SPORTS ================= -->
 
-<div id="sportsFields"
-class="category-box"
-style="display:none;">
+<div id="sportsFields" class="category-box">
 
-<h2>Sports Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>🏏 Sports Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Sport Type</label>
+            <div class="field">
+                <label>Sport Type</label>
+                <input type="text" id="sportType" placeholder="Cricket">
+            </div>
 
-<input
-id="sportType"
-placeholder="Cricket">
+            <div class="field">
+                <label>Material</label>
+                <input type="text" id="sportMaterial" placeholder="Leather">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Material</label>
+            <div class="field">
+                <label>Weight</label>
+                <input type="text" id="sportWeight" placeholder="500 g">
+            </div>
 
-<input
-id="sportMaterial"
-placeholder="Leather">
+            <div class="field">
+                <label>Age Group</label>
+                <input type="text" id="ageGroup" placeholder="15+">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Color</label>
+                <input type="text" id="sportColor" placeholder="Black">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Warranty</label>
+                <select id="sportWarranty">
+                    <option>No Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                </select>
+            </div>
 
-<label>Weight</label>
+        </div>
 
-<input
-id="sportWeight"
-placeholder="500 g">
-
-</div>
-
-<div class="field">
-
-<label>Age Group</label>
-
-<input
-id="ageGroup"
-placeholder="15+">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Color</label>
-
-<input
-id="sportColor"
-placeholder="Black">
-
-</div>
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="sportWarranty"
-placeholder="1 Year">
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <!-- ================= TOYS ================= -->
 
-<div id="toyFields"
-class="category-box"
-style="display:none;">
+<div id="toyFields" class="category-box">
 
-<h2>Toy Specifications</h2>
+    <div class="card">
 
-<div class="row">
+        <h2>🧸 Toy Specifications</h2>
 
-<div class="field">
+        <div class="row">
 
-<label>Age Group</label>
+            <div class="field">
+                <label>Age Group</label>
+                <input type="text" id="toyAge" placeholder="3+ Years">
+            </div>
 
-<input
-id="toyAge"
-placeholder="3+ Years">
+            <div class="field">
+                <label>Material</label>
+                <input type="text" id="toyMaterial" placeholder="Plastic">
+            </div>
 
-</div>
+        </div>
 
-<div class="field">
+        <div class="row">
 
-<label>Material</label>
+            <div class="field">
+                <label>Battery Required</label>
+                <select id="batteryRequired">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
 
-<input
-id="toyMaterial"
-placeholder="Plastic">
+            <div class="field">
+                <label>Educational Type</label>
+                <input type="text" id="educational" placeholder="STEM Learning">
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="row">
 
-<div class="row">
+            <div class="field">
+                <label>Safety Certification</label>
+                <input type="text" id="safety" placeholder="ISI Certified">
+            </div>
 
-<div class="field">
+            <div class="field">
+                <label>Warranty</label>
+                <select id="toyWarranty">
+                    <option>No Warranty</option>
+                    <option>6 Months</option>
+                    <option>1 Year</option>
+                </select>
+            </div>
 
-<label>Battery Required</label>
+        </div>
 
-<select id="batteryRequired">
-
-<option>Yes</option>
-<option>No</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>Educational Type</label>
-
-<input
-id="educational"
-placeholder="STEM Learning">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Safety Certification</label>
-
-<input
-id="safety"
-placeholder="ISI Certified">
-
-</div>
-
-<div class="field">
-
-<label>Warranty</label>
-
-<input
-id="toyWarranty"
-placeholder="Warranty">
-
-</div>
-
-</div>
-
-</div>
-<!-- ================= PRODUCT IMAGES ================= -->
-
-<div class="card">
-
-<h2>Product Images</h2>
-
-<div class="row">
-
-<div class="field">
-
-<label>Main Image</label>
-
-<input
-type="file"
-id="image">
-
-</div>
-
-<div class="field">
-
-<label>Image 2</label>
-
-<input
-type="file"
-id="image2">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Image 3</label>
-
-<input
-type="file"
-id="image3">
-
-</div>
-
-<div class="field">
-
-<label>Image 4</label>
-
-<input
-type="file"
-id="image4">
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ================= DELIVERY ================= -->
-
-<div class="card">
-
-<h2>Delivery Details</h2>
-
-<div class="row">
-
-
-
-<div class="field">
-
-<label>Estimated Delivery</label>
-
-<input
-type="number"
-id="deliveryDays"
-placeholder="3">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="field">
-
-<label>Return Policy</label>
-
-<select id="returnPolicy">
-
-<option>7 Days</option>
-
-<option>10 Days</option>
-
-<option>15 Days</option>
-
-<option>No Return</option>
-
-</select>
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ================= BUTTON ================= -->
-
-<div class="submit-section">
-
-<button
-type="button"
-onclick="addProduct()">
-
-Add Product
-
-</button>
-
-</div>
+    </div>
 
 </div>
 
 <script src="api-config.js"></script>
-
 <script src="AddProduct.js"></script>
 
 </body>
+
 
 </html>

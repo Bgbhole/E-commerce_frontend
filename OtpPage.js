@@ -13,8 +13,9 @@ async function verifyOtp() {
 
     const order = JSON.parse(localStorage.getItem("orderRequest"));
 
-    console.log("Order Request =", order);
-
+    console.log("========== ORDER REQUEST ==========");
+console.log(order);
+console.log(JSON.stringify(order, null, 2));
     if (!order) {
 
         alert("Order data not found");
@@ -38,11 +39,13 @@ async function verifyOtp() {
 
         if (!response.ok) {
 
+    console.log("Status:", response.status);
+
     const error = await response.text();
 
     console.log("Backend Error:", error);
 
-    alert(error);
+    alert("Status: " + response.status + "\n" + error);
 
     return;
 

@@ -104,3 +104,12 @@ async function login() {
 
     }
 }
+function forgotPassword(){
+
+    const role =
+    document.getElementById("role").value;
+
+    window.location.href =
+    `ForgotPassword.html?role=${role}`;
+
+}

@@ -1,22 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin Login</title>
-    <link rel="stylesheet" href="admin-log.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet" href="admin-log.css">
 </head>
+
 <body>
 
-<div class="login-box">
+<div class="login-container">
 
-    <h1>Admin Login</h1>
+    <div class="left-panel">
 
-    <input type="email" id="email" placeholder="Email">
+        <h1>Shop<span>Kart</span></h1>
 
-    <input type="password" id="password" placeholder="Password">
+        <p>Admin Control Panel</p>
 
-    <button onclick="adminLogin()">Login</button>
+        <i class="fa-solid fa-user-shield cart-icon"></i>
+
+    </div>
+
+    <div class="right-panel">
+
+        <div class="login-icon">
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <h2>Admin Login</h2>
+
+        <p>Login to manage ShopKart</p>
+
+        <div class="input-group">
+
+            <label>Email</label>
+
+            <div class="input-box">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter Admin Email">
+
+            </div>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Password</label>
+
+            <div class="input-box">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter Password">
+
+            </div>
+
+        </div>
+
+        <button class="login-btn" onclick="adminLogin()">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Login
+        </button>
+
+    </div>
 
 </div>
+
 <script src="api-config.js"></script>
 <script src="admin-log.js"></script>
 

@@ -1,42 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="loginpage.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopKart Login</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet" href="loginpage.css">
 </head>
+
 <body>
 
-<div class="container">
-    <div class="form-box">
+<div class="login-container">
 
-        <h2>Login</h2>
+    <div class="left-panel">
 
-        <select id="role">
-            <option value="customer">Customer</option>
-            <option value="seller">Seller</option>
-        </select>
+        <h1>Shop<span>Kart</span></h1>
 
-        <input type="email" id="email" placeholder="Email">
+        <p>Your Trusted Shopping Partner</p>
 
-        <input type="password" id="password" placeholder="Password">
-
-        <button onclick="login()">Login</button>
-
-        <p>
-            Don't have an account?
-            <a href="register.html">Customer Register</a>
-        </p>
-
-        <p>
-            Become a Seller?
-            <a href="sellerregistration.html">Seller Register</a>
-        </p>
+      <i class="fa-solid fa-cart-shopping cart-icon"></i>
 
     </div>
+
+    <div class="right-panel">
+
+        <div class="login-icon">
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+        <h2>Welcome Back!</h2>
+
+        <p>Login to continue shopping</p>
+
+        <div class="input-group">
+
+            <label>Account Type</label>
+
+            <select id="role">
+
+                <option value="customer">Customer</option>
+                <option value="seller">Seller</option>
+                
+
+            </select>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Email</label>
+
+            <div class="input-box">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <input
+                type="email"
+                id="email"
+                placeholder="Enter Email">
+
+            </div>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Password</label>
+
+            <div class="input-box">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <input
+                type="password"
+                id="password"
+                placeholder="Enter Password">
+
+            </div>
+
+        </div>
+
+        <div class="options">
+
+            <a href="#" onclick="forgotPassword()">
+                Forgot Password?
+            </a>
+
+        </div>
+
+      <button class="login-btn" onclick="login()">
+    <i class="fa-solid fa-right-to-bracket"></i>
+    Login
+</button>>
+
+
+        <div class="bottom-links">
+
+            Don't have an account?
+
+            <a href="register.html">
+                Register
+            </a>
+
+            <br><br>
+
+            Become Seller?
+
+            <a href="SellerRegister.html">
+                Seller Register
+            </a>
+
+        </div>
+
+    </div>
+
 </div>
 
 <script src="api-config.js"></script>
 <script src="loginregister.js"></script>
-
 </body>
 </html>

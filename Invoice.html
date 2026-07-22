@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ShopKart Invoice</title>
+
+<link rel="stylesheet" href="Invoice.css">
+
+</head>
+
+<body>
+
+<div class="invoice-container">
+
+    <!-- ==========================
+         HEADER
+    =========================== -->
+
+    <div class="invoice-header">
+
+        <div class="company">
+
+            <img src="images/logo.png"
+                 id="companyLogo"
+                 alt="ShopKart Logo">
+
+            <div>
+
+                <h1>ShopKart</h1>
+
+                <p>ShopKart Pvt. Ltd.</p>
+
+                <p>GSTIN : 27ABCDE1234F1Z5</p>
+
+                <p>Email : support@shopkart.com</p>
+
+                <p>Phone : +91 9876543210</p>
+
+            </div>
+
+        </div>
+
+        <div class="invoice-title">
+
+            <h2>TAX INVOICE</h2>
+
+            <p><strong>Invoice No :</strong>
+                <span id="invoiceNumber"></span>
+            </p>
+
+            <p><strong>Invoice Date :</strong>
+                <span id="invoiceDate"></span>
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- ==========================
+         ORDER DETAILS
+    =========================== -->
+
+    <div class="section">
+
+        <h3>Order Details</h3>
+
+        <div class="details-grid">
+
+            <div>
+
+                <p><strong>Order ID :</strong>
+                    <span id="orderId"></span>
+                </p>
+
+                <p><strong>Tracking No :</strong>
+                    <span id="trackingNumber"></span>
+                </p>
+
+                <p><strong>Transaction ID :</strong>
+                    <span id="transactionId"></span>
+                </p>
+
+            </div>
+
+            <div>
+
+                <p><strong>Order Date :</strong>
+                    <span id="orderDate"></span>
+                </p>
+
+                <p><strong>Payment Method :</strong>
+                    <span id="paymentMethod"></span>
+                </p>
+
+                <p><strong>Payment Status :</strong>
+                    <span id="paymentStatus"></span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         CUSTOMER DETAILS
+    =========================== -->
+
+    <div class="section">
+
+        <h3>Customer Details</h3>
+
+        <div class="details-grid">
+
+            <div>
+
+                <p><strong>Name :</strong>
+                    <span id="customerName"></span>
+                </p>
+
+                <p><strong>Mobile :</strong>
+                    <span id="customerMobile"></span>
+                </p>
+
+            </div>
+
+            <div>
+
+                <p><strong>Delivery Address :</strong></p>
+
+                <p id="deliveryAddress"></p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         SELLER DETAILS
+    =========================== -->
+
+    <div class="section">
+
+        <h3>Seller Details</h3>
+
+        <div class="details-grid">
+
+            <div>
+
+                <p><strong>Seller :</strong>
+                    <span id="sellerName"></span>
+                </p>
+
+                <p><strong>Shop :</strong>
+                    <span id="shopName"></span>
+                </p>
+
+            </div>
+
+            <div>
+
+                <p><strong>Email :</strong>
+                    <span id="sellerEmail"></span>
+                </p>
+
+                <p><strong>Mobile :</strong>
+                    <span id="sellerMobile"></span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         PRODUCT TABLE
+    =========================== -->
+
+    <div class="section">
+
+        <h3>Product Details</h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                 <thead>
+<tr>
+    <th>Image</th>
+    <th>Product</th>
+    <th>Brand</th>
+    <th>Qty</th>
+    <th>Unit Price</th>
+    <th>GST %</th>
+    <th>GST Amount</th>
+    <th>Total</th>
+</tr>
+</thead>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="productTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ==========================
+         PAYMENT SUMMARY
+    =========================== -->
+
+    <div class="summary">
+
+    <h3>Payment Summary</h3>
+
+    <table>
+
+        <tr>
+            <td>Order Value</td>
+            <td id="itemsTotal"></td>
+        </tr>
+
+        <tr class="gst-row">
+            <td>
+                ↳ Includes GST
+                (<span id="gstPercentage"></span>%)
+            </td>
+            <td id="gstAmount"></td>
+        </tr>
+
+        <tr>
+            <td>Discount</td>
+            <td id="discountAmount"></td>
+        </tr>
+
+        <tr>
+            <td>Delivery Charges</td>
+            <td>FREE</td>
+        </tr>
+
+        <tr class="grand-total">
+            <td>Total Paid</td>
+            <td id="grandTotal"></td>
+        </tr>
+
+        <tr>
+            <td>Payment Method</td>
+            <td id="paymentMethodSummary"></td>
+        </tr>
+
+        <tr>
+            <td>Payment Status</td>
+            <td id="paymentStatusSummary"></td>
+        </tr>
+
+    </table>
+
+</div>
+    <!-- ==========================
+         FOOTER
+    =========================== -->
+
+    <div class="footer">
+
+        <p>
+
+            Thank you for shopping with ShopKart.
+
+        </p>
+
+        <p>
+
+            This is a computer generated invoice.
+
+            No signature required.
+
+        </p>
+
+    </div>
+
+    <!-- ==========================
+         BUTTONS
+    =========================== -->
+
+    <div class="buttons">
+
+        <button onclick="window.print()">
+
+            Print Invoice
+
+        </button>
+
+        <button onclick="downloadPDF()">
+
+            Download PDF
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="api-config.js"></script>
+<script src="Invoice.js"></script>
+
+</body>
+</html>

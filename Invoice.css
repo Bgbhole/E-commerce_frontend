@@ -1,0 +1,312 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f1f3f6;
+    padding:30px;
+}
+
+.invoice-container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+    padding:35px;
+}
+
+/* ======================
+   HEADER
+====================== */
+
+.invoice-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:30px;
+    margin-bottom:20px;
+}
+
+.company{
+    display:flex;
+    gap:20px;
+}
+
+.company img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+}
+
+.company h1{
+    color:#2874f0;
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.company p{
+    color:#555;
+    line-height:24px;
+    font-size:15px;
+}
+
+.invoice-title{
+    text-align:right;
+}
+
+.invoice-title h2{
+    color:#2874f0;
+    margin-bottom:12px;
+    font-size:30px;
+}
+
+.invoice-title p{
+    margin:8px 0;
+    font-size:15px;
+}
+
+hr{
+    margin:25px 0;
+    border:none;
+    border-top:2px solid #eee;
+}
+
+/* ======================
+   SECTION
+====================== */
+
+.section{
+    margin-bottom:30px;
+}
+
+.section h3{
+    background:#2874f0;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:6px;
+    margin-bottom:18px;
+    font-size:18px;
+}
+
+.details-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.details-grid p{
+    margin:10px 0;
+    color:#333;
+    font-size:15px;
+    line-height:24px;
+}
+
+.details-grid strong{
+    color:#111;
+}
+
+/* ======================
+   TABLE
+====================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table thead{
+    background:#2874f0;
+    color:#fff;
+}
+
+table th{
+    padding:14px;
+    text-align:left;
+    font-size:15px;
+}
+
+table td{
+    padding:14px;
+    border-bottom:1px solid #ddd;
+    vertical-align:middle;
+}
+
+table img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.included-gst{
+    display:block;
+    margin-top:4px;
+    font-size:12px;
+    color:#777;
+    font-style:italic;
+}
+
+/* ======================
+   SUMMARY
+====================== */
+
+.summary{
+    width:420px;
+    margin-left:auto;
+    margin-top:25px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.summary h3{
+    background:#2874f0;
+    color:#fff;
+    padding:14px;
+    text-align:center;
+}
+
+.summary table{
+    width:100%;
+}
+
+.summary td{
+    padding:12px 18px;
+}
+
+.gst-row td{
+
+    color:#666;
+
+    font-size:14px;
+
+    padding-top:2px;
+
+    border-top:none;
+
+}
+
+.gst-row td:first-child{
+
+    padding-left:25px;
+
+    font-style:italic;
+
+}
+
+.summary tr:nth-child(even){
+    background:#fafafa;
+}
+
+.grand-total{
+    background:#2874f0 !important;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* ======================
+   FOOTER
+====================== */
+
+.footer{
+    margin-top:40px;
+    text-align:center;
+    color:#666;
+    line-height:28px;
+    font-size:15px;
+}
+
+/* ======================
+   BUTTONS
+====================== */
+
+.buttons{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.buttons button{
+    border:none;
+    background:#2874f0;
+    color:#fff;
+    padding:14px 35px;
+    font-size:16px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.buttons button:hover{
+    background:#0d5bd9;
+    transform:translateY(-2px);
+}
+
+/* ======================
+   PRINT
+====================== */
+
+@media print{
+
+    body{
+        background:#fff;
+        padding:0;
+    }
+
+    .invoice-container{
+        box-shadow:none;
+        border:none;
+        padding:0;
+        width:100%;
+    }
+
+    .buttons{
+        display:none;
+    }
+
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media(max-width:768px){
+
+    .invoice-header{
+        flex-direction:column;
+    }
+
+    .invoice-title{
+        text-align:left;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+    .summary{
+        width:100%;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .buttons button{
+        width:100%;
+    }
+
+}

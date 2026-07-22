@@ -666,6 +666,7 @@ onkeyup="filterAdminTable(this.value)">
 
 <th>Action</th>
 
+
 </tr>
 
 </thead>
@@ -3223,8 +3224,6 @@ async function loadPayments() {
 
 <tr>
 
-<tr>
-
 <th>Order ID</th>
 
 <th>Customer</th>
@@ -3237,6 +3236,12 @@ async function loadPayments() {
 
 <th>ShopKart Contribution</th>
 
+<th>Platform Fee %</th>
+
+<th>Platform Fee</th>
+
+<th>Seller Net Profit</th>
+
 <th>Payment Method</th>
 
 <th>Seller Payment</th>
@@ -3244,6 +3249,8 @@ async function loadPayments() {
 <th>Order Status</th>
 
 <th>Action</th>
+
+<th>Transaction ID</th>
 
 </tr>
 
@@ -3269,7 +3276,7 @@ if (
     class="approve-btn"
     onclick="paySeller(${order.orderId})">
 
-        Pay ₹${formatMoney(order.shopkartContribution)}
+       Pay Seller
 
     </button>
     `;
@@ -3326,6 +3333,12 @@ ${formatMoney(order.shopkartContribution)}
 
 </td>
 
+<td>${order.platformFeePercentage}%</td>
+
+<td>${formatMoney(order.platformFeeAmount)}</td>
+
+<td>${formatMoney(order.sellerNetProfit)}</td>
+
 <td>
 
 ${safe(order.paymentMethod)}
@@ -3349,6 +3362,8 @@ ${orderBadge(order.status)}
 ${action}
 
 </td>
+
+<td>${order.sellerTransactionId || "-"}</td>
 
 </tr>
 
@@ -3389,6 +3404,8 @@ async function paySeller(orderId){
     const order =
     await response.json();
 
+    console.log(order);
+
     document.getElementById("paymentOrderId").value =
     order.orderId;
 
@@ -3398,34 +3415,62 @@ async function paySeller(orderId){
     document.getElementById("paymentShop").value =
     order.shopName;
 
-   document.getElementById("paymentAmount").value =
-formatMoney(order.shopkartContribution);
+  document.getElementById("paymentAmount").value =
+    formatMoney(order.sellerNetProfit);
 
     document.getElementById("transactionId").value="";
 
     document.getElementById("sellerPaymentModal")
     .style.display="flex";
 
-    if(order.getStatus() != TrackingStatus.DELIVERED){
+    document.getElementById("paymentOrderId").value =
+order.orderId;
 
-    throw new RuntimeException(
-        "Seller payment is allowed only after delivery.");
+document.getElementById("paymentSeller").value =
+order.sellerName;
 
-}
+document.getElementById("paymentShop").value =
+order.shopName;
 
-if(order.getStatus()==TrackingStatus.CANCELLED){
+document.getElementById("paymentMobile").value =
+order.sellerMobile;
 
-    throw new RuntimeException(
-        "Cancelled orders cannot be paid.");
+document.getElementById("paymentEmail").value =
+order.sellerEmail;
 
-}
+document.getElementById("paymentUpi").value =
+order.seller.upiId;
 
-if(order.getShopkartContribution()<=0){
+document.getElementById("paymentAccountHolder").value =
+order.seller.accountHolderName;
 
-    throw new RuntimeException(
-        "Nothing to pay.");
+document.getElementById("paymentBank").value =
+order.seller.bankName;
 
-}
+document.getElementById("paymentAccount").value =
+order.seller.accountNumber;
+
+document.getElementById("paymentIfsc").value =
+order.seller.ifscCode;
+
+document.getElementById("paymentCustomerPaid").value =
+formatMoney(order.customerPaidAmount);
+
+document.getElementById("paymentSellerPrice").value =
+formatMoney(order.sellerPrice);
+
+document.getElementById("paymentContribution").value =
+formatMoney(order.shopkartContribution);
+
+document.getElementById("paymentPlatformFee").value =
+formatMoney(order.platformFeeAmount);
+
+document.getElementById("paymentAmount").value =
+formatMoney(order.sellerNetProfit);
+
+document.getElementById("transactionId").value =
+    order.sellerTransactionId;
+
 
 }
 
@@ -3465,7 +3510,7 @@ async function confirmSellerPayment(){
 
                 paymentMethod,
 
-                transactionId
+            
 
             })
 

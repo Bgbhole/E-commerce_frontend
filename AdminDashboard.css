@@ -358,7 +358,7 @@ ul{
 table{
     width:100%;
     border-collapse:collapse;
-    table-layout:fixed;
+    table-layout:auto;
 }
 
 thead{
@@ -1521,6 +1521,62 @@ font-size:16px;
     margin-top:6px;
     border-radius:6px;
     border:1px solid #ccc;
+
+}
+
+.modal-footer{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:25px;
+
+}
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+#adminTable{
+    min-width:1700px;
+    border-collapse:collapse;
+}
+
+.payment-modal{
+
+    width:700px;
+    max-width:95%;
+    max-height:90vh;
+    overflow-y:auto;
+
+}
+
+.payment-modal hr{
+
+    margin:20px 0;
+    border:none;
+    border-top:1px solid #ddd;
+
+}
+
+.payment-modal .section-title{
+
+    font-size:18px;
+    color:#2874f0;
+    margin:15px 0 10px;
+
+}
+
+.payment-modal input{
+
+    background:#f8f9fa;
+}
+
+.payment-modal input[readonly]{
+
+    color:#444;
+    font-weight:600;
 
 }
 

@@ -73,74 +73,150 @@ onclick="closeOrderModal()">
 
 <div id="sellerPaymentModal" class="modal">
 
-    <div class="modal-content payment-modal">
+<div class="modal-content payment-modal">
 
-        <div class="modal-header">
+<span class="close" onclick="closePaymentModal()">&times;</span>
 
-            <h2>Seller Payment</h2>
+<h2>Seller Settlement</h2>
 
-            <span onclick="closePaymentModal()">&times;</span>
+<!-- Seller Details -->
 
-        </div>
+<h3 class="section-title">Seller Information</h3>
 
-        <div class="modal-body">
+<div class="form-group">
+<label>Seller Name</label>
+<input id="paymentSeller" readonly>
+</div>
 
-            <input type="hidden" id="paymentOrderId">
+<div class="form-group">
+<label>Shop Name</label>
+<input id="paymentShop" readonly>
+</div>
 
-            <label>Seller</label>
-            <input type="text" id="paymentSeller" readonly>
+<div class="form-group">
+<label>Seller Mobile</label>
+<input id="paymentMobile" readonly>
+</div>
 
-            <label>Shop Name</label>
-            <input type="text" id="paymentShop" readonly>
+<div class="form-group">
+<label>Seller Email</label>
+<input id="paymentEmail" readonly>
+</div>
 
-            <label>ShopKart Contribution</label>
+<hr>
 
-<input
-type="text"
-id="paymentAmount"
-readonly>
+<!-- Bank Details -->
 
-            <label>Payment Method</label>
+<h3 class="section-title">Payment Destination</h3>
 
-            <select id="paymentMethod">
+<div class="form-group">
+<label>UPI ID</label>
+<input id="paymentUpi" readonly>
+</div>
 
-                <option>UPI</option>
-                <option>NEFT</option>
-                <option>IMPS</option>
-                <option>Bank Transfer</option>
+<div class="form-group">
+<label>Account Holder</label>
+<input id="paymentAccountHolder" readonly>
+</div>
 
-            </select>
+<div class="form-group">
+<label>Bank Name</label>
+<input id="paymentBank" readonly>
+</div>
 
-            <label>Transaction ID</label>
+<div class="form-group">
+<label>Account Number</label>
+<input id="paymentAccount" readonly>
+</div>
 
-            <input
-            type="text"
-            id="transactionId"
-            placeholder="Enter Transaction ID">
+<div class="form-group">
+<label>IFSC Code</label>
+<input id="paymentIfsc" readonly>
+</div>
 
-        </div>
+<hr>
 
-        <div class="modal-footer">
+<!-- Settlement -->
 
-            <button
-            class="approve-btn"
-            onclick="confirmSellerPayment()">
+<h3 class="section-title">Settlement Summary</h3>
 
-                Pay Seller
+<div class="form-group">
+<label>Customer Paid</label>
+<input id="paymentCustomerPaid" readonly>
+</div>
 
-            </button>
+<div class="form-group">
+<label>Seller Price</label>
+<input id="paymentSellerPrice" readonly>
+</div>
 
-            <button
-            class="cancel-btn"
-            onclick="closePaymentModal()">
+<div class="form-group">
+<label>ShopKart Contribution</label>
+<input id="paymentContribution" readonly>
+</div>
 
-                Cancel
+<div class="form-group">
+<label>Platform Fee</label>
+<input id="paymentPlatformFee" readonly>
+</div>
 
-            </button>
+<div class="form-group">
+<label>Seller Net Profit</label>
+<input id="paymentAmount" readonly>
+</div>
 
-        </div>
+<hr>
 
-    </div>
+<h3 class="section-title">Confirm Payment</h3>
+
+<div class="form-group">
+
+<label>Send Through</label>
+
+<select id="paymentMethod">
+
+<option>UPI</option>
+
+<option>Bank Transfer</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+    <label>Transaction ID</label>
+
+    <input
+        type="text"
+        id="transactionId"
+        readonly>
+
+</div>
+
+<div class="modal-footer">
+
+<button
+class="approve-btn"
+onclick="confirmSellerPayment()">
+
+Pay Seller
+
+</button>
+
+<button
+class="reject-btn"
+onclick="closePaymentModal()">
+
+Cancel
+
+</button>
+
+</div>
+
+<input type="hidden" id="paymentOrderId">
+
+</div>
 
 </div>
 

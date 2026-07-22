@@ -166,6 +166,21 @@
         formData.append("sellerId",
             seller.sellerId);
 
+            formData.append(
+    "platformFeePercentage",
+    document.getElementById("platformFee").value
+);
+
+formData.append(
+    "platformFeeAmount",
+    document.getElementById("platformFeeAmount").value
+);
+
+formData.append(
+    "sellerNetProfit",
+    document.getElementById("sellerNetProfit").value
+);
+
         // Main Image
     if(document.getElementById("image").files.length>0){
 
@@ -516,6 +531,18 @@ break;
             console.log(pair[0] + " : " + pair[1]);
 
         }
+
+console.log("Purchase Price:",
+    document.getElementById("purchasePrice").value);
+
+console.log("Platform Fee:",
+    document.getElementById("platformFee").value);
+
+console.log("Platform Fee Amount:",
+    document.getElementById("platformFeeAmount").value);
+
+console.log("Seller Net Profit:",
+    document.getElementById("sellerNetProfit").value);
 
         try {
 
