@@ -1,85 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Seller Dashboard</title>
+
     <link rel="stylesheet" href="Seller-Dashboard.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 </head>
+
 <body>
+
+<!-- ================= SIDEBAR ================= -->
 
 <div class="sidebar">
 
-    <h2>Seller Panel</h2>
+    <div class="logo">
+
+        <i class="fa-solid fa-store"></i>
+
+        <h2>ShopKart</h2>
+
+        <span>Seller</span>
+
+    </div>
 
     <ul>
-        <li onclick="window.location.href='AddProduct.html'">Add Product</li>
-<li onclick="window.location.href='ManageProducts.html'">
-    Manage Products
 
-    </li>
-        <li onclick="window.location.href='SellerOrders.html'">
-    Show Oreders
-</li>
+        <li class="active"
+            onclick="window.location.href='Seller-Dashboard.html'">
 
-</li>
+            <i class="fa-solid fa-chart-line"></i>
+
+            Dashboard
+
+        </li>
+
+
+
         <li onclick="window.location.href='StockDetails.html'">
-    Stock Details
-</li>
 
-<li onclick="window.location.href='Transactions.html'">
-    Transactions
-</li>
+            <i class="fa-solid fa-warehouse"></i>
 
-<li onclick="window.location.href='PendingOrders.html'">
-    Pending Orders
-</li>
+            Stock Details
 
-<li onclick="window.location.href='ReturnItems.html'">
-    Return Items
-</li>
+        </li>
 
-<li onclick="window.location.href='Earnings.html'">
-    Earnings
-</li>
 
-<li onclick="window.location.href='ShopProfile.html'">
-    Shop Profile
-</li>
+        <li onclick="window.location.href='PendingOrders.html'">
 
-<li onclick="window.location.href='ChangePasswordSeller.html'">
-    Change Password
-</li>
+            <i class="fa-solid fa-clock"></i>
 
-<li onclick="logout()">
-    Logout
-</li>
+            Pending Orders
+
+        </li>
+
+        <li onclick="window.location.href='ReturnItems.html'">
+
+            <i class="fa-solid fa-rotate-left"></i>
+
+            Return Items
+
+        </li>
+
+        <li onclick="window.location.href='Earnings.html'">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            Earnings
+
+        </li>
+
+        <li onclick="window.location.href='ShopProfile.html'">
+
+            <i class="fa-solid fa-user"></i>
+
+            Shop Profile
+
+        </li>
+
+        <li onclick="window.location.href='ChangePasswordSeller.html'">
+
+            <i class="fa-solid fa-lock"></i>
+
+            Change Password
+
+        </li>
+
+        <li onclick="logout()">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+
+        </li>
+
     </ul>
 
 </div>
 
+<!-- ================= MAIN ================= -->
+
 <div class="main">
 
-    <h1>Dashboard</h1>
+    <!-- Top Header -->
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Seller Dashboard</h1>
+
+            <p>Manage your ShopKart business efficiently.</p>
+
+        </div>
+
+        <div class="profile-box">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <i class="fa-solid fa-user-circle"></i>
+
+        </div>
+
+    </div>
+
+    <!-- Welcome Banner -->
+
+    <div class="welcome-card">
+
+        <div>
+
+            <h2>Welcome Back 👋</h2>
+
+            <p>
+                Track products, orders, revenue and profit from one place.
+            </p>
+
+        </div>
+
+        <button onclick="window.location.href='AddProduct.html'">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Product
+
+        </button>
+
+    </div>
+
+    <!-- Statistics -->
 
     <div class="cards">
 
-        <div class="card">
-            <h3>Total Products</h3>
-            <h1 id="products">0</h1>
+        <div class="card products-card">
+
+            <div class="icon">
+
+                <i class="fa-solid fa-box"></i>
+
+            </div>
+
+            <div>
+
+                <h3>Total Products</h3>
+
+                <h1 id="products">0</h1>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Total Orders</h3>
-            <h1 id="orders">0</h1>
+        <div class="card orders-card">
+
+            <div class="icon">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+            </div>
+
+            <div>
+
+                <h3>Total Orders</h3>
+
+                <h1 id="orders">0</h1>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Revenue</h3>
-            <h1 id="revenue">₹0</h1>
+        <div class="card revenue-card">
+
+            <div class="icon">
+
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+
+            </div>
+
+            <div>
+
+                <h3>Revenue</h3>
+
+                <h1 id="revenue">₹0</h1>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Profit</h3>
-            <h1 id="profit">₹0</h1>
+        <div class="card profit-card">
+
+            <div class="icon">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+            </div>
+
+            <div>
+
+                <h3>Profit</h3>
+
+                <h1 id="profit">₹0</h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+
+    <div class="quick-actions">
+
+        <h2>Quick Actions</h2>
+
+        <div class="action-grid">
+
+            <button onclick="window.location.href='AddProduct.html'">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Product
+
+            </button>
+
+            <button onclick="window.location.href='ManageProducts.html'">
+
+                <i class="fa-solid fa-box"></i>
+
+               Manage Products
+
+            </button>
+
+            <button onclick="window.location.href='SellerOrders.html'">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                Orders
+
+            </button>
+
+            <button onclick="window.location.href='Transactions.html'">
+
+                <i class="fa-solid fa-wallet"></i>
+
+                Transactions
+
+            </button>
+
         </div>
 
     </div>
@@ -90,4 +285,5 @@
 <script src="Seller-Dashboard.js"></script>
 
 </body>
+
 </html>

@@ -1,33 +1,345 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Seller Orders</title>
+
     <link rel="stylesheet" href="SellerOrders.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 </head>
+
 <body>
 
-<h2>Seller Orders</h2>
+<div class="container">
 
-<table border="1" width="100%">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Amount</th>
-            <th>Payment</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+    <!-- Header -->
 
-    <tbody id="tbody">
+    <div class="header">
 
-    </tbody>
+        <h1>Seller Orders</h1>
 
-</table>
+    </div>
+
+    <!-- Dashboard -->
+
+    <div class="dashboard">
+
+        <div class="card">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <h3 id="totalOrders">0</h3>
+            <p>Total Orders</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-clock"></i>
+            <h3 id="pendingOrders">0</h3>
+            <p>Pending</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-truck"></i>
+            <h3 id="shippedOrders">0</h3>
+            <p>Shipped</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3 id="deliveredOrders">0</h3>
+            <p>Delivered</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+            <h3 id="totalRevenue">₹0</h3>
+            <p>Total Revenue</p>
+        </div>
+
+    </div>
+
+    <!-- Toolbar -->
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            id="searchOrder"
+            placeholder="Search Order, Customer, Product">
+
+        <select id="statusFilter">
+
+            <option value="">All Status</option>
+
+            <option value="ORDER_CONFIRMED">Order Confirmed</option>
+
+            <option value="PACKED">Packed</option>
+
+            <option value="SHIPPED">Shipped</option>
+
+            <option value="OUT_FOR_DELIVERY">Out For Delivery</option>
+
+            <option value="DELIVERED">Delivered</option>
+
+            <option value="CANCELLED">Cancelled</option>
+
+        </select>
+
+        <select id="paymentFilter">
+
+            <option value="">All Payments</option>
+
+            <option value="SUCCESS">Success</option>
+
+            <option value="PENDING">Pending</option>
+
+            <option value="FAILED">Failed</option>
+
+            <option value="COD">Cash On Delivery</option>
+
+        </select>
+
+    </div>
+
+    <!-- Orders Table -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Image</th>
+
+                    <th>Order ID</th>
+
+                    <th>Date</th>
+
+                    <th>Product</th>
+
+                    <th>Customer</th>
+
+                    <th>Qty</th>
+
+                    <th>Customer Paid</th>
+
+                    <th>ShopKart Paid</th>
+
+                    <th>Payment</th>
+
+                    <th>Payment Status</th>
+
+                    <th>Order Status</th>
+
+                    <th>Tracking ID</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tbody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ===================================================
+                    VIEW ORDER MODAL
+=================================================== -->
+
+<div id="viewOrderModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeViewModal()">&times;</span>
+
+        <h2>Order Details</h2>
+
+        <!-- Product -->
+
+        <div class="modal-section">
+
+            <h3>Product Information</h3>
+
+            <div class="product-details">
+
+                <img
+                    id="modalProductImage"
+                    class="modal-product-image"
+                    src="">
+
+                <div>
+
+                    <p><strong>Product :</strong> <span id="modalProductName"></span></p>
+
+                    <p><strong>Brand :</strong> <span id="modalBrand"></span></p>
+
+                    <p><strong>Quantity :</strong> <span id="modalQuantity"></span></p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Customer -->
+
+        <div class="modal-section">
+
+            <h3>Customer Information</h3>
+
+            <p><strong>Name :</strong> <span id="modalCustomer"></span></p>
+
+            <p><strong>Mobile :</strong> <span id="modalMobile"></span></p>
+
+            <p><strong>Address :</strong> <span id="modalAddress"></span></p>
+
+        </div>
+
+        <!-- Order -->
+
+        <div class="modal-section">
+
+            <h3>Order Information</h3>
+
+            <p><strong>Order ID :</strong> <span id="modalOrderId"></span></p>
+
+            <p><strong>Order Date :</strong> <span id="modalOrderDate"></span></p>
+
+            <p><strong>Status :</strong> <span id="modalStatus"></span></p>
+
+            <p><strong>Tracking ID :</strong> <span id="modalTracking"></span></p>
+
+        </div>
+
+        <!-- Payment -->
+
+        <div class="modal-section">
+
+            <h3>Payment Information</h3>
+
+            <p><strong>Payment Method :</strong> <span id="modalPaymentMethod"></span></p>
+
+            <p><strong>Payment Status :</strong> <span id="modalPaymentStatus"></span></p>
+
+            <p><strong>Customer Paid :</strong> ₹<span id="modalCustomerPaid"></span></p>
+
+            <p><strong>ShopKart Paid :</strong> ₹<span id="modalShopkartPaid"></span></p>
+
+            <p><strong>Seller Price :</strong> ₹<span id="modalSellerPrice"></span></p>
+
+            <p><strong>Platform Fee :</strong> ₹<span id="modalPlatformFee"></span></p>
+
+            <p><strong>Seller Net Profit :</strong> ₹<span id="modalSellerProfit"></span></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================
+                  UPDATE STATUS MODAL
+=================================================== -->
+
+<div id="statusModal" class="status-modal">
+
+    <div class="status-content">
+
+        <span class="close" onclick="closeStatusModal()">&times;</span>
+
+        <h2>Mark Order as Packed</h2>
+
+        <input type="hidden" id="statusOrderId">
+
+        <div class="form-group">
+
+            <label>Order ID</label>
+
+            <input
+                type="text"
+                id="packedOrderId"
+                readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Current Status</label>
+
+            <input
+                type="text"
+                id="currentStatus"
+                readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Tracking Number</label>
+
+            <input
+                type="text"
+                id="trackingNumber"
+                readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <p style="margin-top:15px;font-weight:600;color:#444;">
+
+                This product has been packed and is ready
+                for courier booking.
+
+            </p>
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancelBtn"
+                onclick="closeStatusModal()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="statusBtn"
+                onclick="markAsPacked()">
+
+                Mark as Packed
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
 
 <script src="api-config.js"></script>
+
 <script src="SellerOrders.js"></script>
 
 </body>
+
 </html>
